@@ -5,3 +5,4 @@ appschema 2018-08-29T00:39:35Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add ap
 roles 2018-08-29T00:42:17Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add roles migration
 extensions 2018-08-29T00:43:33Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add extensions migration
 address [appschema extensions] 2018-08-29T00:45:58Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add address migration
+types [appschema] 2018-08-29T00:55:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add types migration
