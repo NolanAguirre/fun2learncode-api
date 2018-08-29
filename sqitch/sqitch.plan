@@ -8,3 +8,4 @@ address [appschema extensions] 2018-08-29T00:45:58Z Nolan Aguirre <nolanaguirre0
 types [appschema] 2018-08-29T00:55:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add types migration
 users [extensions types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
+students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
