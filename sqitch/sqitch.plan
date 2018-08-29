@@ -10,3 +10,4 @@ users [extensions types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmai
 users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
 activities [types extensions] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activities migration
+events [activities] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # add events migration
