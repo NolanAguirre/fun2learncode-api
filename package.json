@@ -1,0 +1,11 @@
+{
+  "name": "fun2learncode-api",
+  "version": "1.0.0",
+  "description": "fun2learncode's website api",
+  "main": "api.js",
+  "scripts": {
+    "test": "cd sqitch && sqitch deploy ftlc &&  sqitch verify ftlc && sqitch revert ftlc"
+  },
+  "author": "Nolan Aguirre",
+  "license": "ISC"
+}
