@@ -5,7 +5,7 @@
 BEGIN;
 
 CREATE TABLE ftlc.address(
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     street CITEXT,
     city CITEXT,
     county CITEXT,
