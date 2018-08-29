@@ -9,7 +9,7 @@ CREATE TABLE ftlc.users (
     first_name CITEXT,
     last_name CITEXT,
     contact_email CITEXT UNIQUE CHECK(contact_email ~* '^.+@.+\..+$'),
-    contact_phone varchar(10),
+    contact_phone varchar(12),
     role ftlc.role_type
 );
 
