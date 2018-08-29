@@ -1,0 +1,404 @@
+{
+    "query": "insert into ftlc_private.users (email,password_hash,user_id) values ($1,$2,$3) RETURNING id",
+    "data": [{
+            "email": "Duis@ultriciessemmagna.edu",
+            "password_hash": "LMZ38UJL2NU"
+        },
+        {
+            "email": "cursus.Nunc.mauris@vitaevelitegestas.org",
+            "password_hash": "JOX03XRL9GV"
+        },
+        {
+            "email": "ad.litora.torquent@Fuscedolorquam.co.uk",
+            "password_hash": "MIN92WGF6MA"
+        },
+        {
+            "email": "nunc.ullamcorper.eu@in.net",
+            "password_hash": "WPQ01EKB2AO"
+        },
+        {
+            "email": "Cum.sociis@egetnisidictum.ca",
+            "password_hash": "JXR04LRC7WH"
+        },
+        {
+            "email": "velit@risus.edu",
+            "password_hash": "ILO20YBR4DI"
+        },
+        {
+            "email": "a@mauris.org",
+            "password_hash": "AUA76ESK0RI"
+        },
+        {
+            "email": "inceptos@enimSuspendisse.com",
+            "password_hash": "AKG47TNM5MP"
+        },
+        {
+            "email": "dolor.quam.elementum@nuncac.edu",
+            "password_hash": "LFG78SEU1PX"
+        },
+        {
+            "email": "ornare@Donec.net",
+            "password_hash": "TVR49OZS5EE"
+        },
+        {
+            "email": "lorem@ullamcorpereueuismod.net",
+            "password_hash": "CJV82LCG9MY"
+        },
+        {
+            "email": "consequat.auctor.nunc@sedpede.ca",
+            "password_hash": "YZD53QAE6VG"
+        },
+        {
+            "email": "neque.Morbi@acturpisegestas.co.uk",
+            "password_hash": "FHX99CMR1QJ"
+        },
+        {
+            "email": "sem.ut@Pellentesquetincidunttempus.ca",
+            "password_hash": "QWA20NZU6BW"
+        },
+        {
+            "email": "dictum.sapien.Aenean@eratVivamus.co.uk",
+            "password_hash": "QQA45ESB0XT"
+        },
+        {
+            "email": "Duis.volutpat@eget.org",
+            "password_hash": "EAU26IRE0US"
+        },
+        {
+            "email": "ac.eleifend.vitae@pedenonummyut.co.uk",
+            "password_hash": "KTB47CCU7GY"
+        },
+        {
+            "email": "scelerisque@volutpatNullafacilisis.com",
+            "password_hash": "PQA97TLA2MP"
+        },
+        {
+            "email": "commodo@Donecfringilla.org",
+            "password_hash": "NGS41LRM9BB"
+        },
+        {
+            "email": "et.ultrices.posuere@lacus.com",
+            "password_hash": "TDC61BNW9GN"
+        },
+        {
+            "email": "neque.In@ipsumprimisin.net",
+            "password_hash": "SZE93RBS8EI"
+        },
+        {
+            "email": "elementum.sem.vitae@nostraper.ca",
+            "password_hash": "RPO52TNK3XL"
+        },
+        {
+            "email": "neque.Nullam@liberoduinec.org",
+            "password_hash": "OZU01GNC3ST"
+        },
+        {
+            "email": "nec.eleifend.non@noncursusnon.org",
+            "password_hash": "CTK20GZT0RU"
+        },
+        {
+            "email": "tempor@sit.co.uk",
+            "password_hash": "KXJ62HYN4XN"
+        },
+        {
+            "email": "velit.Sed.malesuada@feugiat.edu",
+            "password_hash": "WVS83QOH5WS"
+        },
+        {
+            "email": "luctus@auctor.net",
+            "password_hash": "VUC43NCF6GM"
+        },
+        {
+            "email": "enim@eget.ca",
+            "password_hash": "FIL15MGI2WX"
+        },
+        {
+            "email": "ut.mi@IntegerurnaVivamus.com",
+            "password_hash": "XNR26NUF1MI"
+        },
+        {
+            "email": "Pellentesque.habitant.morbi@amet.edu",
+            "password_hash": "ICF89NGQ7VA"
+        },
+        {
+            "email": "consequat@mollisnoncursus.edu",
+            "password_hash": "CWW26GIT7MR"
+        },
+        {
+            "email": "Donec@eueleifendnec.org",
+            "password_hash": "TZT00DAW1RK"
+        },
+        {
+            "email": "magna@enimdiamvel.edu",
+            "password_hash": "RXW31RSK1DW"
+        },
+        {
+            "email": "ridiculus@cubilia.org",
+            "password_hash": "GFN12JST9CW"
+        },
+        {
+            "email": "ac@idnunc.co.uk",
+            "password_hash": "PHN04UJG7KN"
+        },
+        {
+            "email": "tempor.diam@ac.edu",
+            "password_hash": "TEG82EVS7OG"
+        },
+        {
+            "email": "dui.in.sodales@mipedenonummy.ca",
+            "password_hash": "ABG68VFD6WI"
+        },
+        {
+            "email": "Lorem.ipsum.dolor@tempusnonlacinia.net",
+            "password_hash": "QAR33KPB5TB"
+        },
+        {
+            "email": "nulla.Integer.urna@mienim.com",
+            "password_hash": "IDH82BUE8CU"
+        },
+        {
+            "email": "semper.erat.in@commodotincidunt.co.uk",
+            "password_hash": "YRH72IVB2AZ"
+        },
+        {
+            "email": "vel.lectus@nisinibhlacinia.net",
+            "password_hash": "LEW38ABH7MY"
+        },
+        {
+            "email": "orci@mollis.co.uk",
+            "password_hash": "DRN91VDB4BM"
+        },
+        {
+            "email": "cursus.diam@rutrumFuscedolor.ca",
+            "password_hash": "EUR87PJB8HX"
+        },
+        {
+            "email": "Aliquam.gravida.mauris@arcuCurabiturut.edu",
+            "password_hash": "VEZ48LYO6NI"
+        },
+        {
+            "email": "Aliquam.erat@malesuadaaugueut.net",
+            "password_hash": "GJW91DZI9CZ"
+        },
+        {
+            "email": "faucibus.lectus@duiFusce.org",
+            "password_hash": "ZVJ68BIK3IB"
+        },
+        {
+            "email": "eget.venenatis@metusVivamuseuismod.co.uk",
+            "password_hash": "CEL03TKU9UW"
+        },
+        {
+            "email": "vulputate.dui@arcu.co.uk",
+            "password_hash": "BNA21PHZ6KF"
+        },
+        {
+            "email": "ante@ultrices.org",
+            "password_hash": "PKZ30MNT2NO"
+        },
+        {
+            "email": "cursus.a.enim@tinciduntadipiscing.com",
+            "password_hash": "BCW93ERX9YM"
+        },
+        {
+            "email": "ridiculus.mus@duiquis.edu",
+            "password_hash": "XGP91RMY8UY"
+        },
+        {
+            "email": "Nulla@bibendumsedest.org",
+            "password_hash": "TYZ98LGB4CP"
+        },
+        {
+            "email": "nec.diam.Duis@Duis.co.uk",
+            "password_hash": "QWA61LBQ1CR"
+        },
+        {
+            "email": "Nullam.feugiat.placerat@utipsum.edu",
+            "password_hash": "GPS55BUU5KH"
+        },
+        {
+            "email": "felis.purus.ac@rutrum.org",
+            "password_hash": "JZZ65WTV5XN"
+        },
+        {
+            "email": "Aliquam@Suspendissealiquet.edu",
+            "password_hash": "OPX79ZHI8IK"
+        },
+        {
+            "email": "montes.nascetur.ridiculus@Crasvehiculaaliquet.co.uk",
+            "password_hash": "ZKF55ZOM3GV"
+        },
+        {
+            "email": "id@egetmetusIn.com",
+            "password_hash": "MCT56LCS3YC"
+        },
+        {
+            "email": "augue.Sed@dictumsapienAenean.co.uk",
+            "password_hash": "SPF09EEL7TG"
+        },
+        {
+            "email": "Integer@maurisutmi.ca",
+            "password_hash": "HYJ63UKI2ZL"
+        },
+        {
+            "email": "accumsan@afeugiattellus.com",
+            "password_hash": "ILW59ZHZ0SE"
+        },
+        {
+            "email": "dictum.sapien.Aenean@semeget.co.uk",
+            "password_hash": "LNZ43VTW2TN"
+        },
+        {
+            "email": "at.fringilla@semperrutrum.ca",
+            "password_hash": "LBF55XUV2ZG"
+        },
+        {
+            "email": "est.arcu@Aenean.com",
+            "password_hash": "NES93TWI4DJ"
+        },
+        {
+            "email": "mauris@scelerisquesed.org",
+            "password_hash": "GMR76FTL8ZP"
+        },
+        {
+            "email": "Aenean.euismod.mauris@neque.ca",
+            "password_hash": "WJE06LOP8JW"
+        },
+        {
+            "email": "ultrices.sit.amet@musDonecdignissim.net",
+            "password_hash": "BHE61ULU9ZL"
+        },
+        {
+            "email": "Cras@utdolor.com",
+            "password_hash": "IHU96HWV1TK"
+        },
+        {
+            "email": "aliquet.molestie@tempor.org",
+            "password_hash": "TSN41DQX0LZ"
+        },
+        {
+            "email": "neque@Nuncmauris.org",
+            "password_hash": "LXR41OIA7XP"
+        },
+        {
+            "email": "dui@vel.org",
+            "password_hash": "YVZ54ZBE1IA"
+        },
+        {
+            "email": "ultricies.adipiscing.enim@tempor.ca",
+            "password_hash": "JRH28HTJ6UI"
+        },
+        {
+            "email": "diam.vel.arcu@consequatauctor.ca",
+            "password_hash": "OZD17WTR4XY"
+        },
+        {
+            "email": "mauris.id.sapien@et.net",
+            "password_hash": "MMB56DPK7ET"
+        },
+        {
+            "email": "Cras.lorem.lorem@scelerisquescelerisquedui.org",
+            "password_hash": "PMG38BID1DE"
+        },
+        {
+            "email": "eget.dictum.placerat@Sedpharetra.edu",
+            "password_hash": "HJM53FGE5GP"
+        },
+        {
+            "email": "nunc.Quisque@dis.edu",
+            "password_hash": "XUN69VPZ6VC"
+        },
+        {
+            "email": "elit.pharetra.ut@Nulla.co.uk",
+            "password_hash": "MLE93WZN3UL"
+        },
+        {
+            "email": "eros.nec@quisdiam.net",
+            "password_hash": "MFB73HAY9OP"
+        },
+        {
+            "email": "Proin.non@augueeutellus.ca",
+            "password_hash": "UKF71QBS6ZU"
+        },
+        {
+            "email": "sodales@leoin.ca",
+            "password_hash": "JZI76JMZ9LM"
+        },
+        {
+            "email": "odio@estmollis.net",
+            "password_hash": "JKM59GWG1YO"
+        },
+        {
+            "email": "Nam.porttitor@Aliquamerat.org",
+            "password_hash": "PZU65CHQ9EV"
+        },
+        {
+            "email": "pede.Praesent.eu@egestasnunc.ca",
+            "password_hash": "OIC30OVR6OE"
+        },
+        {
+            "email": "lacus.Nulla@nasceturridiculus.edu",
+            "password_hash": "MQN28RMC0FP"
+        },
+        {
+            "email": "Mauris.magna.Duis@auctorvelit.co.uk",
+            "password_hash": "LNU20QXH3OK"
+        },
+        {
+            "email": "aliquet@est.ca",
+            "password_hash": "RUP16YOF8MZ"
+        },
+        {
+            "email": "Aliquam.erat@lacusQuisquepurus.org",
+            "password_hash": "OHM47JIZ8WH"
+        },
+        {
+            "email": "Nunc@molestietortor.edu",
+            "password_hash": "KVH55TBQ9UL"
+        },
+        {
+            "email": "Nulla.semper@aliquamarcuAliquam.ca",
+            "password_hash": "FEV94TSZ2AM"
+        },
+        {
+            "email": "dictum.augue.malesuada@Cumsociisnatoque.org",
+            "password_hash": "JFW30LSI5LN"
+        },
+        {
+            "email": "semper@Donecat.co.uk",
+            "password_hash": "KUC75QIH2NJ"
+        },
+        {
+            "email": "viverra@dignissimMaecenas.com",
+            "password_hash": "IPA65LFY5MD"
+        },
+        {
+            "email": "porta.elit@metusvitaevelit.com",
+            "password_hash": "CCV98MMU1FD"
+        },
+        {
+            "email": "a.odio.semper@augue.com",
+            "password_hash": "KVG71YHI5OW"
+        },
+        {
+            "email": "metus.Aliquam.erat@inconsectetueripsum.edu",
+            "password_hash": "GJS16KQP4KW"
+        },
+        {
+            "email": "erat@anteipsumprimis.co.uk",
+            "password_hash": "RCP44ZEE5RH"
+        },
+        {
+            "email": "commodo.at.libero@quispedePraesent.co.uk",
+            "password_hash": "BHE25RAQ1EJ"
+        },
+        {
+            "email": "sit@tempusrisusDonec.ca",
+            "password_hash": "GIS39RSN2DK"
+        },
+        {
+            "email": "ac.mi.eleifend@sedhendrerita.edu",
+            "password_hash": "CYB06ZWK7DP"
+        }
+    ]
+}

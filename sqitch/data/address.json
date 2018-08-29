@@ -1,0 +1,53 @@
+{
+    "query": "insert into ftlc.address (street, city, country,zipcode,state) values ($1,$2,$3,$4,$5) RETURNING id",
+    "data": [{
+            "street": "P.O. Box 320, 8991 Placerat. St.",
+            "city": "Hillsboro",
+            "country": "United States",
+            "zipcode": "57652",
+            "state": "Oregon"
+        },
+        {
+            "street": "7415 Sed Avenue",
+            "city": "Vancouver",
+            "country": "United States",
+            "zipcode": "20949",
+            "state": "Washington"
+        },
+        {
+            "street": "304-2968 At Rd.",
+            "city": "Springfield",
+            "country": "United States",
+            "zipcode": "72354",
+            "state": "Massachusetts"
+        },
+        {
+            "street": "P.O. Box 602, 4346 Tempor Street",
+            "city": "Kapolei",
+            "country": "United States",
+            "zipcode": "83983",
+            "state": "Hawaii"
+        },
+        {
+            "street": "548-3293 Purus. Road",
+            "city": "West Valley City",
+            "country": "United States",
+            "zipcode": "15692",
+            "state": "Utah"
+        },
+        {
+            "street": "Ap #111-5284 Mollis. Rd.",
+            "city": "Lowell",
+            "country": "United States",
+            "zipcode": "48219",
+            "state": "Massachusetts"
+        },
+        {
+            "street": "Ap #752-119 Orci, Rd.",
+            "city": "Mesa",
+            "country": "United States",
+            "zipcode": "86861",
+            "state": "Arizona"
+        }
+    ]
+}

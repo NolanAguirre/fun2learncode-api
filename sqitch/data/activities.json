@@ -1,0 +1,49 @@
+{
+    "query": "insert into ftlc.activities (name, description, type) values ($1,$2,$3) RETURNING id",
+    "data": [{
+            "name": "scratch beginner",
+            "description": "rutrum lorem ac",
+            "type": "class"
+        },
+        {
+            "name": "sunday lab",
+            "description": "leo. Morbi",
+            "type": "lab"
+        },
+        {
+            "name": "scratch intermediate",
+            "description": "egestas rhoncus. Proin",
+            "type": "class"
+        },
+        {
+            "name": "coding night",
+            "description": "cursus. Nunc mauris",
+            "type": "workshop"
+        },
+        {
+            "name": "open house",
+            "description": "vitae, sodales",
+            "type": "workshop"
+        },
+        {
+            "name": "minecraft mods",
+            "description": "a nunc. In",
+            "type": "summer_camp"
+        },
+        {
+            "name": "minecraft mods jr",
+            "description": "Donec",
+            "type": "summer_camp"
+        },
+        {
+            "name": "python beginner",
+            "description": "dignissim pharetra.",
+            "type": "summer_camp"
+        },
+        {
+            "name": "VR with unity",
+            "description": "porttitor",
+            "type": "summer_camp"
+        }
+    ]
+}

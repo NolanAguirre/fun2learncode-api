@@ -1,0 +1,704 @@
+{
+    "query": "insert into ftlc.users (first_name, last_name, contact_email, contact_phone, role) values ($1,$2,$3,$4,$5) RETURNING id",
+    "data": [{
+            "first_name": "Stacey",
+            "last_name": "Fox",
+            "contact_email": "Nulla@convallisligula.org",
+            "contact_phone": "15216265066",
+            "role": "ftlc_owner"
+        },
+        {
+            "first_name": "Serina",
+            "last_name": "Skinner",
+            "contact_email": "Ut@dapibus.edu",
+            "contact_phone": "11896333740",
+            "role": "ftlc_instructor"
+        },
+        {
+            "first_name": "Alfreda",
+            "last_name": "Atkins",
+            "contact_email": "quis@tempor.net",
+            "contact_phone": "15933781707",
+            "role": "ftlc_instructor"
+        },
+        {
+            "first_name": "Georgia",
+            "last_name": "Nixon",
+            "contact_email": "lacinia.orci@ut.edu",
+            "contact_phone": "13573159679",
+            "role": "ftlc_instructor"
+        },
+        {
+            "first_name": "Jameson",
+            "last_name": "Williamson",
+            "contact_email": "dictum.Phasellus.in@imperdieterat.com",
+            "contact_phone": "11383327511",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Jolene",
+            "last_name": "Poole",
+            "contact_email": "volutpat.Nulla.facilisis@ultriciessemmagna.net",
+            "contact_phone": "12195446866",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Mallory",
+            "last_name": "Bradford",
+            "contact_email": "tellus@in.org",
+            "contact_phone": "18477157429",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Raymond",
+            "last_name": "Brown",
+            "contact_email": "scelerisque.mollis.Phasellus@diamPellentesque.co.uk",
+            "contact_phone": "16478589223",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Odette",
+            "last_name": "Garrett",
+            "contact_email": "Proin.eget@semperNamtempor.edu",
+            "contact_phone": "18426791053",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Jarrod",
+            "last_name": "Barlow",
+            "contact_email": "Aenean@seddictumeleifend.co.uk",
+            "contact_phone": "15702757500",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Katelyn",
+            "last_name": "Burris",
+            "contact_email": "justo.Proin@nonummy.edu",
+            "contact_phone": "11944248934",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Nissim",
+            "last_name": "Price",
+            "contact_email": "dictum@neque.co.uk",
+            "contact_phone": "18534012721",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Darryl",
+            "last_name": "Berry",
+            "contact_email": "rhoncus@tortor.ca",
+            "contact_phone": "11581867033",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Andrew",
+            "last_name": "Ayers",
+            "contact_email": "semper.erat@hendreritDonecporttitor.net",
+            "contact_phone": "13432446848",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Gray",
+            "last_name": "Figueroa",
+            "contact_email": "Lorem.ipsum.dolor@aliquetsemut.org",
+            "contact_phone": "17948175562",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Adara",
+            "last_name": "Nielsen",
+            "contact_email": "Nunc@Nullam.com",
+            "contact_phone": "19169761611",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Jenna",
+            "last_name": "Steele",
+            "contact_email": "Suspendisse@nonquamPellentesque.org",
+            "contact_phone": "15438329743",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Kimberley",
+            "last_name": "Alvarado",
+            "contact_email": "et.pede.Nunc@convallisdolorQuisque.edu",
+            "contact_phone": "19272495093",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Renee",
+            "last_name": "Joyner",
+            "contact_email": "nulla.Donec.non@Nulla.co.uk",
+            "contact_phone": "16447896604",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Larissa",
+            "last_name": "Delaney",
+            "contact_email": "lorem.eget@netuset.edu",
+            "contact_phone": "13263531989",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Edan",
+            "last_name": "Dixon",
+            "contact_email": "augue@vel.net",
+            "contact_phone": "16755260664",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Chiquita",
+            "last_name": "Benjamin",
+            "contact_email": "Duis@elit.co.uk",
+            "contact_phone": "17337649669",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Jocelyn",
+            "last_name": "Allen",
+            "contact_email": "dui.in.sodales@auctor.edu",
+            "contact_phone": "17525112220",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Adara",
+            "last_name": "Spencer",
+            "contact_email": "metus@Vivamus.com",
+            "contact_phone": "12368178736",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Joan",
+            "last_name": "Ortiz",
+            "contact_email": "Duis.cursus.diam@Cras.net",
+            "contact_phone": "18675540203",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Blaze",
+            "last_name": "Jacobson",
+            "contact_email": "pede.ultrices@ullamcorperviverra.ca",
+            "contact_phone": "14898882093",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Lev",
+            "last_name": "Campbell",
+            "contact_email": "at.sem.molestie@lorem.co.uk",
+            "contact_phone": "19805777192",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Cruz",
+            "last_name": "Lawrence",
+            "contact_email": "Nunc@eget.ca",
+            "contact_phone": "16163640051",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Shellie",
+            "last_name": "Monroe",
+            "contact_email": "erat.eget.tincidunt@convallis.com",
+            "contact_phone": "15675651528",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Cadman",
+            "last_name": "Velez",
+            "contact_email": "nulla.Integer@auctornon.com",
+            "contact_phone": "17032184373",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Gareth",
+            "last_name": "Dejesus",
+            "contact_email": "justo@augue.net",
+            "contact_phone": "16129726766",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Hamilton",
+            "last_name": "Mercer",
+            "contact_email": "Donec.vitae@eleifendvitae.edu",
+            "contact_phone": "11718441793",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Dale",
+            "last_name": "Brady",
+            "contact_email": "urna.nec.luctus@esttempor.edu",
+            "contact_phone": "17166689303",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Flynn",
+            "last_name": "Bruce",
+            "contact_email": "ornare.sagittis.felis@magnis.edu",
+            "contact_phone": "11251900085",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Keefe",
+            "last_name": "Shaffer",
+            "contact_email": "facilisi.Sed@faucibus.edu",
+            "contact_phone": "14756862128",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Tucker",
+            "last_name": "Owens",
+            "contact_email": "Cras@ultriciesdignissimlacus.co.uk",
+            "contact_phone": "12683063872",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Lucy",
+            "last_name": "Ross",
+            "contact_email": "rhoncus@ullamcorpervelitin.com",
+            "contact_phone": "11471781462",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Zahir",
+            "last_name": "Wade",
+            "contact_email": "eget.dictum.placerat@consectetueradipiscing.ca",
+            "contact_phone": "19728008689",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Kyle",
+            "last_name": "Ashley",
+            "contact_email": "vel@ridiculusmusAenean.ca",
+            "contact_phone": "14327624634",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Jarrod",
+            "last_name": "Fowler",
+            "contact_email": "elementum@enimnon.co.uk",
+            "contact_phone": "17054197071",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Lev",
+            "last_name": "Dixon",
+            "contact_email": "Quisque.ac.libero@commodoipsum.ca",
+            "contact_phone": "15168631549",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Chase",
+            "last_name": "Reilly",
+            "contact_email": "Duis.at@dignissimmagnaa.edu",
+            "contact_phone": "18893339482",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Rhonda",
+            "last_name": "Gillespie",
+            "contact_email": "nunc.In@purusDuiselementum.net",
+            "contact_phone": "11615735942",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Cassady",
+            "last_name": "Wilson",
+            "contact_email": "lacinia.vitae@enimconsequat.ca",
+            "contact_phone": "19662555027",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Gannon",
+            "last_name": "Trujillo",
+            "contact_email": "blandit.at@faucibus.edu",
+            "contact_phone": "15387002716",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Clarke",
+            "last_name": "Ball",
+            "contact_email": "nunc.sed.pede@arcuiaculis.org",
+            "contact_phone": "19638660533",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Lydia",
+            "last_name": "Stein",
+            "contact_email": "risus.Quisque.libero@Maecenasmifelis.org",
+            "contact_phone": "19901234603",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Shaine",
+            "last_name": "Sullivan",
+            "contact_email": "mattis@posuerecubilia.edu",
+            "contact_phone": "14572042604",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Stephen",
+            "last_name": "Shelton",
+            "contact_email": "Nullam.feugiat@urna.edu",
+            "contact_phone": "11829832203",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Herman",
+            "last_name": "Franco",
+            "contact_email": "scelerisque.scelerisque@gravidasagittisDuis.net",
+            "contact_phone": "14296904992",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Neville",
+            "last_name": "Kent",
+            "contact_email": "vehicula.et@et.net",
+            "contact_phone": "19752844402",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Quinlan",
+            "last_name": "Yang",
+            "contact_email": "elementum.dui.quis@venenatislacusEtiam.net",
+            "contact_phone": "18058266576",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Shafira",
+            "last_name": "Maynard",
+            "contact_email": "malesuada.vel.venenatis@neque.org",
+            "contact_phone": "17672225621",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Jared",
+            "last_name": "Everett",
+            "contact_email": "dapibus.gravida@mauriserat.co.uk",
+            "contact_phone": "18942830570",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Colorado",
+            "last_name": "Roth",
+            "contact_email": "consequat@infaucibus.net",
+            "contact_phone": "13197780843",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Kim",
+            "last_name": "Sheppard",
+            "contact_email": "augue.ac.ipsum@Cras.net",
+            "contact_phone": "17022745946",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Wang",
+            "last_name": "Spears",
+            "contact_email": "tellus@gravidamolestiearcu.net",
+            "contact_phone": "15514660870",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Valentine",
+            "last_name": "Witt",
+            "contact_email": "dis.parturient.montes@nisi.net",
+            "contact_phone": "19495752628",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Alec",
+            "last_name": "Weaver",
+            "contact_email": "Fusce@lorem.net",
+            "contact_phone": "15422650009",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Jenette",
+            "last_name": "Mooney",
+            "contact_email": "lacus.Cras.interdum@metus.net",
+            "contact_phone": "14522667635",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Lois",
+            "last_name": "Beach",
+            "contact_email": "at@Donecfringilla.co.uk",
+            "contact_phone": "15195474785",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Nathan",
+            "last_name": "Callahan",
+            "contact_email": "dui.nec@dapibus.edu",
+            "contact_phone": "13295803616",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Ursa",
+            "last_name": "Whitaker",
+            "contact_email": "Suspendisse.sagittis.Nullam@ante.edu",
+            "contact_phone": "17247784535",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Carl",
+            "last_name": "Craig",
+            "contact_email": "augue.eu@tincidunt.com",
+            "contact_phone": "12704832732",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Roanna",
+            "last_name": "Baxter",
+            "contact_email": "hendrerit.Donec@luctus.net",
+            "contact_phone": "14898067305",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Brenden",
+            "last_name": "Fry",
+            "contact_email": "Phasellus.fermentum@euismodindolor.org",
+            "contact_phone": "11704457307",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Harriet",
+            "last_name": "Sharp",
+            "contact_email": "neque@ametconsectetueradipiscing.com",
+            "contact_phone": "14832876146",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Grady",
+            "last_name": "Duffy",
+            "contact_email": "auctor.nunc@ultricesaauctor.edu",
+            "contact_phone": "11258780598",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Clare",
+            "last_name": "Stevens",
+            "contact_email": "mauris@metussit.com",
+            "contact_phone": "11189556115",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Quentin",
+            "last_name": "Franco",
+            "contact_email": "lorem.ipsum@estmollisnon.edu",
+            "contact_phone": "14675074546",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Imelda",
+            "last_name": "Hoover",
+            "contact_email": "leo.Cras@ultriciessem.org",
+            "contact_phone": "11292493375",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Hasad",
+            "last_name": "Bright",
+            "contact_email": "ligula.elit.pretium@scelerisquemollis.ca",
+            "contact_phone": "14331505704",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Christen",
+            "last_name": "Watson",
+            "contact_email": "auctor.quis@luctusvulputate.net",
+            "contact_phone": "11042452321",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Jenette",
+            "last_name": "Bender",
+            "contact_email": "ac@nuncsit.com",
+            "contact_phone": "11075397333",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Allen",
+            "last_name": "Shields",
+            "contact_email": "varius@parturientmontes.net",
+            "contact_phone": "17095925325",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Kennedy",
+            "last_name": "Knox",
+            "contact_email": "augue.eu.tellus@dignissimMaecenas.com",
+            "contact_phone": "19797095313",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Keiko",
+            "last_name": "Underwood",
+            "contact_email": "nec.urna.et@rutrumFusce.co.uk",
+            "contact_phone": "16708209786",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Dacey",
+            "last_name": "Jenkins",
+            "contact_email": "sed@velitegestaslacinia.org",
+            "contact_phone": "18663599065",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Walker",
+            "last_name": "Mcpherson",
+            "contact_email": "a.felis.ullamcorper@consectetuer.com",
+            "contact_phone": "14921475243",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Sage",
+            "last_name": "Hatfield",
+            "contact_email": "gravida.non@semmolestiesodales.co.uk",
+            "contact_phone": "13844810833",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Imani",
+            "last_name": "Trujillo",
+            "contact_email": "nisl.arcu@famesacturpis.com",
+            "contact_phone": "16506691762",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Kristen",
+            "last_name": "Ray",
+            "contact_email": "sociis@Lorem.ca",
+            "contact_phone": "15667875039",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Britanney",
+            "last_name": "Cobb",
+            "contact_email": "nec@quamPellentesquehabitant.com",
+            "contact_phone": "18179222168",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Mohammad",
+            "last_name": "Battle",
+            "contact_email": "ac.eleifend@enimcondimentum.org",
+            "contact_phone": "13803273628",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Jolie",
+            "last_name": "Knapp",
+            "contact_email": "Lorem.ipsum@luctus.net",
+            "contact_phone": "12907530487",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Echo",
+            "last_name": "Merritt",
+            "contact_email": "semper.rutrum.Fusce@placeratCras.com",
+            "contact_phone": "15632296754",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Alexa",
+            "last_name": "Serrano",
+            "contact_email": "vehicula@felis.com",
+            "contact_phone": "12954654764",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Allen",
+            "last_name": "Delgado",
+            "contact_email": "nisi@vitaealiquam.ca",
+            "contact_phone": "17062266502",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Jade",
+            "last_name": "Moses",
+            "contact_email": "lectus.quis@cubiliaCuraeDonec.net",
+            "contact_phone": "13136582258",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Caesar",
+            "last_name": "Franco",
+            "contact_email": "Ut.nec.urna@elementumsem.co.uk",
+            "contact_phone": "12258155233",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Damon",
+            "last_name": "Morrison",
+            "contact_email": "condimentum@incursuset.co.uk",
+            "contact_phone": "16911426644",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Barclay",
+            "last_name": "Rose",
+            "contact_email": "Sed@scelerisquedui.co.uk",
+            "contact_phone": "19397682702",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Xantha",
+            "last_name": "Tillman",
+            "contact_email": "massa@necante.com",
+            "contact_phone": "16372287503",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Tarik",
+            "last_name": "Maxwell",
+            "contact_email": "orci@ametornare.org",
+            "contact_phone": "13354673759",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Holly",
+            "last_name": "Gay",
+            "contact_email": "scelerisque@ante.org",
+            "contact_phone": "18477297561",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Keane",
+            "last_name": "Barrera",
+            "contact_email": "dapibus.ligula@Phaselluslibero.org",
+            "contact_phone": "19184697401",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Danielle",
+            "last_name": "Valencia",
+            "contact_email": "mauris.ut.mi@dictumProineget.edu",
+            "contact_phone": "19835987605",
+            "role": "ftlc_user"
+        },
+        {
+            "first_name": "Mufutau",
+            "last_name": "Simpson",
+            "contact_email": "Phasellus@leoin.edu",
+            "contact_phone": "17537207198",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Perry",
+            "last_name": "Hickman",
+            "contact_email": "laoreet@a.org",
+            "contact_phone": "15061005947",
+            "role": "ftlc_student"
+        },
+        {
+            "first_name": "Tanisha",
+            "last_name": "Rush",
+            "contact_email": "mauris.Integer@mattisornarelectus.com",
+            "contact_phone": "18825266066",
+            "role": "ftlc_user"
+        }
+    ]
+}
