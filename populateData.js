@@ -17,6 +17,8 @@ async function populateDatabse() {
     let activities = JSON.parse(fs.readFileSync('sqitch/data/activities.json', 'utf8'));
     let events = JSON.parse(fs.readFileSync('sqitch/data/events.json', 'utf8'));
     let event_dates = JSON.parse(fs.readFileSync('sqitch/data/event_dates.json', 'utf8'));
+    let event_registration = JSON.parse(fs.readFileSync('sqitch/data/event_registration.json', 'utf8'));
+    let event_logs = JSON.parse(fs.readFileSync('sqitch/data/event_logs.json', 'utf8'));
     function randomItem(data){
         return data[Math.floor(Math.random() * data.length)];
     }
@@ -33,6 +35,11 @@ async function populateDatabse() {
     })
     let userids = users.data.filter((user) => {
         return user.role == 'ftlc_user'
+    }).map((data) => {
+        return data.id
+    })
+    let instructorids = users.data.filter((user) => {
+        return user.role == 'ftlc_instructor'
     }).map((data) => {
         return data.id
     })
@@ -58,5 +65,23 @@ async function populateDatabse() {
         event_dates.data.push(temp);
     }
     await addData(event_dates)
+    event_dates.data.forEach((element)=>{
+        let random =Math.floor(Math.random() * 10) + 1;
+        for(let x = 0; x < random; x++){
+            let temp = {};
+            temp.student = randomItem(students.data).id;
+            temp.event_date = element.id;
+            event_registration.data.push(temp)
+        }
+    })
+    await addData(event_registration)
+    event_registration.data.forEach((element)=>{
+        let temp = {};
+        temp.student = element.student;
+        temp.event_date = element.event_date;
+        temp.instructor = randomItem(instructorids);
+        event_logs.data.push(temp);
+    })
+    await addData(event_logs);
 }
 populateDatabse();
