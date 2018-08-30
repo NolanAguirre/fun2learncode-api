@@ -83,5 +83,6 @@ async function populateDatabse() {
         event_logs.data.push(temp);
     })
     await addData(event_logs);
+    console.log("database has been populated")
 }
 populateDatabse();

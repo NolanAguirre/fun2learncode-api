@@ -4,7 +4,9 @@
   "description": "fun2learncode's website api",
   "main": "api.js",
   "scripts": {
-    "test": "cd sqitch && sqitch deploy ftlc &&  sqitch verify ftlc && sqitch revert ftlc"
+    "test": "cd sqitch && sqitch deploy ftlc &&  sqitch verify ftlc && sqitch revert ftlc",
+    "start": "node api.js",
+    "restart": "cd sqitch && sqitch revert ftlc && sqitch deploy ftlc &&  sqitch verify ftlc && cd .. && node populateData.js"
   },
   "author": "Nolan Aguirre",
   "license": "ISC",
