@@ -14,3 +14,4 @@ events [activities] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com
 event_dates [events] 2018-08-29T01:20:22Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event dates migration
 event_logs [event_dates students] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
 event_registration [event_dates students] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
+event_prerequisites [activities] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
