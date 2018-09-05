@@ -1,14 +1,13 @@
 -- Deploy ftlc:activities to pg
--- requires: types
--- requires: extensions
+-- requires: activity_catagories
 
 BEGIN;
 
 CREATE TABLE ftlc.activities(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    type UUID REFERENCES ftlc.activity_catagories(id),
     name CITEXT,
-    description CITEXT,
-    type ftlc.activity_type
+    description CITEXT
 );
 
 COMMIT;

@@ -11,11 +11,4 @@ CREATE TYPE ftlc.role_type AS ENUM(
     'ftlc_anonymous'
 );
 
-CREATE TYPE ftlc.activity_type AS ENUM(
-    'summer_camp',
-    'class',
-    'lab',
-    'workshop'
-);
-
 COMMIT;
