@@ -5,7 +5,7 @@ BEGIN;
 
 CREATE TABLE ftlc.activity_catagories(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name CITEXT,
+    name CITEXT UNIQUE,
     description CITEXT
 );
 
