@@ -14,6 +14,7 @@ async function populateDatabse() {
     let users_private = JSON.parse(fs.readFileSync('sqitch/data/user_private.json', 'utf8'));
     let students = JSON.parse(fs.readFileSync('sqitch/data/students.json', 'utf8'));
     let addresses = JSON.parse(fs.readFileSync('sqitch/data/address.json', 'utf8'));
+    let activity_catagories = JSON.parse(fs.readFileSync('sqitch/data/activity_catagories.json', 'utf8'));
     let activities = JSON.parse(fs.readFileSync('sqitch/data/activities.json', 'utf8'));
     let events = JSON.parse(fs.readFileSync('sqitch/data/events.json', 'utf8'));
     let event_dates = JSON.parse(fs.readFileSync('sqitch/data/event_dates.json', 'utf8'));
@@ -51,6 +52,11 @@ async function populateDatabse() {
     })
     await addData(students);
     await addData(addresses);
+    await addData(activity_catagories);
+    activities.data.map((element)=>{
+        element.type = randomItem(activity_catagories.data).id;
+        return element;
+    });
     await addData(activities);
     events.data.map((element) => {
         element.event_type = randomItem(activities.data).id;
