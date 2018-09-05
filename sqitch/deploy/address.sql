@@ -11,7 +11,9 @@ CREATE TABLE ftlc.address(
     county CITEXT,
     zipcode VARCHAR(5),
     state CITEXT,
-    country CITEXT
+    country CITEXT,
+    alias CITEXT,
+    url CITEXT
 );
 
 COMMIT;

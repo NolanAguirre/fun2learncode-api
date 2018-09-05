@@ -1,25 +1,31 @@
 {
-    "query": "insert into ftlc.address (street, city, country,zipcode,state) values ($1,$2,$3,$4,$5) RETURNING id",
+    "query": "insert into ftlc.address (street, city, country,zipcode,state,alias,url) values ($1,$2,$3,$4,$5,$6,$7) RETURNING id",
     "data": [{
             "street": "420 Chisholm Vally Dr",
             "city": "Round Rock",
             "country": "United States",
             "zipcode": "78664",
-            "state": "Texas"
+            "state": "Texas",
+            "alias": "Fun 2 Learn Code",
+            "url": "http://fun2learncode.com/"
         },
         {
-            "street": "3905 Highland Dr",
+            "street": "11190 Circle Drive",
             "city": "Austin",
             "country": "United States",
-            "zipcode": "78734",
-            "state": "Texas"
+            "zipcode": "78736",
+            "state": "Texas",
+            "alias": "Del Sol",
+            "url": "https://delsolaustin.com/"
         },
         {
             "street": "2001 Justin Ln",
             "city": "Austin",
             "country": "United States",
             "zipcode": "78757",
-            "state": "Texas"
+            "state": "Texas",
+            "alias": "Toybrary",
+            "url": "http://toybraryaustin.com/"
         }
     ]
 }
