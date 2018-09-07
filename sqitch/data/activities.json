@@ -1,49 +1,29 @@
 {
     "query": "insert into ftlc.activities (name, description, type) values ($1,$2,$3) RETURNING id",
     "data": [{
-            "name": "scratch beginner",
-            "description": "rutrum lorem ac",
-            "type": "class"
+            "name": "Scratch Beginner",
+            "description": "Learn programming concepts such as events, loops, conditional statements, and variables while creating animations, games, stories and art. Scratch is a visual block-based language developed to teach young people the fundamentals of computer programming, and is used at many colleges and universities as an introduction to coding. This class is designed for ages 8-12.",
+            "type": "Classes"
         },
         {
-            "name": "sunday lab",
-            "description": "leo. Morbi",
-            "type": "lab"
+            "name": "Sunday Lab",
+            "description": "Our labs provide flexibility for each student to explore programming at a personalized pace suitable to him/her. Students are encouraged to explore technologies that interest them and work at a pace best-suited to their learning style. Our labs meet weekly for an hour each week. Students work on individual projects with assistance from an instructor. The student-to-instructor ratio is 4:1. New students can sign up for a one-hour free trial by calling us at 512-900-8380. Some of the platforms/technologies that students may work on include Java, Python, HTML/CSS, Javascript, app development for Android and iOS mobile devices, Scratch, Unity (for video game development), Kodu (for creating video games), Python, Robotics, 2D/3D animation and more",
+            "type": "Labs"
         },
         {
-            "name": "scratch intermediate",
-            "description": "egestas rhoncus. Proin",
-            "type": "class"
+            "name": "Minecraft Mods",
+            "description": "Make your very own mod for Minecraft and create custom items and blocks while learning the basics of the Java programming language. No prior programming experience is required for this class. Designed for 10-14 year old students that have an active Minecraft account and have experience playing Minecraft Java Edition on the Mac or PC.  Students will use graphics editing software to create their own items, blocks and tools, and write the code in Java in order to add them to the Minecraft game. Prerequisite: Basic typing skills of at least 10 wpm.",
+            "type": "Summer Camps"
         },
         {
-            "name": "coding night",
-            "description": "cursus. Nunc mauris",
-            "type": "workshop"
+            "name": "Python Beginner",
+            "description": "Get an introduction to Python and learn the structure of a text-based programming language while exploring coding concepts and writing your own programs.  If your child is interested in learning to code, Python is a great first programming language to learn.  Students will write several programs as they learn about variables, loops, conditions and graphics in Python. Designed for ages 8-10.",
+            "type": "Summer Camps"
         },
         {
-            "name": "open house",
-            "description": "vitae, sodales",
-            "type": "workshop"
-        },
-        {
-            "name": "minecraft mods",
-            "description": "a nunc. In",
-            "type": "summer_camp"
-        },
-        {
-            "name": "minecraft mods jr",
-            "description": "Donec",
-            "type": "summer_camp"
-        },
-        {
-            "name": "python beginner",
-            "description": "dignissim pharetra.",
-            "type": "summer_camp"
-        },
-        {
-            "name": "VR with unity",
-            "description": "porttitor",
-            "type": "summer_camp"
+            "name": "Unity",
+            "description": "Create video games in Unity, one of the most powerful 2D and 3D game creation programs for development of games for computers, mobile devices, video game consoles and websites. Students will be introduced to the C# programming language and learn about game development while creating a basic game. This class is designed for ages 10 and older.",
+            "type": "Summer Camps"
         }
     ]
 }
