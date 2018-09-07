@@ -11,4 +11,10 @@ CREATE TYPE ftlc.role_type AS ENUM(
     'ftlc_anonymous'
 );
 
+CREATE TYPE ftlc.jwt_token AS(
+    id UUID,
+    expires_at INTEGER,
+    role ftlc.role_type
+);
+
 COMMIT;
