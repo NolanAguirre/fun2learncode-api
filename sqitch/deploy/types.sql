@@ -12,9 +12,9 @@ CREATE TYPE ftlc.role_type AS ENUM(
 );
 
 CREATE TYPE ftlc.jwt_token AS(
-    id UUID,
+    role ftlc.role_type,
     expires_at INTEGER,
-    role ftlc.role_type
+    id UUID
 );
 
 COMMIT;
