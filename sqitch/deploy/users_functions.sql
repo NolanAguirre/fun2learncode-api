@@ -31,6 +31,20 @@ CREATE FUNCTION ftlc.register_student(
     END;
 $$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
 
+CREATE FUNCTION ftlc.register_instructor(
+    first_name citext,
+    last_name citext,
+    email citext,
+    password text) RETURNS ftlc.users AS $$
+    DECLARE
+        person ftlc.users;
+    BEGIN
+        INSERT INTO ftlc.users (first_name, last_name, role) VALUES ($1, $2, 'ftlc_instructor') returning * into person;
+        INSERT INTO ftlc_private.users(user_id, email, password_hash) VALUES ((person).id, $3, crypt($4, gen_salt('bf')));
+        RETURN person;
+    END;
+$$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
+
 CREATE FUNCTION ftlc.authenticate(CITEXT, password text) RETURNS ftlc.jwt_token AS $$
   DECLARE
     person ftlc_private.users;
@@ -50,13 +64,16 @@ CREATE FUNCTION ftlc.authenticate(CITEXT, password text) RETURNS ftlc.jwt_token 
     END;
 $$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
 
--- CREATE FUNCTION magic_inventory.get_user_data() RETURNS magic_inventory.user_type AS $$
---     DECLARE
---         person magic_inventory.users;
---     BEGIN
---         select a.* into person from magic_inventory.users as a where a.id = magic_inventory.get_id();
---         RETURN ROW(person.first_name, person.last_name, magic_inventory.get_admin_store(), magic_inventory.get_role(), current_setting('jwt.claims.expires_at', true)::integer, magic_inventory.get_id())::magic_inventory.user_type;
---     END;
--- $$ LANGUAGE PLPGSQL STABLE;
+CREATE FUNCTION ftlc.get_user_data() RETURNS ftlc.users AS $$
+    DECLARE
+        person ftlc.users;
+    BEGIN
+        select a.* into person from ftlc.users as a where a.id = ftlc.get_id();
+        RETURN ROW(person.id, person.first_name, person.last_name, person.role)::ftlc.users;
+    END;
+$$ LANGUAGE PLPGSQL STABLE;
 
+CREATE FUNCTION ftlc.get_id() RETURNS UUID AS $$
+    SELECT uuid(current_setting('jwt.claims.id', true));
+$$ LANGUAGE SQL;
 COMMIT;
