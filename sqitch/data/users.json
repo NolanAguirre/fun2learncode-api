@@ -1,504 +1,395 @@
 {
-    "query": "insert into ftlc.users (first_name, last_name, role) values ($1,$2,$3) RETURNING id",
-    "data": [{
-            "first_name": "Stacey",
-            "last_name": "Fox",
-            "role": "ftlc_owner"
-        },
-        {
-            "first_name": "Serina",
-            "last_name": "Skinner",
-            "role": "ftlc_instructor"
-        },
-        {
-            "first_name": "Alfreda",
-            "last_name": "Atkins",
-            "role": "ftlc_instructor"
-        },
-        {
-            "first_name": "Georgia",
-            "last_name": "Nixon",
-            "role": "ftlc_instructor"
-        },
-        {
-            "first_name": "Jameson",
-            "last_name": "Williamson",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Jolene",
-            "last_name": "Poole",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Mallory",
-            "last_name": "Bradford",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Raymond",
-            "last_name": "Brown",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Odette",
-            "last_name": "Garrett",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Jarrod",
-            "last_name": "Barlow",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Katelyn",
-            "last_name": "Burris",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Nissim",
-            "last_name": "Price",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Darryl",
-            "last_name": "Berry",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Andrew",
-            "last_name": "Ayers",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Gray",
-            "last_name": "Figueroa",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Adara",
-            "last_name": "Nielsen",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Jenna",
-            "last_name": "Steele",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Kimberley",
-            "last_name": "Alvarado",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Renee",
-            "last_name": "Joyner",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Larissa",
-            "last_name": "Delaney",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Edan",
-            "last_name": "Dixon",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Chiquita",
-            "last_name": "Benjamin",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Jocelyn",
-            "last_name": "Allen",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Adara",
-            "last_name": "Spencer",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Joan",
-            "last_name": "Ortiz",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Blaze",
-            "last_name": "Jacobson",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Lev",
-            "last_name": "Campbell",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Cruz",
-            "last_name": "Lawrence",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Shellie",
-            "last_name": "Monroe",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Cadman",
-            "last_name": "Velez",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Gareth",
-            "last_name": "Dejesus",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Hamilton",
-            "last_name": "Mercer",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Dale",
-            "last_name": "Brady",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Flynn",
-            "last_name": "Bruce",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Keefe",
-            "last_name": "Shaffer",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Tucker",
-            "last_name": "Owens",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Lucy",
-            "last_name": "Ross",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Zahir",
-            "last_name": "Wade",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Kyle",
-            "last_name": "Ashley",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Jarrod",
-            "last_name": "Fowler",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Lev",
-            "last_name": "Dixon",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Chase",
-            "last_name": "Reilly",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Rhonda",
-            "last_name": "Gillespie",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Cassady",
-            "last_name": "Wilson",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Gannon",
-            "last_name": "Trujillo",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Clarke",
-            "last_name": "Ball",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Lydia",
-            "last_name": "Stein",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Shaine",
-            "last_name": "Sullivan",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Stephen",
-            "last_name": "Shelton",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Herman",
-            "last_name": "Franco",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Neville",
-            "last_name": "Kent",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Quinlan",
-            "last_name": "Yang",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Shafira",
-            "last_name": "Maynard",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Jared",
-            "last_name": "Everett",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Colorado",
-            "last_name": "Roth",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Kim",
-            "last_name": "Sheppard",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Wang",
-            "last_name": "Spears",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Valentine",
-            "last_name": "Witt",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Alec",
-            "last_name": "Weaver",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Jenette",
-            "last_name": "Mooney",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Lois",
-            "last_name": "Beach",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Nathan",
-            "last_name": "Callahan",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Ursa",
-            "last_name": "Whitaker",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Carl",
-            "last_name": "Craig",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Roanna",
-            "last_name": "Baxter",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Brenden",
-            "last_name": "Fry",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Harriet",
-            "last_name": "Sharp",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Grady",
-            "last_name": "Duffy",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Clare",
-            "last_name": "Stevens",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Quentin",
-            "last_name": "Franco",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Imelda",
-            "last_name": "Hoover",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Hasad",
-            "last_name": "Bright",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Christen",
-            "last_name": "Watson",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Jenette",
-            "last_name": "Bender",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Allen",
-            "last_name": "Shields",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Kennedy",
-            "last_name": "Knox",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Keiko",
-            "last_name": "Underwood",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Dacey",
-            "last_name": "Jenkins",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Walker",
-            "last_name": "Mcpherson",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Sage",
-            "last_name": "Hatfield",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Imani",
-            "last_name": "Trujillo",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Kristen",
-            "last_name": "Ray",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Britanney",
-            "last_name": "Cobb",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Mohammad",
-            "last_name": "Battle",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Jolie",
-            "last_name": "Knapp",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Echo",
-            "last_name": "Merritt",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Alexa",
-            "last_name": "Serrano",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Allen",
-            "last_name": "Delgado",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Jade",
-            "last_name": "Moses",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Caesar",
-            "last_name": "Franco",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Damon",
-            "last_name": "Morrison",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Barclay",
-            "last_name": "Rose",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Xantha",
-            "last_name": "Tillman",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Tarik",
-            "last_name": "Maxwell",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Holly",
-            "last_name": "Gay",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Keane",
-            "last_name": "Barrera",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Danielle",
-            "last_name": "Valencia",
-            "role": "ftlc_user"
-        },
-        {
-            "first_name": "Mufutau",
-            "last_name": "Simpson",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Perry",
-            "last_name": "Hickman",
-            "role": "ftlc_student"
-        },
-        {
-            "first_name": "Tanisha",
-            "last_name": "Rush",
-            "role": "ftlc_user"
-        }
+    "query": "select id from ftlc.register_user($1,$2,$3,$4)",
+    "data": [
+	{
+		"first_name": "Sybill",
+		"last_name": "Glover",
+		"email": "email@email.com",
+		"password": "password"
+	},
+	{
+		"first_name": "Joelle",
+		"last_name": "Miles",
+		"email": "Praesent.eu.dui@fringillaDonec.edu",
+		"password": "AGN99QXW0RK"
+	},
+	{
+		"first_name": "Dorian",
+		"last_name": "Koch",
+		"email": "tincidunt.pede@pretiumaliquetmetus.edu",
+		"password": "IEK60PZA3XZ"
+	},
+	{
+		"first_name": "Gail",
+		"last_name": "Wall",
+		"email": "Fusce.mi.lorem@Crasloremlorem.ca",
+		"password": "AUB34TZW6QN"
+	},
+	{
+		"first_name": "Candice",
+		"last_name": "Cantrell",
+		"email": "augue.Sed@ipsumsodales.org",
+		"password": "UOF30CKJ1QH"
+	},
+	{
+		"first_name": "Castor",
+		"last_name": "Roberson",
+		"email": "ipsum@sociisnatoquepenatibus.edu",
+		"password": "LLC85QSZ8LH"
+	},
+	{
+		"first_name": "Cora",
+		"last_name": "Guzman",
+		"email": "convallis.in@penatibus.net",
+		"password": "DNY16JRY1YT"
+	},
+	{
+		"first_name": "Wendy",
+		"last_name": "Hill",
+		"email": "ligula.Aliquam.erat@Namacnulla.com",
+		"password": "LOM53AUQ0KV"
+	},
+	{
+		"first_name": "Boris",
+		"last_name": "Noel",
+		"email": "et.netus.et@aaliquetvel.edu",
+		"password": "PZH09YCX2RM"
+	},
+	{
+		"first_name": "Omar",
+		"last_name": "Burch",
+		"email": "dictum.eu.placerat@a.ca",
+		"password": "HDF44FHG3EL"
+	},
+	{
+		"first_name": "Ifeoma",
+		"last_name": "Potts",
+		"email": "arcu@Duis.net",
+		"password": "VBV67LUL1FI"
+	},
+	{
+		"first_name": "Nicole",
+		"last_name": "Pruitt",
+		"email": "elit@urnaVivamus.com",
+		"password": "IGH13LZZ7MD"
+	},
+	{
+		"first_name": "Nola",
+		"last_name": "Stuart",
+		"email": "consequat.purus@nostraperinceptos.edu",
+		"password": "NHD49ABH5VK"
+	},
+	{
+		"first_name": "Dean",
+		"last_name": "Stephenson",
+		"email": "elit@fermentummetusAenean.co.uk",
+		"password": "DAI88IWO0VH"
+	},
+	{
+		"first_name": "Akeem",
+		"last_name": "Reese",
+		"email": "Ut.tincidunt.orci@molestieorcitincidunt.ca",
+		"password": "TYG28NUK8WT"
+	},
+	{
+		"first_name": "Zephr",
+		"last_name": "Mccray",
+		"email": "lorem.ac@parturientmontesnascetur.net",
+		"password": "UKY64LUQ9JC"
+	},
+	{
+		"first_name": "Summer",
+		"last_name": "Marshall",
+		"email": "porttitor.tellus.non@ipsum.co.uk",
+		"password": "XOC77RHS6RT"
+	},
+	{
+		"first_name": "Maxine",
+		"last_name": "Washington",
+		"email": "pede@Nuncmauriselit.co.uk",
+		"password": "YUT97MAY8QR"
+	},
+	{
+		"first_name": "Yetta",
+		"last_name": "Owens",
+		"email": "Vivamus.nibh@Maurisut.edu",
+		"password": "GZC16AJR7LL"
+	},
+	{
+		"first_name": "Xerxes",
+		"last_name": "Mccarty",
+		"email": "Aliquam.adipiscing@molestieSedid.ca",
+		"password": "PBI53SMV0XB"
+	},
+	{
+		"first_name": "Cruz",
+		"last_name": "Hood",
+		"email": "diam.at@Pellentesque.org",
+		"password": "HYL05AVV9GG"
+	},
+	{
+		"first_name": "Nehru",
+		"last_name": "Osborn",
+		"email": "ante.Vivamus.non@dictum.com",
+		"password": "CLZ77EAL8ZU"
+	},
+	{
+		"first_name": "Xena",
+		"last_name": "Langley",
+		"email": "molestie.arcu@utdolor.org",
+		"password": "MMD87XLU8QZ"
+	},
+	{
+		"first_name": "Ifeoma",
+		"last_name": "Beach",
+		"email": "lacinia.at@risus.co.uk",
+		"password": "DVM27ECM2ME"
+	},
+	{
+		"first_name": "Graham",
+		"last_name": "Newman",
+		"email": "amet.ultricies.sem@CuraePhasellusornare.org",
+		"password": "NEC07ZDW7UG"
+	},
+	{
+		"first_name": "Xandra",
+		"last_name": "Schwartz",
+		"email": "adipiscing.Mauris.molestie@a.com",
+		"password": "ZAT38JUE6DY"
+	},
+	{
+		"first_name": "Whoopi",
+		"last_name": "Walls",
+		"email": "nec@esttempor.co.uk",
+		"password": "FCH37DXV0JS"
+	},
+	{
+		"first_name": "Kibo",
+		"last_name": "Morrison",
+		"email": "ut.odio.vel@doloregestasrhoncus.org",
+		"password": "XSY88PWI9HS"
+	},
+	{
+		"first_name": "Priscilla",
+		"last_name": "Riggs",
+		"email": "magna.sed.dui@mattis.net",
+		"password": "KBH48TTT0QR"
+	},
+	{
+		"first_name": "Reece",
+		"last_name": "Mcconnell",
+		"email": "Aliquam@luctussit.net",
+		"password": "EWF32RFS7CP"
+	},
+	{
+		"first_name": "Evelyn",
+		"last_name": "Sargent",
+		"email": "sagittis.augue.eu@feugiat.co.uk",
+		"password": "QHU19JXS9CY"
+	},
+	{
+		"first_name": "Meredith",
+		"last_name": "Riddle",
+		"email": "eget.ipsum@vitae.co.uk",
+		"password": "RZZ81QWW1DA"
+	},
+	{
+		"first_name": "Joy",
+		"last_name": "Beck",
+		"email": "erat.volutpat@lacinia.ca",
+		"password": "ECV57IFP9NL"
+	},
+	{
+		"first_name": "Kendall",
+		"last_name": "Fox",
+		"email": "Sed.dictum.Proin@amet.com",
+		"password": "NZI01FIB2JO"
+	},
+	{
+		"first_name": "Sylvia",
+		"last_name": "Mckenzie",
+		"email": "Fusce@neceleifend.co.uk",
+		"password": "FVH10YOF4ZN"
+	},
+	{
+		"first_name": "Lunea",
+		"last_name": "Albert",
+		"email": "ante.Vivamus.non@in.ca",
+		"password": "WQQ80CGT1CB"
+	},
+	{
+		"first_name": "Lucius",
+		"last_name": "Greer",
+		"email": "arcu@variusorciin.org",
+		"password": "IWH36TMH4TU"
+	},
+	{
+		"first_name": "Stephanie",
+		"last_name": "Fuller",
+		"email": "tempor@euismodmauriseu.ca",
+		"password": "LNO25KWL3UG"
+	},
+	{
+		"first_name": "Ferdinand",
+		"last_name": "Edwards",
+		"email": "at@sodalespurusin.com",
+		"password": "DSU16HBH7HB"
+	},
+	{
+		"first_name": "Philip",
+		"last_name": "Brady",
+		"email": "Sed@Nullamlobortisquam.edu",
+		"password": "HCP47CFI8NA"
+	},
+	{
+		"first_name": "Ivy",
+		"last_name": "Rogers",
+		"email": "vitae@dui.com",
+		"password": "ECV83MCF7JK"
+	},
+	{
+		"first_name": "Plato",
+		"last_name": "George",
+		"email": "mi.felis@eliteratvitae.com",
+		"password": "DOB12KFN6LW"
+	},
+	{
+		"first_name": "Martha",
+		"last_name": "Rogers",
+		"email": "Aenean.euismod.mauris@dignissim.co.uk",
+		"password": "LHB64URQ1ZZ"
+	},
+	{
+		"first_name": "Wallace",
+		"last_name": "Stephens",
+		"email": "gravida.sagittis@Cras.net",
+		"password": "AWN03HJQ5IE"
+	},
+	{
+		"first_name": "Arthur",
+		"last_name": "Merritt",
+		"email": "Fusce.aliquet.magna@euerat.com",
+		"password": "ZWL43LTL3RG"
+	},
+	{
+		"first_name": "Kirby",
+		"last_name": "Quinn",
+		"email": "sed.consequat@dolorvitae.edu",
+		"password": "PTL55NQD8GD"
+	},
+	{
+		"first_name": "Burke",
+		"last_name": "Cote",
+		"email": "dapibus.quam@utmi.co.uk",
+		"password": "QFB37BIV5VS"
+	},
+	{
+		"first_name": "Desiree",
+		"last_name": "Stark",
+		"email": "cursus.non@euismod.com",
+		"password": "DKG50LBG9JV"
+	},
+	{
+		"first_name": "Tamara",
+		"last_name": "Vang",
+		"email": "consectetuer.cursus@arcuVivamus.ca",
+		"password": "HHL54ASC2SP"
+	},
+	{
+		"first_name": "Quon",
+		"last_name": "Colon",
+		"email": "egestas@mauris.edu",
+		"password": "TME07WDR4CB"
+	},
+	{
+		"first_name": "Christian",
+		"last_name": "Thomas",
+		"email": "dignissim.Maecenas.ornare@mauris.co.uk",
+		"password": "KSF55UOA1KI"
+	},
+	{
+		"first_name": "Nissim",
+		"last_name": "George",
+		"email": "In@ornare.net",
+		"password": "FRR92ONX9NX"
+	},
+	{
+		"first_name": "Kaitlin",
+		"last_name": "Gutierrez",
+		"email": "lectus@sociis.org",
+		"password": "VJF92FBP4MV"
+	},
+	{
+		"first_name": "Sade",
+		"last_name": "Glover",
+		"email": "commodo@musProin.ca",
+		"password": "AXE02JZP8MI"
+	},
+	{
+		"first_name": "Mark",
+		"last_name": "Greene",
+		"email": "convallis.dolor.Quisque@a.org",
+		"password": "TXV02JGF1OB"
+	},
+	{
+		"first_name": "Fritz",
+		"last_name": "Contreras",
+		"email": "egestas.a.scelerisque@laciniamattisInteger.org",
+		"password": "NNQ62GDD0VJ"
+	},
+	{
+		"first_name": "Irene",
+		"last_name": "Moran",
+		"email": "ac.mattis@conubianostra.org",
+		"password": "AIE94IKP6ZC"
+	},
+	{
+		"first_name": "Aurora",
+		"last_name": "Wynn",
+		"email": "dictum.eu@elementumsem.ca",
+		"password": "MFZ11SSU1TX"
+	},
+	{
+		"first_name": "Maris",
+		"last_name": "Ford",
+		"email": "sem.magna@diam.edu",
+		"password": "UCZ23GHH6JL"
+	},
+	{
+		"first_name": "Jared",
+		"last_name": "Mathis",
+		"email": "Phasellus.vitae@elit.com",
+		"password": "MCX23JNH7YA"
+	},
+	{
+		"first_name": "Velma",
+		"last_name": "Hopper",
+		"email": "a@fames.org",
+		"password": "PZL84MRZ7ZZ"
+	},
+	{
+		"first_name": "Adria",
+		"last_name": "Warner",
+		"email": "diam.luctus@interdumCurabiturdictum.net",
+		"password": "UMQ84HQI6US"
+	},
+	{
+		"first_name": "Timon",
+		"last_name": "Kidd",
+		"email": "vestibulum@Curabitur.edu",
+		"password": "RUX76HGA4IB"
+	},
+	{
+		"first_name": "Leandra",
+		"last_name": "Woodward",
+		"email": "est.mollis@turpisnonenim.org",
+		"password": "GOZ27VKV4WJ"
+	},
+	{
+		"first_name": "Henry",
+		"last_name": "Snow",
+		"email": "sem.vitae.aliquam@eget.edu",
+		"password": "DTK24ADR9JK"
+	}
     ]
 }

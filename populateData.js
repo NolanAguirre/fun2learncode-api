@@ -11,7 +11,8 @@ addData = async function(json) {
 }
 async function populateDatabse() {
     let users = JSON.parse(fs.readFileSync('sqitch/data/users.json', 'utf8'));
-    let users_private = JSON.parse(fs.readFileSync('sqitch/data/user_private.json', 'utf8'));
+    let student = JSON.parse(fs.readFileSync('sqitch/data/student.json', 'utf8'));
+    let instructor = JSON.parse(fs.readFileSync('sqitch/data/instructor.json', 'utf8'));
     let students = JSON.parse(fs.readFileSync('sqitch/data/students.json', 'utf8'));
     let addresses = JSON.parse(fs.readFileSync('sqitch/data/address.json', 'utf8'));
     let activity_catagories = JSON.parse(fs.readFileSync('sqitch/data/activity_catagories.json', 'utf8'));
@@ -25,30 +26,12 @@ async function populateDatabse() {
         return data[Math.floor(Math.random() * data.length)];
     }
     await addData(users);
-    users_private.data.map((user, index) => {
-        user.user_id = users.data[index].id;
-        return user;
-    })
-    await addData(users_private);
-    let studentids = users.data.filter((user) => {
-        return user.role == 'ftlc_student'
-    }).map((data) => {
-        return data.id
-    })
-    let userids = users.data.filter((user) => {
-        return user.role == 'ftlc_user'
-    }).map((data) => {
-        return data.id
-    })
-    let instructorids = users.data.filter((user) => {
-        return user.role == 'ftlc_instructor'
-    }).map((data) => {
-        return data.id
-    })
-    studentids.forEach((element) => {
+    await addData(student);
+    await addData(instructor);
+    student.data.forEach((element) => {
         students.data.push({
-            student: element,
-            parent: randomItem(userids)
+            student: element.id,
+            parent: randomItem(users.data).id
         })
     })
     await addData(students);
@@ -89,7 +72,7 @@ async function populateDatabse() {
         let temp = {};
         temp.student = element.student;
         temp.event_date = element.event_date;
-        temp.instructor = randomItem(instructorids);
+        temp.instructor = randomItem(instructor.data).id;
         event_logs.data.push(temp);
     })
     await addData(event_logs);

@@ -1,0 +1,35 @@
+{
+    "query": "select id from ftlc.register_instructor($1,$2,$3,$4)",
+    "data": [
+        {
+    		"first_name": "Magee",
+    		"last_name": "Barker",
+    		"email": "placerat.orci.lacus@sedorcilobortis.co.uk",
+    		"password": "PJO14NRC2BQ"
+    	},
+    	{
+    		"first_name": "Yolanda",
+    		"last_name": "Newman",
+    		"email": "ut.nisi.a@arcuNunc.edu",
+    		"password": "QEG87JCN2EZ"
+    	},
+    	{
+    		"first_name": "MacKensie",
+    		"last_name": "Moss",
+    		"email": "at.fringilla.purus@feugiatLorem.ca",
+    		"password": "PPH34FWQ4ST"
+    	},
+    	{
+    		"first_name": "Lila",
+    		"last_name": "Hale",
+    		"email": "ligula@vulputate.org",
+    		"password": "ISK18QDH7WV"
+    	},
+    	{
+    		"first_name": "Coby",
+    		"last_name": "Benjamin",
+    		"email": "dictum.Phasellus@nibh.org",
+    		"password": "PMO69KHH6IJ"
+    	}
+    ]
+}
