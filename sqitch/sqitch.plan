@@ -20,3 +20,4 @@ users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail
 
 
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
+event_functions [students events] 2018-09-14T03:44:41Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event functions migration
