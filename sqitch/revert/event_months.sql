@@ -6,4 +6,6 @@ DROP FUNCTION ftlc.add_month();
 
 DROP TABLE ftlc.event_months;
 
+DROP TABLE ftlc.months;
+
 COMMIT;

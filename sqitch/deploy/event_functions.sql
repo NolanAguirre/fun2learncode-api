@@ -10,9 +10,14 @@ CREATE FUNCTION ftlc.events_by_student(student_id UUID) RETURNS SETOF ftlc.event
     END;
 $$ LANGUAGE PLPGSQL STABLE;
 
-CREATE FUNCTION ftlc.event_months_by_student(student_id UUID) RETURNS SETOF ftlc.event_months AS $$
+CREATE OR REPLACE FUNCTION ftlc.months_by_student(student_id UUID) RETURNS SETOF ftlc.months AS $$
     BEGIN
-        RETURN QUERY SELECT * FROM ftlc.event_months WHERE ftlc.event_dates.event IN (SELECT DISTINCT event FROM ftlc.event_dates WHERE id IN (SELECT event_date FROM ftlc.event_registration WHERE student = student_id)) ORDER BY event_type ASC;
+        RETURN QUERY SELECT * FROM ftlc.months where id IN (
+            SELECT month FROM ftlc.event_months WHERE event in(
+                select id FROM ftlc.events WHERE id IN (
+                    SELECT DISTINCT event FROM ftlc.event_dates WHERE id IN (
+                        SELECT event_date FROM ftlc.event_registration WHERE student = student_id))))
+        ORDER BY month ASC;
     END;
 $$ LANGUAGE PLPGSQL STABLE;
 
