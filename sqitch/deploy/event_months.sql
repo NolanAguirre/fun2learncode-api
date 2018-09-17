@@ -4,6 +4,7 @@
 BEGIN;
 
 CREATE TABLE ftlc.event_months(
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     event UUID REFERENCES ftlc.events(id),
     month TIMESTAMP
 );
