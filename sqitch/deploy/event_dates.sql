@@ -1,5 +1,5 @@
 -- Deploy ftlc:event_dates to pg
--- requires: events
+-- requires: month_event
 
 BEGIN;
 
@@ -9,5 +9,7 @@ CREATE TABLE ftlc.event_dates(
     start_time TIMESTAMP,
     end_time TIMESTAMP
 );
+
+CREATE TRIGGER update_event_month AFTER INSERT ON ftlc.event_dates FOR EACH ROW EXECUTE PROCEDURE ftlc.add_month();
 
 COMMIT;
