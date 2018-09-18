@@ -50,22 +50,22 @@ async function populateDatabse() {
         return element;
     })
     await addData(events);
-    for (let x = 0; x < 1000; x++) {
+    events.data.forEach((element)=>{
         let temp = {};
         temp.start_date = new Date(+new Date() + Math.floor(Math.random() * 5629740000));
         temp.end_date = new Date(+temp.start_date + Math.floor(Math.random() * 629740000));
-        temp.event = randomItem(events.data).id;
+        temp.event = element.id;
         event_dates.data.push(temp);
-    }
+    })
     await addData(event_dates)
-    event_dates.data.forEach((element) => {
-        let random = Math.floor(Math.random() * 10) + 1;
-        for (let x = 0; x < random; x++) {
+    students.data.forEach((element) => {
+        //let random = Math.floor(Math.random() * 10) + 1;
+        //for (let x = 0; x < random; x++) {
             let temp = {};
-            temp.student = randomItem(students.data).id;
-            temp.event_date = element.id;
+            temp.student = element.id;
+            temp.event_date = randomItem(event_dates.data).id;
             event_registration.data.push(temp)
-        }
+        //}
     })
     await addData(event_registration)
     event_registration.data.forEach((element) => {
@@ -73,6 +73,7 @@ async function populateDatabse() {
         temp.student = element.student;
         temp.event_date = element.event_date;
         temp.instructor = randomItem(instructor.data).id;
+        temp.comment = "Completed level 3 of the game";
         event_logs.data.push(temp);
     })
     await addData(event_logs);
