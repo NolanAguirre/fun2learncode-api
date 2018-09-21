@@ -1,0 +1,4 @@
+{
+    "query": "insert into ftlc.dates_join (date_group, date_interval) values ($1,$2) RETURNING id",
+    "data":[]
+}

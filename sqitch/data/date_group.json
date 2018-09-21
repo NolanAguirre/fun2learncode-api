@@ -1,0 +1,4 @@
+{
+    "query": "insert into ftlc.date_group default values RETURNING id",
+    "data":[]
+}

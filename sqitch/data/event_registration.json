@@ -1,4 +1,4 @@
 {
-    "query": "insert into ftlc.event_registration (student, event_date) values ($1,$2) RETURNING id",
+    "query": "insert into ftlc.event_registration (student, event_dates) values ($1,$2) RETURNING id",
     "data":[]
 }
