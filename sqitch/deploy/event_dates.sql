@@ -7,7 +7,9 @@ BEGIN;
 CREATE TABLE ftlc.event_dates(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     date_group UUID REFERENCES ftlc.date_group(id),
-    event UUID REFERENCES ftlc.events(id)
+    event UUID REFERENCES ftlc.events(id),
+    open_registration TIMESTAMP,
+    close_registration TIMESTAMP
 );
 
 COMMIT;

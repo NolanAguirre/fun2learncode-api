@@ -9,15 +9,15 @@ types [appschema extensions] 2018-08-29T00:55:30Z Nolan Aguirre <nolanaguirre08@
 address [appschema extensions] 2018-08-29T00:45:58Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add address migration
 date_interval [appschema extensions] 2018-08-29T01:20:22Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event dates migration
 activity_catagories [appschema extensions] 2018-09-05T03:50:25Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activity catagories migration
+date_group [appschema extensions] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 
-date_group [date_interval] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 users [types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 activities [activity_catagories] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activities migration
 
 users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
 event_prerequisites [activities] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
-events [activities address date_interval] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # add events migration
+events [activities address] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # add events migration
 dates_join [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and date_inverval
 event_dates [date_group events] 2018-09-21T19:34:19Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and events
 
