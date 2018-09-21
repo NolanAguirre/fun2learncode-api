@@ -11,7 +11,7 @@ GRANT SELECT ON ftlc.activity_catagories TO ftlc_user, ftlc_anonymous, ftlc_inst
 -- address
 GRANT SELECT ON ftlc.address TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- event dates
-GRANT SELECT ON ftlc.event_dates TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
+GRANT SELECT ON ftlc.date_interval TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- event months
 GRANT SELECT ON ftlc.event_months TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- months
