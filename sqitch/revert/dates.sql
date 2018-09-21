@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.date_group_join_date_interval;
+DROP TABLE ftlc.dates;
 
 COMMIT;

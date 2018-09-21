@@ -18,8 +18,8 @@ users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.c
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
 event_prerequisites [activities] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
 events [activities address date_interval] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # add events migration
-date_group_join_date_interval [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and date_inverval
-events_join_date_group [date_group events] 2018-09-21T19:34:19Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and events
+dates [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and date_inverval
+event_dates [date_group events] 2018-09-21T19:34:19Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and events
 
 event_registration [events students] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
 event_logs [events students] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration

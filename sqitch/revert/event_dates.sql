@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.events_join_date_group;
+DROP TABLE ftlc.event_dates;
 
 COMMIT;
