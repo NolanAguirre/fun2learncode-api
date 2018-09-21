@@ -1,5 +1,5 @@
 -- Deploy ftlc:event_logs to pg
--- requires: event_dates
+-- requires: events
 -- requires: students
 
 BEGIN;

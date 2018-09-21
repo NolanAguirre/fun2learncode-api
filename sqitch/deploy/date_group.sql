@@ -1,5 +1,5 @@
 -- Deploy ftlc:date_group to pg
--- requires: event_dates
+-- requires: date_inverval
 
 BEGIN;
 

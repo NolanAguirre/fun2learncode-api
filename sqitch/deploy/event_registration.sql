@@ -1,5 +1,4 @@
 -- Deploy ftlc:event_registration to pg
--- requires: date_group
 -- requires: events
 -- requires: students
 

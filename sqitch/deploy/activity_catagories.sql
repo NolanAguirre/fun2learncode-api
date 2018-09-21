@@ -1,4 +1,5 @@
 -- Deploy ftlc:activity_catagories to pg
+-- requires: appschema
 -- requires: extensions
 
 BEGIN;

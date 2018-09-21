@@ -1,5 +1,7 @@
 -- Deploy ftlc:events to pg
 -- requires: activities
+-- requires: date_interval
+-- requires: address
 
 BEGIN;
 

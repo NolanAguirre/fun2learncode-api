@@ -12,9 +12,9 @@ CREATE TYPE ftlc.role_type AS ENUM(
 );
 
 CREATE TYPE ftlc.registration_status_type AS ENUM(
-        'waitlist',
-        'paid',
-        'unpaid'
+    'waitlist',
+    'paid',
+    'unpaid'
 );
 
 CREATE TYPE ftlc.jwt_token AS(

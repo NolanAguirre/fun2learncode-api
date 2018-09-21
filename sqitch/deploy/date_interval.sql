@@ -1,5 +1,6 @@
 -- Deploy ftlc:event_dates to pg
--- requires: month_event
+-- requires: appschema
+-- requires: extensions
 
 BEGIN;
 
