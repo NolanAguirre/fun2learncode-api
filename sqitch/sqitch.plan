@@ -6,6 +6,8 @@ roles 2018-08-29T00:42:17Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add roles 
 extensions 2018-08-29T00:43:33Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add extensions migration
 address [appschema extensions] 2018-08-29T00:45:58Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add address migration
 types [appschema] 2018-08-29T00:55:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add types migration
+date_interval [appschema] 2018-08-29T01:20:22Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event dates migration
+date_group [date_interval] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 users [extensions types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
@@ -13,13 +15,11 @@ activity_catagories [extensions] 2018-09-05T03:50:25Z Nolan Aguirre <nolanaguirr
 activities [activity_catagories] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activities migration
 events [activities] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # add events migration
 event_months [events] 2018-09-17T18:29:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event months migration
-date_interval [event_months] 2018-08-29T01:20:22Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event dates migration
-event_logs [date_interval students] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
-event_registration [date_interval students] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
+event_registration [date_group events students] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
 event_prerequisites [activities] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
+event_logs [date_interval students] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
 users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
 event_functions [students events] 2018-09-14T03:44:41Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event functions migration
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
-date_group [date_interval] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 date_group_join_date_interval [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and date_inverval
 events_join_date_group [date_group events] 2018-09-21T19:34:19Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and events
