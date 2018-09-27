@@ -6,7 +6,7 @@ BEGIN;
 
 CREATE TABLE ftlc.event_registration(
     id UUID  DEFAULT uuid_generate_v4(),
-    student UUID REFERENCES ftlc.students(id),
+    student UUID REFERENCES ftlc.users(id),
     event_dates UUID REFERENCES ftlc.date_group(id),
     event UUID references ftlc.events(id),
     registered_on TIMESTAMP DEFAULT NOW(),
