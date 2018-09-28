@@ -29,3 +29,4 @@ users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail
 event_functions [students events] 2018-09-14T03:44:41Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event functions migration
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
 activities_functions [activities event_prerequisites] 2018-09-25T17:35:51Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activities functions migration
+date_group_functions [date_group dates_join date_interval] 2018-09-28T01:34:37Z Nolan Aguirre <nolanaguirre08@gmail.com> # add date group functions migration
