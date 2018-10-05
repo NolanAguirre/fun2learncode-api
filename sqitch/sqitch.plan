@@ -9,7 +9,6 @@ types [appschema extensions] 2018-08-29T00:55:30Z Nolan Aguirre <nolanaguirre08@
 address [appschema extensions] 2018-08-29T00:45:58Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add address migration
 date_interval [appschema extensions] 2018-08-29T01:20:22Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event dates migration
 activity_catagories [appschema extensions] 2018-09-05T03:50:25Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activity catagories migration
-date_group [appschema extensions] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 
 users [types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 activities [activity_catagories] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activities migration
@@ -18,15 +17,14 @@ users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.c
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
 event_prerequisites [activities] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
 events [activities address] 2018-08-29T01:17:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # add events migration
-dates_join [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and date_inverval
-event_dates [date_group events] 2018-09-21T19:34:19Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and events
 
+date_group [events] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 event_registration [events students] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
 event_logs [events students] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
 
+dates_join [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between date_group and date_inverval
 event_months [events] 2018-09-17T18:29:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event months migration
 users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
 event_functions [students events] 2018-09-14T03:44:41Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event functions migration
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
 activities_functions [activities event_prerequisites] 2018-09-25T17:35:51Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activities functions migration
-date_group_functions [date_group dates_join date_interval] 2018-09-28T01:34:37Z Nolan Aguirre <nolanaguirre08@gmail.com> # add date group functions migration
