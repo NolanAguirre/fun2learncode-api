@@ -6,8 +6,8 @@ BEGIN;
 
 CREATE TABLE ftlc.date_interval(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    start TIMESTAMP,
-    "end" TIMESTAMP,
+    start TIMESTAMP NOT NULL,
+    "end" TIMESTAMP NOT NULL,
     CONSTRAINT unique_date UNIQUE (start, "end")
 );
 
