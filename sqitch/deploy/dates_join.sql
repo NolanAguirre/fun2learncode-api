@@ -7,7 +7,8 @@ BEGIN;
 CREATE TABLE ftlc.dates_join(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     date_group UUID REFERENCES ftlc.date_group(id),
-    date_interval UUID REFERENCES ftlc.date_interval(id)
+    date_interval UUID REFERENCES ftlc.date_interval(id),
+    CONSTRAINT unique_join UNIQUE (date_group, date_interval)
 );
 
 COMMIT;
