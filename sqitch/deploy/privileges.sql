@@ -7,6 +7,7 @@ GRANT USAGE ON SCHEMA ftlc TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_o
 -- activities
 GRANT SELECT ON ftlc.activities TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 GRANT INSERT ON ftlc.activities TO ftlc_instructor; --this will need to be owner
+GRANT UPDATE ON ftlc.activities TO ftlc_instructor; --this will need to be owner
 -- activity_catagories
 GRANT SELECT ON ftlc.activity_catagories TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- address
@@ -14,9 +15,11 @@ GRANT SELECT ON ftlc.address TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc
 -- date_interval
 GRANT SELECT ON ftlc.date_interval TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 GRANT INSERT ON ftlc.date_interval TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;--this will need to be owner
+GRANT DELETE ON ftlc.date_interval TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- dates_join join
 GRANT SELECT ON ftlc.dates_join TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 GRANT INSERT ON ftlc.dates_join TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;--this will need to be owner
+GRANT DELETE ON ftlc.dates_join TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- date_group
 GRANT SELECT ON ftlc.date_group TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 GRANT INSERT ON ftlc.date_group TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student; --this will need to be owner
