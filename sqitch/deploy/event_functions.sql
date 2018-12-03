@@ -21,4 +21,16 @@ CREATE FUNCTION ftlc.months_by_student(student_id UUID) RETURNS SETOF ftlc.month
     END;
 $$ LANGUAGE PLPGSQL STABLE;
 
+CREATE FUNCTION ftlc.check_prerequisites(event_id UUID, student UUID) RETURNS BOOLEAN AS $$
+    DECLARE
+        activity UUID;
+        prerequisites UUID[];
+        student_events UUID[];
+    BEGIN
+        SELECT event_type INTO activity FROM ftlc.events WHERE id = event_id;
+        SELECT array(SELECT prerequisite FROM ftlc.event_prerequisites WHERE event = activity) INTO prerequisites;
+        SELECT array(SELECT event_type FROM ftlc.activities WHERE id IN(SELECT event FROM ftlc.event_registration WHERE student = student)) INTO student_events;
+        RETURN student_events @> prerequisites;
+    END;
+$$ LANGUAGE PLPGSQL;
 COMMIT;
