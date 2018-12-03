@@ -5,7 +5,10 @@ BEGIN;
 
 CREATE TYPE ftlc.role_type AS ENUM(
     'ftlc_owner',
+    'ftlc_admin',
+    'ftlc_lead_instructor',
     'ftlc_instructor',
+    'ftlc_attendant',
     'ftlc_user',
     'ftlc_student',
     'ftlc_anonymous'
