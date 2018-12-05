@@ -11,25 +11,17 @@ addData = async function(json) {
 }
 async function populateDatabse() {
     let users = JSON.parse(fs.readFileSync('sqitch/data/users.json', 'utf8'));
+    let admins = JSON.parse(fs.readFileSync('sqitch/data/admins.json', 'utf8'));
     let student = JSON.parse(fs.readFileSync('sqitch/data/student.json', 'utf8'));
-    let instructor = JSON.parse(fs.readFileSync('sqitch/data/instructor.json', 'utf8'));
     let students = JSON.parse(fs.readFileSync('sqitch/data/students.json', 'utf8'));
     let addresses = JSON.parse(fs.readFileSync('sqitch/data/address.json', 'utf8'));
     let activity_catagories = JSON.parse(fs.readFileSync('sqitch/data/activity_catagories.json', 'utf8'));
-    let activities = JSON.parse(fs.readFileSync('sqitch/data/activities.json', 'utf8'));
-    let events = JSON.parse(fs.readFileSync('sqitch/data/events.json', 'utf8'));
-    let date_interval = JSON.parse(fs.readFileSync('sqitch/data/date_interval.json', 'utf8'));
-    let event_registration = JSON.parse(fs.readFileSync('sqitch/data/event_registration.json', 'utf8'));
-    let event_logs = JSON.parse(fs.readFileSync('sqitch/data/event_logs.json', 'utf8'));
-    let date_group = JSON.parse(fs.readFileSync('sqitch/data/date_group.json', 'utf8'));
-    let dates =  JSON.parse(fs.readFileSync('sqitch/data/dates.json', 'utf8'));
-    let event_dates =  JSON.parse(fs.readFileSync('sqitch/data/event_dates.json', 'utf8'));
     function randomItem(data) {
         return data[Math.floor(Math.random() * data.length)];
     }
+    await addData(admins);
     await addData(users);
     await addData(student);
-    await addData(instructor);
     student.data.forEach((element) => {
         students.data.push({
             student: element.id,
@@ -39,63 +31,7 @@ async function populateDatabse() {
     await addData(students);
     await addData(addresses);
     await addData(activity_catagories);
-    activities.data.map((element) => {
-        element.type = activity_catagories.data.filter((el) => {
-            return element.type == el.name;
-        })[0].id;
-        return element;
-    });
-    await addData(activities);
-    events.data.map((element) => {
-        element.event_type = randomItem(activities.data).id;
-        element.address = randomItem(addresses.data).id;
-        return element;
-    })
-    await addData(events);
-    for(var x = 0; x < 500; x++){
-        let temp = {};
-        temp.start = new Date(+new Date() + Math.floor(Math.random() * 5629740000));
-        temp.end = new Date(+temp.start + Math.floor(Math.random() * 629740000));
-        date_interval.data.push(temp);
-    }
-    await addData(date_interval);
-    for(var x = 0; x < 50; x++){
-        date_group.data.push({});
-    }
-    await addData(date_group);
-    date_interval.data.forEach((element)=>{
-        let temp = {};
-        temp.date_group = randomItem(date_group.data).id;
-        temp.date_interval = element.id;
-        dates.data.push(temp);
-    })
-    await addData(dates);
-    date_group.data.forEach((element)=>{
-        let temp = {};
-        temp.date_group = element.id;
-        temp.event = randomItem(events.data).id;
-        event_dates.data.push(temp);
-    })
-    await addData(event_dates);
-    // students.data.forEach((element) => {
-    //     //let random = Math.floor(Math.random() * 10) + 1;
-    //     //for (let x = 0; x < random; x++) {
-    //         let temp = {};
-    //         temp.student = element.id;
-    //         temp.event_date = randomItem(event_dates.data).id;
-    //         event_registration.data.push(temp)
-    //     //}
-    // })
-    // await addData(event_registration)
-    // event_registration.data.forEach((element) => {
-    //     let temp = {};
-    //     temp.student = element.student;
-    //     temp.event_date = element.event_date;
-    //     temp.instructor = randomItem(instructor.data).id;
-    //     temp.comment = "Completed level 3 of the game";
-    //     event_logs.data.push(temp);
-    // })
-    // await addData(event_logs);
+
     console.log("database has been populated")
 }
 populateDatabse();

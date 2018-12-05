@@ -1,4 +1,0 @@
-{
-    "query": "insert into ftlc.date_interval(start, \"end\") values ($1,$2) RETURNING id",
-    "data":[]
-}

@@ -1,4 +1,0 @@
-{
-    "query": "insert into ftlc.event_logs (student, event, instructor, date_interval, comment) values ($1,$2,$3,$4,$5) RETURNING id",
-    "data":[]
-}

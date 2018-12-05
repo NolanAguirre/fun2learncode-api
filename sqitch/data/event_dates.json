@@ -1,4 +1,0 @@
-{
-    "query": "insert into ftlc.event_dates (date_group, event) values ($1,$2) RETURNING id",
-    "data":[]
-}
