@@ -71,7 +71,7 @@ CREATE FUNCTION ftlc.get_user_data() RETURNS ftlc.users AS $$
         select a.* into person from ftlc.users as a where a.id = ftlc.get_id();
         RETURN ROW(person.id, person.first_name, person.last_name, person.role)::ftlc.users;
     END;
-$$ LANGUAGE PLPGSQL STABLE;
+$$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
 
 CREATE FUNCTION ftlc.get_id() RETURNS UUID AS $$
     SELECT uuid(current_setting('jwt.claims.id', true));
