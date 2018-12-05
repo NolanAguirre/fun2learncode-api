@@ -69,12 +69,25 @@ CREATE FUNCTION ftlc.get_user_data() RETURNS ftlc.users AS $$
     DECLARE
         person ftlc.users;
     BEGIN
+    raise notice  'This is the users id %',  ftlc.get_id();
+        IF(ftlc.get_id() = NULL) THEN
+            RETURN NULL;
+        END IF;
         select a.* into person from ftlc.users as a where a.id = ftlc.get_id();
         RETURN ROW(person.id, person.first_name, person.last_name, person.role)::ftlc.users;
     END;
 $$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
 
 CREATE FUNCTION ftlc.get_id() RETURNS UUID AS $$
-    SELECT uuid(current_setting('jwt.claims.id', true));
-$$ LANGUAGE SQL;
+    DECLARE
+        user_id TEXT;
+    BEGIN
+        user_id := current_setting('jwt.claims.id', true);
+        IF(user_id = '') THEN
+            RETURN NULL;
+        END IF;
+        RETURN uuid(user_id);
+    END;
+$$ LANGUAGE PLPGSQL;
+
 COMMIT;
