@@ -2,6 +2,4 @@
 
 BEGIN;
 
-DROP FUNCTION ftlc.make_activity(UUID, CITEXT, CITEXT, UUID);
-
 COMMIT;

@@ -29,8 +29,8 @@ GRANT SELECT ON ftlc.months TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_
 -- event_logs
 GRANT SELECT ON ftlc.event_logs TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student, ftlc_lead_instructor, ftlc_admin;
 -- event_prerequisites
-GRANT SELECT ON ftlc.event_prerequisites TO ftlc_roles;
-GRANT INSERT, DELETE ON ftlc.event_prerequisites TO ftlc_admin_group;
+GRANT SELECT ON ftlc.activity_prerequisites TO ftlc_roles;
+GRANT INSERT, DELETE ON ftlc.activity_prerequisites TO ftlc_admin_group;
 -- event_registration
 GRANT SELECT ON ftlc.event_registration TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student;
 GRANT INSERT ON ftlc.event_registration TO ftlc_user, ftlc_owner, ftlc_admin;

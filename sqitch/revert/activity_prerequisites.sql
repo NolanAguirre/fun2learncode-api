@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.event_prerequisites;
+DROP TABLE ftlc.activity_prerequisites;
 
 COMMIT;
