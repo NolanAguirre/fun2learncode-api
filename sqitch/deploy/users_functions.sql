@@ -11,6 +11,9 @@ CREATE FUNCTION ftlc.register_user(
     DECLARE
         person ftlc.users;
     BEGIN
+        IF(password = '') THEN
+            RAISE EXCEPTION 'No password was provided.';
+        END IF;
         INSERT INTO ftlc.users (first_name, last_name, role) VALUES ($1, $2, 'ftlc_user') returning * into person;
         INSERT INTO ftlc_private.users(user_id, email, password_hash) VALUES ((person).id, $3, crypt($4, gen_salt('bf')));
         RETURN person;
@@ -46,6 +49,10 @@ CREATE FUNCTION ftlc.register_other(
     END;
 $$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
 
+CREATE FUNCTION ftlc.check_email(email CITEXT) RETURNS BOOLEAN AS $$
+    SELECT EXISTS(SELECT email FROM ftlc_private.users WHERE email = $1);
+$$ LANGUAGE SQL SECURITY DEFINER STABLE;
+
 CREATE FUNCTION ftlc.authenticate(CITEXT, password text) RETURNS ftlc.jwt_token AS $$
   DECLARE
     person ftlc_private.users;
@@ -63,7 +70,7 @@ CREATE FUNCTION ftlc.authenticate(CITEXT, password text) RETURNS ftlc.jwt_token 
             RETURN null;
         END IF;
     END;
-$$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
+$$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
 
 CREATE FUNCTION ftlc.get_user_data() RETURNS ftlc.users AS $$
     DECLARE
