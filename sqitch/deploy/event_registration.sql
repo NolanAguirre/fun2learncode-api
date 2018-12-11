@@ -9,9 +9,8 @@ CREATE TABLE ftlc.event_registration(
     registered_by UUID REFERENCES ftlc.users(id),
     student UUID REFERENCES ftlc.users(id),
     date_group UUID REFERENCES ftlc.date_group(id),
-    event UUID references ftlc.events(id),
     registered_on TIMESTAMP DEFAULT NOW(),
-    status ftlc.registration_status_type,
+    status ftlc.registration_status_type DEFAULT 'unpaid',
     CONSTRAINT unqiue_registration PRIMARY KEY (student, date_group)
 );
 
