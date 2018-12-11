@@ -39,4 +39,12 @@ CREATE FUNCTION ftlc.remove_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS VO
    END;
 $$ LANGUAGE PLPGSQL STRICT;
 
+CREATE FUNCTION ftlc.date_interval_by_student(student_id UUID) RETURNS SETOF ftlc.date_interval AS $$
+    BEGIN
+        RETURN QUERY SELECT * FROM ftlc.date_interval WHERE id IN (
+            SELECT date_interval FROM ftlc.dates_join WHERE date_group IN (
+                SELECT date_group FROM ftlc.event_registration WHERE student = student_id)) ORDER BY start ASC;
+    END;
+$$ LANGUAGE PLPGSQL STABLE;
+
 COMMIT;
