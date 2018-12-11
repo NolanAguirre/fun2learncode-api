@@ -8,6 +8,7 @@ CREATE TABLE ftlc.date_interval(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     start TIMESTAMP NOT NULL,
     "end" TIMESTAMP NOT NULL,
+    archive BOOLEAN DEFAULT false,
     CONSTRAINT unique_date UNIQUE (start, "end")
 );
 --TODO move these functions into their own migration

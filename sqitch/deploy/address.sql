@@ -13,7 +13,8 @@ CREATE TABLE ftlc.address(
     state CITEXT,
     country CITEXT,
     alias CITEXT,
-    url CITEXT
+    url CITEXT,
+    archive BOOLEAN DEFAULT false
 );
 
 COMMIT;

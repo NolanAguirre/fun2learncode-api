@@ -10,7 +10,8 @@ CREATE TABLE ftlc.date_group(
     close_registration TIMESTAMP,
     capacity INTEGER,
     name TEXT,
-    price FLOAT
+    price FLOAT,
+    archive BOOLEAN DEFAULT false
 );
 
 COMMIT;

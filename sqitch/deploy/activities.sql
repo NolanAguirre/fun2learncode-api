@@ -8,7 +8,8 @@ CREATE TABLE ftlc.activities(
     type UUID REFERENCES ftlc.activity_catagories(id),
     name CITEXT,
     description CITEXT,
-    public_display BOOLEAN DEFAULT TRUE
+    public_display BOOLEAN DEFAULT true,
+    archive BOOLEAN DEFAULT false
 );
 
 COMMIT;
