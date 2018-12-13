@@ -27,7 +27,7 @@ dates_join [date_group date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolana
 event_months [events] 2018-09-17T18:29:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event months migration
 users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
 event_functions [students events] 2018-09-14T03:44:41Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event functions migration
-privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
 activities_functions [activities activity_prerequisites] 2018-09-25T17:35:51Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activities functions migration
 add_on_join [date_group add_ons] 2018-12-13T19:08:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add add on join
 attendance [date_interval users] 2018-12-13T19:11:56Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add attendance migration
+privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
