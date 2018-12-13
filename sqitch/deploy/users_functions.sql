@@ -20,20 +20,6 @@ CREATE FUNCTION ftlc.register_user(
     END;
 $$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
 
-CREATE FUNCTION ftlc.register_student(
-    first_name citext,
-    last_name citext,
-    email citext,
-    password text) RETURNS ftlc.users AS $$
-    DECLARE
-        person ftlc.users;
-    BEGIN
-        INSERT INTO ftlc.users (first_name, last_name, role) VALUES ($1, $2, 'ftlc_student') returning * into person;
-        INSERT INTO ftlc_private.users(user_id, email, password_hash) VALUES ((person).id, $3, crypt($4, gen_salt('bf')));
-        RETURN person;
-    END;
-$$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
-
 CREATE FUNCTION ftlc.register_other(
     first_name citext,
     last_name citext,

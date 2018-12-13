@@ -1,4 +1,0 @@
-{
-    "query": "insert into ftlc.students (student, parent) values ($1,$2) RETURNING id",
-    "data":[]
-}
