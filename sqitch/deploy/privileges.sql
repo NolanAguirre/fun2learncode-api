@@ -22,10 +22,6 @@ GRANT INSERT, DELETE ON ftlc.dates_join TO ftlc_admin_group;
 -- date_group
 GRANT SELECT ON ftlc.date_group TO ftlc_roles;
 GRANT INSERT, UPDATE ON ftlc.date_group TO ftlc_admin_group;
--- event months
-GRANT SELECT ON ftlc.event_months TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
--- months
-GRANT SELECT ON ftlc.months TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_owner, ftlc_student;
 -- event_logs
 GRANT SELECT ON ftlc.event_logs TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student, ftlc_lead_instructor, ftlc_admin;
 -- event_prerequisites
