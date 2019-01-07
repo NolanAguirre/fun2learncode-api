@@ -30,7 +30,8 @@ const populateJWT = (req, res, next) => {
 const cookieOptions = {
     name: 'session',
     keys: ['secretKeyOne', 'secreteKeyTwo', 'secreteKeyThree'],
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite:true
     //secure: true,
     //httpOnly: true
 }
