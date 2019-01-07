@@ -19,9 +19,7 @@ const getJWTToken = (role, id, expires_at) => (
 );
 
 const populateJWT = (req, res, next) => {
-    console.log(req.session)
     if (req.session.authToken) {
-        console.log('secure request made')
         req.headers.authorization = 'Bearer ' + req.session.authToken
     }
     next();
@@ -63,6 +61,11 @@ app.post('/authenticate', function(req, res) {
             'error': 'Username or password was not given'
         })
     }
+});
+
+app.post('/logout', function(req, res) {
+    req.session = null;
+    res.end();
 });
 
 app.listen(3005);
