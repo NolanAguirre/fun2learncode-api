@@ -13,7 +13,7 @@ CREATE TABLE ftlc.promo_code(
     percent BOOLEAN,
     catagory UUID REFERENCES ftlc.activity_catagories(id),
     event UUID REFERENCES ftlc.events(id),
-    user UUID REFERENCES ftlc.users(id),
+    user_id UUID REFERENCES ftlc.users(id),
     effect INTEGER,
     uses INTEGER,
     valid_start TIMESTAMP DEFAULT NOW(),

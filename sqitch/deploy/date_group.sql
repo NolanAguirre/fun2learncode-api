@@ -9,6 +9,7 @@ CREATE TABLE ftlc.date_group(
     open_registration TIMESTAMP,
     close_registration TIMESTAMP,
     capacity INTEGER,
+    seats_left INTEGER,
     name TEXT,
     price FLOAT,
     archive BOOLEAN DEFAULT false

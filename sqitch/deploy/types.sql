@@ -14,10 +14,9 @@ CREATE TYPE ftlc.role_type AS ENUM(
     'ftlc_anonymous'
 );
 
-CREATE TYPE ftlc.registration_status_type AS ENUM(
-    'waitlist',
+CREATE TYPE ftlc.payment_status_type AS ENUM(
     'paid',
-    'unpaid'
+    'refund'
 );
 
 CREATE TYPE ftlc.jwt_token AS(

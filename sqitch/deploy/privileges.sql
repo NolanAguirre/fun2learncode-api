@@ -26,7 +26,7 @@ GRANT INSERT, UPDATE ON ftlc.date_group TO ftlc_admin_group;
 GRANT SELECT ON ftlc.event_logs TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student, ftlc_lead_instructor, ftlc_admin;
 -- event_prerequisites
 GRANT SELECT ON ftlc.activity_prerequisites TO ftlc_roles;
-GRANT INSERT, DELETE ON ftlc.activity_prerequisites TO ftlc_admin_group;
+GRANT INSERT, DELETE ON ftlc.activity_prerequisites TO ftlc_admin_group, ftlc_anonymous;
 -- event_registration
 GRANT SELECT ON ftlc.event_registration TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student;
 GRANT INSERT ON ftlc.event_registration TO ftlc_user, ftlc_owner, ftlc_admin;
@@ -35,13 +35,15 @@ GRANT SELECT ON ftlc.events TO ftlc_user, ftlc_anonymous, ftlc_instructor, ftlc_
 GRANT INSERT, UPDATE ON ftlc.events TO ftlc_admin_group;
 -- students
 GRANT SELECT ON ftlc.students TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student;
+GRANT INSERT ON ftlc.students TO ftlc_user;
 -- users
 GRANT SELECT ON ftlc.users TO ftlc_user, ftlc_instructor, ftlc_owner, ftlc_student, ftlc_attendant;
 -- add_ons
 GRANT SELECT ON ftlc.add_ons TO ftlc_admin_group, ftlc_user;
-GRANT INSERT ON ftlc.add_ons TO ftlc_admin_group;
+GRANT INSERT, UPDATE ON ftlc.add_ons TO ftlc_admin_group;
 -- add_on_join
-GRANT INSERT ON ftlc.add_on_join TO ftlc_admin_group;
+GRANT SELECT ON ftlc.add_on_join TO ftlc_admin_group, ftlc_user;
+GRANT INSERT, DELETE ON ftlc.add_on_join TO ftlc_admin_group;
 -- attendance
 GRANT SELECT ON ftlc.attendance TO ftlc_admin_group, ftlc_user;
 GRANT INSERT ON ftlc.attendance TO ftlc_attendant;
