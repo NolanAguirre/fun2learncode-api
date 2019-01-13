@@ -63,10 +63,16 @@ app.post('/authenticate', function(req, res) {
     }
 });
 
-app.post('/logout', function(req, res) {
+app.post('/logout', (req, res) => {
     req.session = null;
     res.end();
 });
+
+app.post('/payment', (req, res) => {
+    console.log(req.body)
+    db.validateRegistration(req.body.students, req.body.addons, req.body.dateGroup)
+    res.json({message:'Payment being processed'})
+})
 
 app.listen(3005);
 console.log('Listening on http://localhost:3005');
