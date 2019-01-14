@@ -67,7 +67,7 @@ CREATE FUNCTION ftlc.get_user_data() RETURNS ftlc.users AS $$
             RETURN NULL;
         END IF;
         select a.* into person from ftlc.users as a where a.id = ftlc.get_id();
-        RETURN ROW(person.id, person.first_name, person.last_name, person.role)::ftlc.users;
+        RETURN person;
     END;
 $$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
 

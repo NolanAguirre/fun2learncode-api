@@ -45,6 +45,9 @@ GRANT INSERT, UPDATE ON ftlc.add_ons TO ftlc_admin_group;
 GRANT SELECT ON ftlc.add_on_join TO ftlc_admin_group, ftlc_user;
 GRANT INSERT, DELETE ON ftlc.add_on_join TO ftlc_admin_group;
 -- attendance
-GRANT SELECT ON ftlc.attendance TO ftlc_admin_group, ftlc_user;
+GRANT SELECT ON ftlc.attendance TO ftlc_admin_group, ftlc_user, ftlc_instructor;
 GRANT INSERT ON ftlc.attendance TO ftlc_attendant;
+-- payment
+GRANT SELECT ON ftlc.payment TO ftlc_admin_group, ftlc_user;
+
 COMMIT;

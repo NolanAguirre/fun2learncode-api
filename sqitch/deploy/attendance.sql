@@ -8,6 +8,7 @@ CREATE TABLE ftlc.attendance(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     student UUID REFERENCES ftlc.students(id),
     date UUID REFERENCES ftlc.date_interval(id),
+    date_group UUID REFERENCES ftlc.date_group(id),
     present BOOLEAN,
     check_in_time TIMESTAMP DEFAULT NOW()
 );

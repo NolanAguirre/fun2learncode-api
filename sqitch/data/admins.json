@@ -21,6 +21,13 @@
 		"email": "instructor@instructor.com",
 		"password": "password",
         "role":"ftlc_instructor"
+	},
+	{
+		"first_name": "david",
+		"last_name": "Koch",
+		"email": "attendant@attendant.com",
+		"password": "password",
+        "role":"ftlc_attendant"
 	}
     ]
 }
