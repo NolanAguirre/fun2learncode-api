@@ -10,8 +10,6 @@ SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_instructor';
 
 SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_user';
 
-SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_student';
-
 SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_anonymous';
 
 ROLLBACK;
