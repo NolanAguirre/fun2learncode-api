@@ -34,3 +34,4 @@ attendance [date_interval users] 2018-12-13T19:11:56Z Nolan Aguirre <nolanaguirr
 promo_code [date_group users] 2019-01-13T21:47:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add promo code migration
 
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
+transaction_state [users] 2019-01-15T06:50:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # add transaction state migration

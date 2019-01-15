@@ -8,7 +8,14 @@ db.authenticate = (email, password) => {
     return database.one('select id, role, expires_at from ftlc.authenticate($1, $2)', [email, password])
 }
 
-db.getRegistrationData = (students, addons, dateGroup, event, promoCode, date) => {
+db.startTransaction = (user) => {
+    return database.none('INSERT INTO ftlc.transaction_state (user_id) VALUES ($1)', [user])
+}
+
+db.endTransaction = (user) => {
+    return database.none('DELETE FROM ftlc.transaction_state WHERE user_id = $1', [user])
+}
+db.getRegistrationData = (students, addons, dateGroup, event, promoCode, user, date) => {
     let dateGroups = [];
     let promises = [];
 
@@ -22,6 +29,13 @@ db.getRegistrationData = (students, addons, dateGroup, event, promoCode, date) =
     )
 
     promises.push(
+        database.one('SELECT * FROM ftlc.users WHERE id = $1', [user])
+            .then((data)=>{
+                return {user:data}
+            })
+    )
+
+    promises.push(
         database.oneOrNone('SELECT * FROM ftlc.date_group WHERE id = $1 AND open_registration < $2 AND $2 < close_registration', [dateGroup, date])
             .then((data)=>{
                 return {dateGroup:data};
@@ -29,6 +43,11 @@ db.getRegistrationData = (students, addons, dateGroup, event, promoCode, date) =
     )
 
     dateGroups.forEach((dg)=>{
+        promises.push(
+            database.one('SELECT EXISTS(SELECT 1 FROM ftlc.event_registration WHERE date_group = $1 AND student = $2)', [dg.dateGroup, dg.student]).then(data=>{
+                return {[dg.student+'Event']:data.exists}
+            })
+        )
         promises.push(
             database.one('SELECT ftlc.check_prerequisites($1, $2)', [dg.dateGroup, dg.student]).then(data=>{
                 return {[dg.student]:data.check_prerequisites}

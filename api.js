@@ -77,67 +77,97 @@ app.post('/logout', (req, res) => {
     res.end();
 });
 
-app.post('/payment', async (req, res) => {
-    let info = await db.getRegistrationData(req.body.students, req.body.addons, req.body.dateGroup, req.body.event, req.body.promoCode, new Date().toISOString()) //add promo cod
-    if (info.event && info.dateGroup) {
-        if (true) { //capacity check
-            if (info.addons.length === req.body.addons.length) {
-                let studentsMeetPrereqs = true;
-                req.body.students.forEach((student) => {
-                    studentsMeetPrereqs = studentsMeetPrereqs && info[student]
-                })
-                if (studentsMeetPrereqs) {
-                    let total = 0;
-                    req.body.students.forEach((student) => {
-                        let adjustedPrice
-                        if (req.body.students.length > 1 && !req.body.promoCode) {
-                            adjustedPrice = info.dateGroup.price * .9
+app.post('/payment', async (req, res) => { //TODO make this better
+    if(!req.session || !req.session.authToken){
+        res.json({error:'please log in'})
+        return;
+    }
+    let decrypt;
+    try{
+        decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
+    }catch(error){
+        res.json({error:'jwt issue, not authorized'})
+        return;
+    }
+    if(decrypt.id && decrypt.id === req.body.user.id){
+        const transactionBegin = await db.startTransaction(decrypt.id).then(()=>true).catch((error)=>{
+            res.json({error:'There are pending transactions that must resolve'})
+        })
+        if(transactionBegin){
+            let info = await db.getRegistrationData(req.body.students, req.body.addons, req.body.dateGroup, req.body.event, req.body.promoCode, decrypt.id, new Date().toISOString()) //add promo cod
+            if (info.event && info.dateGroup) {
+                if (true) { //capacity check
+                    if (info.addons.length === req.body.addons.length) {
+                        let studentsMeetPrereqs = true;
+                        let hasRegisteredBefore = false
+                        info.students.forEach((student) => {
+                            studentsMeetPrereqs = studentsMeetPrereqs && info[student.id]
+                            hasRegisteredBefore = hasRegisteredBefore || info[student.id+'Event']
+                        })
+                        if(!hasRegisteredBefore){
+                            if (studentsMeetPrereqs) {
+                                let total = 0;
+                                req.body.students.forEach((student) => {
+                                    let adjustedPrice
+                                    if (req.body.students.length > 1 && !req.body.promoCode) {
+                                        adjustedPrice = info.dateGroup.price * .9
+                                    } else {
+                                        adjustedPrice = info.dateGroup.price
+                                    }
+                                    total += adjustedPrice
+                                    info.addons.forEach((addon) => {
+                                        total += addon.price
+                                    })
+                                })
+                                if(req.body.students.length < 2 && req.body.promoCode){
+                                    //promocode info here
+                                }
+                                let name = `${info.user.first_name} ${info.user.last_name}`
+                                const charge = await stripe.charges.create({
+                                    amount: total * 100,
+                                    currency: 'usd',
+                                    description: 'example charge',
+                                    source: req.body.stripeToken,
+                                    statement_descriptor: 'Fun2LearnCode Event'
+                                    //metadata: less than 500 chars
+                                }).then(data=>data)
+                                .catch((err)=>{
+                                    console.log(err)
+                                    return {paid:false}
+                                });
+                                if(charge.paid){
+                                    db.storePayment(info.user, info).then((data)=>{
+                                        console.log(info.user)
+                                        console.log(data)
+                                        db.createEventRegistration(info.user, info, data).then(() => {
+                                            res.json({message:'Payment and registration successful'})
+                                        }).catch((error)=>{
+                                            console.log(error)
+                                            res.json({error:'Fatal error, request refund'})
+                                        })
+                                    })
+                                }else{
+                                    res.json({error:'Card declined'})
+                                }
+                            } else {
+                                res.json({error: 'One or more students does not meet the prerequisites for the event'})
+                            }
                         } else {
-                            adjustedPrice = info.dateGroup.price
+                            res.json({error: 'Student already registered for this event'})
                         }
-                        total += adjustedPrice
-                        info.addons.forEach((addon) => {
-                            total += addon.price
-                        })
-                    })
-                    if(req.body.students.length < 2 && req.body.promoCode){
-                        //promocode info here
-                    }
-                    let name = `${req.body.user.first_name} ${req.body.user.last_name}`
-                    const charge = await stripe.charges.create({
-                      amount: total * 100,
-                      currency: 'usd',
-                      description: 'example charge',
-                      source: req.body.stripeToken,
-                      statement_descriptor: 'Fun2LearnCode Event'
-                      //metadata: less than 500 chars
-                    }).then(data=>data)
-                    .catch((err)=>{
-                        console.log(err)
-                     return {paid:false}
-                    });
-                    if(charge.paid){
-                        db.storePayment(req.body.user, info).then((data)=>{
-                            db.createEventRegistration(req.body.user, info, data).then(() => {
-                                res.json({message:'Payment and registration successful'})
-                            }).catch((error)=>{
-                                res.json({error:'Student already registered for this event'})
-                            })
-                        })
-                    }else{
-                        res.json({error:'Card declined'})
+                    } else {
+                        res.json({error: 'A selected add on is not avaliable for the event'})
                     }
                 } else {
-                    res.json({error: 'One or more students does not meet the prerequisites for the event'})
+                    res.json({error: 'There are not enough seats left for the event'})
                 }
             } else {
-                res.json({error: 'A selected add on is not avaliable for the event'})
+                res.json({error: 'Registration for the event is not avaliable at this time'})
             }
-        } else {
-            res.json({error: 'There are not enough seats left for the event'})
+            db.endTransaction(decrypt.id)
         }
-    } else {
-        res.json({error: 'Registration for the event is not avaliable at this time'})
+    }else{
+        res.json({error: 'Something fishy happened'})
     }
 })
 
