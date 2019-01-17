@@ -46,7 +46,7 @@ db.getRegistrationData = (students, addons, dateGroup, event, promoCode, user, d
         promises.push(
             database.one('SELECT EXISTS(SELECT 1 FROM ftlc.event_registration WHERE date_group = $1 AND student = $2)', [dg.dateGroup, dg.student]).then(data=>{
                 return {[dg.student+'Event']:data.exists}
-            })
+            }) // TODO make sure youre not signed up for something in the same timeslot
         )
         promises.push(
             database.one('SELECT ftlc.check_prerequisites($1, $2)', [dg.dateGroup, dg.student]).then(data=>{
@@ -63,9 +63,23 @@ db.getRegistrationData = (students, addons, dateGroup, event, promoCode, user, d
     )
 
     promises.push(
-        database.any('SELECT * FROM ftlc.students WHERE id = ANY(ARRAY[$1:list]::UUID[]);', [students])
+        database.any('SELECT * FROM ftlc.students WHERE id = ANY(ARRAY[$1:list]::UUID[] AND parent = $2);', [students, user])
             .then((data)=>{
                 return {students:data};
+            })
+    )
+
+    promises.push(
+        database.one('SELECT * FROM ftlc.activities WHERE id = (SELECT event_type FROM ftlc.events WHERE id = $1)', [event])
+            .then((data)=>{
+                return {activity:data}
+            })
+    )
+
+    promises.push(
+        database.many('SELECT * FROM ftlc.date_interval WHERE id IN (SELECT date_interval FROM ftlc.dates_join WHERE date_group = $1)', [dateGroup])
+            .then((data)=>{
+                return {dates:data}
             })
     )
 

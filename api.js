@@ -37,6 +37,21 @@ const cookieOptions = {
     //httpOnly: true
 }
 
+const formatSnapshot = (info, charge) => {
+    return {
+        activity:info.activity,
+        dateGroup:info.dateGroup,
+        dates:info.dates,
+        addons:info.addons,
+        students:info.students,
+        payment:{
+            total: charge.amount,
+            chargedTo: charge.source.last4
+            //promoCode
+        }
+    }
+}
+
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
@@ -58,7 +73,6 @@ app.post('/authenticate', function(req, res) {
     if (req.body && req.body.email && req.body.password) {
         db.authenticate(req.body.email, req.body.password).then((data) => {
             if (data.role && data.id && data.expires_at) {
-                console.log('working')
                 req.session.authToken = getJWTToken(data.role, data.id, data.expires_at);
                 res.end()
             }else{
@@ -136,7 +150,7 @@ app.post('/payment', async (req, res) => { //TODO make this better
                                     return {paid:false}
                                 });
                                 if(charge.paid){
-                                    db.storePayment(info.user, info).then((data)=>{
+                                    db.storePayment(info.user, formatSnapshot(info, charge)).then((data)=>{
                                         console.log(info.user)
                                         console.log(data)
                                         db.createEventRegistration(info.user, info, data).then(() => {
