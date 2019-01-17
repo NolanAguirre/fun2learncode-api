@@ -110,7 +110,7 @@ app.post('/payment', async (req, res) => { //TODO make this better
         if(transactionBegin){
             let info = await db.getRegistrationData(req.body.students, req.body.addons, req.body.dateGroup, req.body.event, req.body.promoCode, decrypt.id, new Date().toISOString()) //add promo cod
             if (info.event && info.dateGroup) {
-                if (true) { //capacity check
+                if (info.dateGroup.seats_left >= info.students.length) { //capacity check
                     if (info.addons.length === req.body.addons.length) {
                         let studentsMeetPrereqs = true;
                         let hasRegisteredBefore = false
@@ -151,8 +151,6 @@ app.post('/payment', async (req, res) => { //TODO make this better
                                 });
                                 if(charge.paid){
                                     db.storePayment(info.user, formatSnapshot(info, charge)).then((data)=>{
-                                        console.log(info.user)
-                                        console.log(data)
                                         db.createEventRegistration(info.user, info, data).then(() => {
                                             res.json({message:'Payment and registration successful'})
                                         }).catch((error)=>{

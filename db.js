@@ -63,7 +63,7 @@ db.getRegistrationData = (students, addons, dateGroup, event, promoCode, user, d
     )
 
     promises.push(
-        database.any('SELECT * FROM ftlc.students WHERE id = ANY(ARRAY[$1:list]::UUID[] AND parent = $2);', [students, user])
+        database.any('SELECT * FROM ftlc.students WHERE id = ANY(ARRAY[$1:list]::UUID[]) AND parent = $2', [students, user])
             .then((data)=>{
                 return {students:data};
             })
@@ -104,9 +104,13 @@ db.createEventRegistration = (user, info, payment) => {
         promises.push(
             database.none('INSERT INTO ftlc.event_registration(registered_by, student, date_group, payment) VAlUES ($1, $2, $3, $4)', [user.id, student.id, info.dateGroup.id, payment.id])
         )
+
     })
+    promises.push(
+        database.none('UPDATE ftlc.date_group SET seats_left = seats_left - $1 WHERE id = $2', [info.students.length, info.dateGroup.id])
+    )
+
     return Promise.all(promises)
 }
-
 
 module.exports = db;
