@@ -14,6 +14,7 @@ add_ons [extensions] 2018-12-13T19:04:06Z Nolan Aguirre <nolanaguirre08@gmail.co
 users [types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 activities [activity_catagories] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activities migration
 
+transaction_state [users] 2019-01-15T06:50:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # add transaction state migration
 users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
 payment [users] 2019-01-13T22:00:24Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add payment migration
@@ -34,7 +35,6 @@ attendance [date_interval users] 2018-12-13T19:11:56Z Nolan Aguirre <nolanaguirr
 promo_code [date_group users] 2019-01-13T21:47:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add promo code migration
 
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
-transaction_state [users] 2019-01-15T06:50:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # add transaction state migration
 
 
 RLS 2019-01-17T02:06:50Z Nolan Aguirre <nolanaguirre08@gmail.com> # Row level security migration
