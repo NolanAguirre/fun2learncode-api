@@ -12,10 +12,12 @@ CREATE TABLE ftlc.promo_code(
     for_user BOOLEAN,
     percent BOOLEAN,
     catagory UUID REFERENCES ftlc.activity_catagories(id),
+    generated_by UUID REFERENCES ftlc.payment(id),
     event UUID REFERENCES ftlc.events(id),
     user_id UUID REFERENCES ftlc.users(id),
     effect INTEGER,
     uses INTEGER,
+    created_on TIMESTAMP DEFAULT NOW(),
     valid_start TIMESTAMP DEFAULT NOW(),
     valid_end TIMESTAMP
 );
