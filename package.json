@@ -4,9 +4,12 @@
   "description": "fun2learncode's website api",
   "main": "api.js",
   "scripts": {
-    "test": "cd sqitch && sqitch deploy ftlc &&  sqitch verify ftlc && sqitch revert ftlc",
     "start": "node api.js",
-    "restart": "cd sqitch && sqitch revert ftlc && sqitch deploy ftlc &&  sqitch verify ftlc && cd .. && node populateData.js && npm start"
+    "setup":"createdb fun2learncode && cd sqitch && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql  && npm start",
+    "dump": "pg_dump -a fun2learncode > dump.sql",
+    "sqitch-revert": "cd sqitch && sqitch revert ftlc",
+    "sqitch-deploy": "cd sqitch && sqitch deploy ftlc",
+    "restart":"cd sqitch && sqitch revert ftlc && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql && echo these errors are because of sqitchs config tables^^ && npm start"
   },
   "author": "Nolan Aguirre",
   "license": "ISC",
