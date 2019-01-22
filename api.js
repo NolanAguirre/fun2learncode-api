@@ -183,5 +183,70 @@ app.post('/payment', async (req, res) => { //TODO make this better
     }
 })
 
+app.post('/promoCode', async (req, res) => {
+    if(!req.session || !req.session.authToken){
+        res.json({error:'please log in'})
+        return;
+    }
+    let decrypt;
+    try{
+        decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
+    }catch(error){
+        res.json({error:'jwt issue, not authorized'})
+        return;
+    }
+    if(req.body.promoCode && req.body.event && req.body.catagory){
+         db.getPromoCode(req.body.promoCode).then((code)=>{
+             if(code){
+                 if(code.for_catagory){
+                     if(code.catagory === req.body.catagory){
+                         if(code.for_user){
+                             if(code.user_id === decrypt.id){
+                                 res.json({promoCode:code})
+                             }else{
+                                 res.json({error:'Promo code is not valid for this user.'})
+                             }
+                         }else{
+                             res.json({promoCode:code})
+                         }
+                     }else{
+                         res.json({error:'Promo code is not valid for this type of event.'})
+                     }
+                 }else if(code.for_event){
+                     if(code.event === req.body.event){
+                         if(code.for_user){
+                             if(code.user_id === decrypt.id){
+                                 res.json({promoCode:code})
+                             }else{
+                                 res.json({error:'Promo code is not valid for this user.'})
+                             }
+                         }else{
+                              res.json({promoCode:code})
+                         }
+                     }else{
+                         res.json({error:'Promo code is not validy for this event'})
+                     }
+                 }else{
+                     if(code.for_user){
+                         if(code.user_id === decrypt.id){
+                             res.json({promoCode:code})
+                         }else{
+                             res.json({error:'Promo code is not valid for this user.'})
+                         }
+                     }else{
+                         res.json({promoCode:code})
+                     }
+                 }
+             }else{
+                 res.json({error:'No promo code exists.'})
+             }
+         }).catch((error) => {
+            console.log(error)
+         })
+    }else{
+        res.json({error:'Some information was missing.'})
+    }
+})
+
 app.listen(3005);
 console.log('Listening on http://localhost:3005');

@@ -113,4 +113,8 @@ db.createEventRegistration = (user, info, payment) => {
     return Promise.all(promises)
 }
 
+db.getPromoCode = (code) => {
+    let date = new Date().toISOString();
+    return database.oneOrNone('SELECT 1 FROM ftlc.promo_code WHERE code = $1 AND valid_start < $2 AND $2 < valid_end', [code, date])
+}
 module.exports = db;
