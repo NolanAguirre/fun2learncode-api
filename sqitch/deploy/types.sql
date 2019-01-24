@@ -19,6 +19,13 @@ CREATE TYPE ftlc.payment_status_type AS ENUM(
     'refund'
 );
 
+CREATE TYPE ftlc.request_type AS ENUM(
+    'accepted',
+    'declined',
+    'pending',
+    'cancled'
+);
+
 CREATE TYPE ftlc.jwt_token AS(
     role ftlc.role_type,
     expires_at INTEGER,

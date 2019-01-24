@@ -39,6 +39,7 @@ GRANT SELECT ON ftlc.students TO ftlc_employee, ftlc_user;
 GRANT INSERT ON ftlc.students TO ftlc_admin_group, ftlc_user;
 -- users
 GRANT SELECT ON ftlc.users TO ftlc_employee, ftlc_user;
+GRANT UPDATE (role) ON ftlc.users TO ftlc_owner;
 -- add_ons
 GRANT SELECT ON ftlc.add_ons TO ftlc_admin_group, ftlc_user;
 GRANT INSERT, UPDATE ON ftlc.add_ons TO ftlc_admin_group;
@@ -50,5 +51,7 @@ GRANT SELECT ON ftlc.attendance TO ftlc_employee, ftlc_user;
 GRANT INSERT ON ftlc.attendance TO ftlc_attendant;
 -- payment
 GRANT SELECT ON ftlc.payment TO ftlc_admin_group, ftlc_user;
-
+-- refund_request
+GRANT SELECT ON ftlc.refund_request TO ftlc_admin_group, ftlc_user;
+GRANT INSERT ON ftlc.refund_request TO ftlc_user;
 COMMIT;

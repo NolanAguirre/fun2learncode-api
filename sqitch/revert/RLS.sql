@@ -24,4 +24,7 @@ DROP POLICY employee_all ON ftlc.users;
 DROP POLICY is_user ON ftlc.payment;
 DROP POLICY employee_all ON ftlc.payment;
 
+DROP POLICY is_user ON ftlc.refund_request;
+DROP POLICY admin_all ON ftlc.refund_request;
+
 COMMIT;

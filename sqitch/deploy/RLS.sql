@@ -32,4 +32,9 @@ ALTER TABLE ftlc.payment ENABLE ROW LEVEL SECURITY;
 CREATE POLICY is_user ON ftlc.payment TO ftlc_user USING (user_id = ftlc.get_id());
 CREATE POLICY employee_all ON ftlc.payment TO ftlc_employee USING (true) WITH CHECK (true);
 
+ALTER TABLE ftlc.refund_request ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY is_user ON ftlc.refund_request TO ftlc_user USING (user_id = ftlc.get_id());
+CREATE POLICY admin_all ON ftlc.refund_request TO ftlc_admin USING (true) WITH CHECK (true);
+
 COMMIT;
