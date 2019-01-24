@@ -11,6 +11,15 @@ const db = require('./db')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple');
 const stripe = require("stripe")(process.env.STRIPE_TOKEN);
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+ service: 'gmail',
+ auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD
+    }
+});
 
 const getJWTToken = (role, id, expires_at) => (
     jwt.encode({
@@ -69,7 +78,7 @@ app.use(postgraphile(process.env.DATABASE_URL, "ftlc", {
     jwtSecret: process.env.JWT_SECRET
 }));
 
-app.post('/authenticate', function(req, res) {
+app.post('/authenticate', (req, res) => {
     if (req.body && req.body.email && req.body.password) {
         db.authenticate(req.body.email, req.body.password).then((data) => {
             if (data.role && data.id && data.expires_at) {
@@ -183,7 +192,7 @@ app.post('/payment', async (req, res) => { //TODO make this better
     }
 })
 
-app.post('/promoCode', async (req, res) => {
+app.post('/promoCode', (req, res) => {
     if(!req.session || !req.session.authToken){
         res.json({error:'please log in'})
         return;
@@ -247,6 +256,43 @@ app.post('/promoCode', async (req, res) => {
         res.json({error:'Some information was missing.'})
     }
 })
+
+app.post('/reset', (req, res) => {
+    const email = req.body.email
+    if(email && email.match('^.+@.+\..+$')){
+        db.genTemporaryToken('email@email.com').then((data)=>{
+            if(data == 'no user'){
+            }else{
+                const mailOptions = {
+                    from: process.env.GMAIL_USER, // sender address
+                    to: 'bobby7083@gmail.com', // list of receivers
+                    subject: 'Password reset', // Subject line
+                    html: `<p>${data.generate_temporary_password}</p>`// plain text body
+                };
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.log(error)
+                        console.log(err)
+                    } else {
+                        console.log(info)
+                    }
+                })
+
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
+        res.json({message:`An email has been sent to ${email} with furthur instructions.`})
+    }else{
+        res.json({error:'No valid email was provided.'})
+    }
+})
+
+app.get('/recover', (req, res) => {
+
+})
+
+
 
 app.listen(3005);
 console.log('Listening on http://localhost:3005');

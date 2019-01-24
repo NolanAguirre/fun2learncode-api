@@ -117,4 +117,8 @@ db.getPromoCode = (code) => {
     let date = new Date().toISOString();
     return database.oneOrNone('SELECT 1 FROM ftlc.promo_code WHERE code = $1 AND valid_start < $2 AND $2 < valid_end', [code, date])
 }
+
+db.genTemporaryToken = (email) => {
+    return database.one('SELECT ftlc.generate_temporary_password($1)', [email]);
+}
 module.exports = db;
