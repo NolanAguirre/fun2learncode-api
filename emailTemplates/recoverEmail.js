@@ -3,7 +3,7 @@ module.exports = (name, url) => `<div style="width:100%;height:100%;">
         <h1 style="text-align:center; font-family:Zekton; color:white; margin:0; padding:20px 0;">Fun 2 Learn Code</h1>
     </div>
     <div style="margin:0 auto; max-width:400px; color:black;">
-        <h2>Hi ${name}</h2>
+        <h2>Hi ${name},</h2>
         <p>We got a request to reset your Fun 2 Learn Code account password</p>
         <div style="margin:0 auto; max-width:200px;">
             <a href='${url}' style="text-decoration: none;">

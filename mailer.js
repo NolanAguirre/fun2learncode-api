@@ -16,11 +16,11 @@ mailer.resetPassword = (email, name, token) => {
         from: 'no_reply@fun2learncode.com', // sender address
         to: email, // list of receivers
         subject: 'Password reset', // Subject line
-        html: ResetPasswordTemplate(name, `http://localhost:3000/recover/${token}`)// plain text body
+        html: ResetPasswordTemplate(name, `http://localhost:3000/recover/${encodeURIComponent(token)}`)// plain text body
     }, (info, error)=>{})
 }
 
-mailer.send = (options, callback) => { // {from, to, subject, body, callback} cb(error, info)
+mailer.send = (options, callback) => { // {from, to, subject, body}, cb(error, info)
     transporter.sendMail(options, callback)
 }
 
