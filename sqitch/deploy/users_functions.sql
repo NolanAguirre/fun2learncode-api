@@ -77,9 +77,9 @@ $$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
 CREATE FUNCTION ftlc.reset_password(TEXT, TEXT) RETURNS VOID AS $$
     BEGIN
         IF $2 = 'BY USER' THEN
-            UPDATE ftlc_private SET password_hash = crypt($1, gen_salt('bf')) WHERE user_id = ftlc.get_id();
+            UPDATE ftlc_private.users SET password_hash = crypt($1, gen_salt('bf')) WHERE user_id = ftlc.get_id();
         ELSE
-            UPDATE ftlc_private SET password_hash = crypt($1, gen_salt('bf')) WHERE  password_reset = $2 AND password_reset_expiration < current_timestamp;
+            UPDATE ftlc_private.users SET password_hash = crypt($1, gen_salt('bf')) WHERE password_reset = $2 AND password_reset_expiration > current_timestamp;
         END IF;
     END;
 $$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
