@@ -39,7 +39,7 @@ CREATE FUNCTION ftlc.check_email(email CITEXT) RETURNS BOOLEAN AS $$
     SELECT EXISTS(SELECT email FROM ftlc_private.users WHERE email = $1);
 $$ LANGUAGE SQL SECURITY DEFINER STABLE;
 
-CREATE FUNCTION ftlc.generate_temporary_password(CITEXT) RETURNS TEXT AS $$
+CREATE FUNCTION ftlc.generate_password_token(CITEXT) RETURNS TEXT AS $$
     DECLARE
         users_id UUID;
         token TEXT;
@@ -73,6 +73,16 @@ CREATE FUNCTION ftlc.authenticate(CITEXT, password text) RETURNS ftlc.jwt_token 
         END IF;
     END;
 $$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
+
+CREATE FUNCTION ftlc.reset_password(TEXT, TEXT) RETURNS VOID AS $$
+    BEGIN
+        IF $2 = 'BY USER' THEN
+            UPDATE ftlc_private SET password_hash = crypt($1, gen_salt('bf')) WHERE user_id = ftlc.get_id();
+        ELSE
+            UPDATE ftlc_private SET password_hash = crypt($1, gen_salt('bf')) WHERE  password_reset = $2 AND password_reset_expiration < current_timestamp;
+        END IF;
+    END;
+$$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
 
 CREATE FUNCTION ftlc.get_user_data() RETURNS ftlc.users AS $$
     DECLARE

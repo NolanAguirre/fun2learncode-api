@@ -14,6 +14,8 @@ DROP FUNCTION ftlc.register_other(CITEXT, CITEXT, CITEXT, TEXT, ftlc.role_type);
 
 DROP FUNCTION ftlc.authenticate(CITEXT, TEXT);
 
-DROP FUNCTION ftlc.generate_temporary_password(CITEXT);
+DROP FUNCTION ftlc.generate_password_token(CITEXT);
+
+DROP FUNCTION ftlc.reset_password(TEXT, TEXT);
 
 COMMIT;
