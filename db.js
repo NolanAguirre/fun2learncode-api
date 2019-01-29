@@ -119,6 +119,6 @@ db.getPromoCode = (code) => {
 }
 
 db.genTemporaryToken = (email) => {
-    return database.one('SELECT ftlc.generate_temporary_password($1)', [email]);
+    return database.any('(SELECT first_name FROM ftlc.users WHERE email = $1) UNION (SELECT ftlc.generate_password_token($1))', [email]);
 }
 module.exports = db;

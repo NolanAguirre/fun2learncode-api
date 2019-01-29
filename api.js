@@ -11,15 +11,7 @@ const db = require('./db')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple');
 const stripe = require("stripe")(process.env.STRIPE_TOKEN);
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
- service: 'gmail',
- auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASSWORD
-    }
-});
+const mailer = require('./mailer')
 
 const getJWTToken = (role, id, expires_at) => (
     jwt.encode({
@@ -257,42 +249,24 @@ app.post('/promoCode', (req, res) => {
     }
 })
 
-app.post('/reset', (req, res) => {
+app.post('/recover', (req, res) => {
     const email = req.body.email
     if(email && email.match('^.+@.+\..+$')){
-        db.genTemporaryToken('email@email.com').then((data)=>{
-            if(data == 'no user'){
-            }else{
-                const mailOptions = {
-                    from: process.env.GMAIL_USER, // sender address
-                    to: 'bobby7083@gmail.com', // list of receivers
-                    subject: 'Password reset', // Subject line
-                    html: `<p>${data.generate_temporary_password}</p>`// plain text body
-                };
-                transporter.sendMail(mailOptions, (err, info) => {
-                    if (err) {
-                        console.log(error)
-                        console.log(err)
-                    } else {
-                        console.log(info)
-                    }
-                })
-
+        db.genTemporaryToken(email).then((data)=>{
+            if(data.length === 2){
+                const token = data[0].first_name;
+                const name = data[1].first_name;
+                if(token !== 'no user'){
+                    mailer.resetPassword(email, name, token)
+                }
             }
         }).catch((error)=>{
             console.log(error)
         })
-        res.json({message:`An email has been sent to ${email} with furthur instructions.`})
+        res.json({message:`An email has been sent to ${email} with furthur instructions. If no email is received there may not be an account associated with the provided email.`})
     }else{
         res.json({error:'No valid email was provided.'})
     }
 })
-
-app.get('/recover', (req, res) => {
-
-})
-
-
-
 app.listen(3005);
 console.log('Listening on http://localhost:3005');
