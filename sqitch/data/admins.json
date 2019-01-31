@@ -15,7 +15,7 @@
 		"password": "password",
         "role":"ftlc_owner"
 	},
-	{
+    {
 		"first_name": "david",
 		"last_name": "Koch",
 		"email": "instructor@instructor.com",
@@ -25,6 +25,13 @@
 	{
 		"first_name": "david",
 		"last_name": "Koch",
+		"email": "lead_instructor@email.com",
+		"password": "password",
+        "role":"ftlc_lead_instructor"
+	},
+	{
+		"first_name": "fun2learncode",
+		"last_name": "attendant",
 		"email": "attendant@attendant.com",
 		"password": "password",
         "role":"ftlc_attendant"
