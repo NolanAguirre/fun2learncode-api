@@ -3,15 +3,15 @@ const app = express();
 const cookieSession = require('cookie-session')
 require('dotenv').config()
 const cors = require('cors')
-const {
-    postgraphile
-} = require("postgraphile");
+const {postgraphile} = require("postgraphile");
 const PostGraphileConnectionFilterPlugin = require("postgraphile-plugin-connection-filter");
 const db = require('./db')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple');
 const stripe = require("stripe")(process.env.STRIPE_TOKEN);
 const mailer = require('./mailer')
+const transaction = require('./transaction')
+
 
 const getJWTToken = (role, id, expires_at) => (
     jwt.encode({
@@ -92,162 +92,30 @@ app.post('/logout', (req, res) => {
     res.end();
 });
 
-app.post('/payment', async (req, res) => { //TODO make this better
-    if(!req.session || !req.session.authToken){
-        res.json({error:'please log in'})
-        return;
-    }
-    let decrypt;
-    try{
-        decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
-    }catch(error){
-        res.json({error:'jwt issue, not authorized'})
-        return;
-    }
-    if(decrypt.id && decrypt.id === req.body.user.id){
-        const transactionBegin = await db.startTransaction(decrypt.id).then(()=>true).catch((error)=>{
-            res.json({error:'There are pending transactions that must resolve'})
-        })
-        if(transactionBegin){
-            let info = await db.getRegistrationData(req.body.students, req.body.addons, req.body.dateGroup, req.body.event, req.body.promoCode, decrypt.id, new Date().toISOString()) //add promo cod
-            if (info.event && info.dateGroup) {
-                if (info.dateGroup.seats_left >= info.students.length) { //capacity check
-                    if (info.addons.length === req.body.addons.length) {
-                        let studentsMeetPrereqs = true;
-                        let hasRegisteredBefore = false
-                        info.students.forEach((student) => {
-                            studentsMeetPrereqs = studentsMeetPrereqs && info[student.id]
-                            hasRegisteredBefore = hasRegisteredBefore || info[student.id+'Event']
-                        })
-                        if(!hasRegisteredBefore){
-                            if (studentsMeetPrereqs) {
-                                let total = 0;
-                                req.body.students.forEach((student) => {
-                                    let adjustedPrice
-                                    if (req.body.students.length > 1 && !req.body.promoCode) {
-                                        adjustedPrice = info.dateGroup.price * .9
-                                    } else {
-                                        adjustedPrice = info.dateGroup.price
-                                    }
-                                    total += adjustedPrice
-                                    info.addons.forEach((addon) => {
-                                        total += addon.price
-                                    })
-                                })
-                                if(req.body.students.length < 2 && req.body.promoCode){
-                                    //promocode info here
-                                }
-                                let name = `${info.user.first_name} ${info.user.last_name}`
-                                const charge = await stripe.charges.create({
-                                    amount: total * 100,
-                                    currency: 'usd',
-                                    description: 'example charge',
-                                    source: req.body.stripeToken,
-                                    statement_descriptor: 'Fun2LearnCode Event'
-                                    //metadata: less than 500 chars
-                                }).then(data=>data)
-                                .catch((err)=>{
-                                    console.log(err)
-                                    return {paid:false}
-                                });
-                                if(charge.paid){
-                                    db.storePayment(info.user, formatSnapshot(info, charge)).then((data)=>{
-                                        db.createEventRegistration(info.user, info, data).then(() => {
-                                            res.json({message:'Payment and registration successful'})
-                                        }).catch((error)=>{
-                                            console.log(error)
-                                            res.json({error:'Fatal error, request refund'})
-                                        })
-                                    })
-                                }else{
-                                    res.json({error:'Card declined'})
-                                }
-                            } else {
-                                res.json({error: 'One or more students does not meet the prerequisites for the event'})
-                            }
-                        } else {
-                            res.json({error: 'Student already registered for this event'})
-                        }
-                    } else {
-                        res.json({error: 'A selected add on is not avaliable for the event'})
-                    }
-                } else {
-                    res.json({error: 'There are not enough seats left for the event'})
-                }
-            } else {
-                res.json({error: 'Registration for the event is not avaliable at this time'})
-            }
-            db.endTransaction(decrypt.id)
-        }
-    }else{
-        res.json({error: 'Something fishy happened'})
-    }
-})
+app.post('/payment', transaction.begin)
 
-app.post('/promoCode', (req, res) => {
-    if(!req.session || !req.session.authToken){
-        res.json({error:'please log in'})
-        return;
-    }
-    let decrypt;
-    try{
-        decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
-    }catch(error){
-        res.json({error:'jwt issue, not authorized'})
-        return;
-    }
-    if(req.body.promoCode && req.body.event && req.body.catagory){
-         db.getPromoCode(req.body.promoCode).then((code)=>{
-             if(code){
-                 if(code.for_catagory){
-                     if(code.catagory === req.body.catagory){
-                         if(code.for_user){
-                             if(code.user_id === decrypt.id){
-                                 res.json({promoCode:code})
-                             }else{
-                                 res.json({error:'Promo code is not valid for this user.'})
-                             }
-                         }else{
-                             res.json({promoCode:code})
-                         }
-                     }else{
-                         res.json({error:'Promo code is not valid for this type of event.'})
-                     }
-                 }else if(code.for_event){
-                     if(code.event === req.body.event){
-                         if(code.for_user){
-                             if(code.user_id === decrypt.id){
-                                 res.json({promoCode:code})
-                             }else{
-                                 res.json({error:'Promo code is not valid for this user.'})
-                             }
-                         }else{
-                              res.json({promoCode:code})
-                         }
-                     }else{
-                         res.json({error:'Promo code is not validy for this event'})
-                     }
-                 }else{
-                     if(code.for_user){
-                         if(code.user_id === decrypt.id){
-                             res.json({promoCode:code})
-                         }else{
-                             res.json({error:'Promo code is not valid for this user.'})
-                         }
-                     }else{
-                         res.json({promoCode:code})
-                     }
-                 }
-             }else{
-                 res.json({error:'No promo code exists.'})
-             }
-         }).catch((error) => {
-            console.log(error)
-         })
-    }else{
-        res.json({error:'Some information was missing.'})
-    }
-})
+// app.post('/refund', async (req, res)) => {
+//     if(!req.session || !req.session.authToken){
+//         res.json({error:'please log in'})
+//         return;
+//     }
+//     let decrypt;
+//     try{
+//         decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
+//     }catch(error){
+//         res.json({error:'jwt issue, not authorized'})
+//         return;
+//     }
+//     if(decrypt.role === 'ftlc_owner'){
+//         if(req.body.granted){
+//             mailer.refundReply(req.body.userEmail, true)
+//         }else{
+//             mailer.refundReply(req.body.userEmail, false, req.body.reason)
+//         }
+//     }else{
+//         res.json({error:'Not authorized.'})
+//     }
+// }
 
 app.post('/recover', (req, res) => {
     const email = req.body.email
@@ -268,5 +136,6 @@ app.post('/recover', (req, res) => {
         res.json({error:'No valid email was provided.'})
     }
 })
+
 app.listen(3005);
 console.log('Listening on http://localhost:3005');
