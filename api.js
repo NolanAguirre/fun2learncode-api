@@ -92,30 +92,11 @@ app.post('/logout', (req, res) => {
     res.end();
 });
 
-app.post('/payment', transaction.begin)
+app.post('/store', transaction.begin)
 
-// app.post('/refund', async (req, res)) => {
-//     if(!req.session || !req.session.authToken){
-//         res.json({error:'please log in'})
-//         return;
-//     }
-//     let decrypt;
-//     try{
-//         decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
-//     }catch(error){
-//         res.json({error:'jwt issue, not authorized'})
-//         return;
-//     }
-//     if(decrypt.role === 'ftlc_owner'){
-//         if(req.body.granted){
-//             mailer.refundReply(req.body.userEmail, true)
-//         }else{
-//             mailer.refundReply(req.body.userEmail, false, req.body.reason)
-//         }
-//     }else{
-//         res.json({error:'Not authorized.'})
-//     }
-// }
+app.post('/charge', transaction.process)
+
+app.post('/refund', transaction.refund)
 
 app.post('/recover', (req, res) => {
     const email = req.body.email
@@ -136,6 +117,12 @@ app.post('/recover', (req, res) => {
         res.json({error:'No valid email was provided.'})
     }
 })
+
+app.post('/newsletter' (req, res) => {
+
+})
+
+app.post('/export')
 
 app.listen(3005);
 console.log('Listening on http://localhost:3005');

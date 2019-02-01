@@ -1,6 +1,6 @@
 const jwt = require('jwt-simple');
 const db = require('./db')
-
+const mailer = require('./')
 function validateAuthToken(session, user) {
     if (session && session.authToken) {
         try {
@@ -44,10 +44,11 @@ module.exports = {
             addons,
             dateGroup,
             students,
-            user
+            user,
+            address
         } = req.body
         if(user && dateGroup && students && students.length > 0){
-        //    if (validateAuthToken(req.session, user)) {
+           if (validateAuthToken(req.session, user)) {
                 try{
                     const processing = await db.transactionIsProcessing(user)
                     if(processing){
@@ -115,12 +116,99 @@ module.exports = {
                     return
                 }
                 res.json({total:price});
-            // } else {
-            //     res.json({error: 'Unathorized.'})
-            // }
+            } else {
+                res.json({error: 'Unathorized.'})
+            }
         }else{
             res.json({error:'Not enough information provided.'})
         }
 
+    }
+    process: async (req, res) => {
+        const {
+            user,
+            token
+        } = req.body
+        if(user && token){
+            let transaction;
+            if (validateAuthToken(req.session, user)) {
+                try{
+                    transaction = await db.startTransaction(user)
+                }catch(error){
+                    await db.endTransaction(user);
+                    res.json({error:'transaction failed before payment could be processed.'})
+                    return;
+                }
+                const charge = await stripe.charges.create({
+                        amount: transaction.total * 100,
+                        currency: 'usd',
+                        description: 'fun2learncode event charge',
+                        source: req.body.stripeToken,
+                        statement_descriptor: 'Fun2LearnCode Event'
+                        //metadata: less than 500 chars
+                    }).then(data => data)
+                    .catch((err) => {
+                        console.log(err)
+                        return {
+                            paid: false
+                        }
+                    });
+                if (charge.paid) {
+                    db.storePayment(user, transaction).then((data) => {
+                        db.createEventRegistration(user, transaction.Students, transaction.DateGroup.id, data).then(() => {
+                            res.json({
+                                message: 'Payment and registration successful'
+                            })
+                        }).catch((error) => {
+                            console.log(error)
+                            res.json({
+                                error: 'Fatal error, request refund'
+                            })
+                        })
+                    })
+                } else {
+                    res.json({
+                        error: 'Card declined'
+                    })
+                }
+            }
+        }
+    }
+    refund: async (req, res) => {
+        const {
+            user,
+            payment,
+            amount,
+            unregister
+        } = req.body
+        if(session && session.authToken){
+            try {
+                const decrypt = jwt.decode(session.authToken, process.env.JWT_SECRET)
+                if (decrypt.role === 'owner') {
+                    try{
+                        const charge = await db.getPayment(payment)
+                        const refund = await stripe.refunds.create({
+                          charge: charge.id,
+                          amount: amount*100,
+                        );
+                        try{
+                            await db.processRefund(refund, payment)
+                            mailer
+                            if(unregister){
+                            //handle unregister logic
+                            }
+                        }catch(error){
+
+                        }
+                    }catch(error){
+
+                    }
+                }else{
+                    res.json({error:'Not authorized.'})
+                }
+            } catch (error) {
+                res.json({error:'Not authorized.'})
+            }
+        }
     }
 }
