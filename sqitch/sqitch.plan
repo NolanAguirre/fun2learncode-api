@@ -11,12 +11,14 @@ date_interval [appschema extensions] 2018-08-29T01:20:22Z Nolan Aguirre <nolanag
 activity_catagories [appschema extensions] 2018-09-05T03:50:25Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activity catagories migration
 add_ons [extensions] 2018-12-13T19:04:06Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add add ons migration
 news_letter [extensions] 2019-01-24T22:57:54Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add newsletter migration
+news_letter_functions [news_letter] 2019-02-01T04:45:49Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add news letter function migration
 announcement [extensions] 2019-01-24T23:02:42Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add announcement migration
 
 users [types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 activities [activity_catagories] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activities migration
 
 transaction_state [users] 2019-01-15T06:50:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # add transaction state migration
+transaction_state_functions [transaction_state] 2019-02-01T04:47:16Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add transaction state function migration
 users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
 students [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add students join migration
 payment [users] 2019-01-13T22:00:24Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add payment migration

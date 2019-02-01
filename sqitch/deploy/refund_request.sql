@@ -9,7 +9,9 @@ CREATE TABLE ftlc.refund_request(
     user_id UUID REFERENCES ftlc.users(id),
     created_on TIMESTAMP DEFAULT NOW(),
     reason CITEXT,
-    status ftlc.request_type
+    status ftlc.request_type DEFAULT 'pending',
+    amount_refunded FLOAT,
+    CONSTRAINT one_request UNIQUE (payment, user_id)
 );
 
 COMMIT;

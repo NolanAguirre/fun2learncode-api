@@ -11,11 +11,11 @@ CREATE FUNCTION ftlc.make_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc
    BEGIN
    SELECT id INTO dateInterval FROM ftlc.date_interval WHERE start = $1 AND "end" = $2;
    IF(dateInterval IS NULL) THEN
-       INSERT INTO ftlc.date_interval (start, "end") VALUES ($1, $2) RETURNING id INTO date_int;
+       INSERT INTO ftlc.date_interval (start, "end") VALUES ($1, $2) RETURNING id INTO dateInterval;
    END IF;
    SELECT * INTO dates_join FROM ftlc.dates_join WHERE date_interval = dateInterval AND date_group = $3;
    IF(dates_join IS NULL) THEN
-      INSERT INTO ftlc.dates_join (date_group, date_interval) VALUES ($3, date_int) RETURNING * INTO dates_join;
+      INSERT INTO ftlc.dates_join (date_group, date_interval) VALUES ($3, dateInterval) RETURNING * INTO dates_join;
    END IF;
    RETURN dates_join;
    END;

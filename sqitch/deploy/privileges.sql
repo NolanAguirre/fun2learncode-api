@@ -53,7 +53,7 @@ GRANT INSERT ON ftlc.attendance TO ftlc_attendant;
 GRANT SELECT ON ftlc.payment TO ftlc_admin_group, ftlc_user;
 -- refund_request
 GRANT SELECT ON ftlc.refund_request TO ftlc_admin_group, ftlc_user;
-GRANT INSERT ON ftlc.refund_request TO ftlc_user;
+GRANT INSERT(user_id, payment, reason) ON ftlc.refund_request TO ftlc_user;
 -- news_letter
 GRANT INSERT, DELETE ON ftlc.news_letter TO ftlc_roles;
 GRANT SELECT ON ftlc.news_letter TO ftlc_admin_group;
@@ -63,4 +63,7 @@ GRANT INSERT, UPDATE ON ftlc.announcement TO ftlc_admin_group;
 -- activity_request
 GRANT INSERT, SELECT ON ftlc.activity_request TO ftlc_user;
 GRANT UPDATE, SELECT ON ftlc.activity_request TO ftlc_admin_group;
+-- news_letter
+GRANT INSERT ON ftlc.news_letter TO ftlc_roles;
+GRANT SELECT ON ftlc.news_letter TO ftlc_admin_group;
 COMMIT;

@@ -4,8 +4,9 @@
 BEGIN;
 
 CREATE TABLE ftlc.transaction_state(
-    user_id UUID PRIMARY KEY REFERENCES ftlc.users(id)
+    user_id UUID PRIMARY KEY REFERENCES ftlc.users(id),
+    transaction JSONB,
+    processing BOOLEAN
 );
-
 
 COMMIT;

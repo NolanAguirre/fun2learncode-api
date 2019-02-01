@@ -37,7 +37,7 @@ CREATE FUNCTION ftlc.check_time (UUID, UUID) RETURNS BOOLEAN AS $$
         SELECT array(
             SELECT DISTINCT date_interval FROM ftlc.dates_join WHERE date_group IN (
                 SELECT date_group FROM ftlc.event_registration WHERE student = $2)) INTO dates;
-        SELECT EXISTS(SELECT 1 FROM ftlc.date_interval WHERE id IN (SELECT date_interval FROM ftlc.dates_join WHERE date_group = $1) AND id @> dates);
+        RETURN EXISTS(SELECT 1 FROM ftlc.date_interval WHERE id IN (SELECT date_interval FROM ftlc.dates_join WHERE date_group = $1) AND id = ANY(dates));
     END;
 $$ LANGUAGE PLPGSQL STABLE;
 -- check time is not fool proof, it only finds events with the exact same timeslot, not that overlap, might be removed or improved later
