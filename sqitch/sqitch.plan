@@ -41,7 +41,8 @@ promo_code [date_group users] 2019-01-13T21:47:14Z Nolan Aguirre <nolanaguirre08
 registration_override [activities students] 2019-01-24T20:32:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add registration override migration
 activity_request [date_group users] 2019-01-24T23:39:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activity request migration
 
-privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
+promo_code_use [promo_code] 2019-02-02T05:58:08Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add promo code use join table
 
+privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
 
 RLS 2019-01-17T02:06:50Z Nolan Aguirre <nolanaguirre08@gmail.com> # Row level security migration
