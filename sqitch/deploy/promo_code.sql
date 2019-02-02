@@ -19,7 +19,9 @@ CREATE TABLE ftlc.promo_code(
     uses INTEGER,
     created_on TIMESTAMP DEFAULT NOW(),
     valid_start TIMESTAMP DEFAULT NOW(),
-    valid_end TIMESTAMP
+    valid_end TIMESTAMP,
+    archive BOOLEAN DEFAULT false,
+    disabled BOOLEAN DEFAULT false
 );
 
 COMMIT;
