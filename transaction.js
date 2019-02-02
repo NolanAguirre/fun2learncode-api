@@ -21,7 +21,7 @@ function calculatePrice(students, addons, promoCode, price){
         let t = student.price || price
         if(promoCode){
             if(promoCode.percent){
-                t *= ((100 - promoCode.efffect)/100)
+                t *= ((100 - promoCode.effect)/100)
             }else{
                 t -= promoCode.effect
             }
@@ -123,7 +123,7 @@ module.exports = {
             res.json({error:'Not enough information provided.'})
         }
 
-    }
+    },
     process: async (req, res) => {
         const {
             user,
@@ -173,7 +173,7 @@ module.exports = {
                 }
             }
         }
-    }
+    },
     refund: async (req, res) => {
         const {
             user,
@@ -190,7 +190,7 @@ module.exports = {
                         const refund = await stripe.refunds.create({
                           charge: charge.id,
                           amount: amount*100,
-                        );
+                        });
                         try{
                             await db.processRefund(refund, payment)
                             mailer
