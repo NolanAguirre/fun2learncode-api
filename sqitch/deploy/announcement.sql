@@ -4,7 +4,7 @@
 BEGIN;
 
 CREATE TABLE ftlc.announcement(
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id SERIAL PRIMARY KEY,
     title CITEXT,
     message CITEXT,
     start_display TIMESTAMP DEFAULT NOW()
