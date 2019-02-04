@@ -4,18 +4,18 @@ BEGIN;
 
 ALTER TABLE ftlc.attendance ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY parent_attendance ON ftlc.attendance TO ftlc_user USING (student IN (SELECT id FROM ftlc.students WHERE parent = ftlc.get_id()));
+CREATE POLICY parent_attendance ON ftlc.attendance TO ftlc_user USING (student IN (SELECT id FROM ftlc.student WHERE parent = ftlc.get_id()));
 CREATE POLICY employee_all ON ftlc.attendance TO ftlc_employee USING (true) WITH CHECK (true);
 
-ALTER TABLE ftlc.event_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ftlc.event_log ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY parent_log ON ftlc.event_logs TO ftlc_user USING (student IN (SELECT id FROM ftlc.students WHERE parent = ftlc.get_id()));
-CREATE POLICY employee_all ON ftlc.event_logs TO ftlc_employee USING (true) WITH CHECK (true);
+CREATE POLICY parent_log ON ftlc.event_log TO ftlc_user USING (student IN (SELECT id FROM ftlc.student WHERE parent = ftlc.get_id()));
+CREATE POLICY employee_all ON ftlc.event_log TO ftlc_employee USING (true) WITH CHECK (true);
 
-ALTER TABLE ftlc.students ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ftlc.student ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY parent_of_student ON ftlc.students TO ftlc_user USING (parent = ftlc.get_id());
-CREATE POLICY employee_all ON ftlc.students TO ftlc_employee USING (true) WITH CHECK (true);
+CREATE POLICY parent_of_student ON ftlc.student TO ftlc_user USING (parent = ftlc.get_id());
+CREATE POLICY employee_all ON ftlc.student TO ftlc_employee USING (true) WITH CHECK (true);
 
 ALTER TABLE ftlc.event_registration ENABLE ROW LEVEL SECURITY;
 

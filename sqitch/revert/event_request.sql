@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.activity_request;
+DROP TABLE ftlc.event_request;
 
 COMMIT;

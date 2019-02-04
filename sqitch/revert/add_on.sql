@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.add_ons;
+DROP TABLE ftlc.add_on;
 
 COMMIT;

@@ -6,12 +6,12 @@ DROP POLICY parent_attendance ON ftlc.attendance;
 DROP POLICY employee_all ON ftlc.attendance;
 
 
-DROP POLICY parent_log ON ftlc.event_logs;
-DROP POLICY employee_all ON ftlc.event_logs;
+DROP POLICY parent_log ON ftlc.event_log;
+DROP POLICY employee_all ON ftlc.event_log;
 
 
-DROP POLICY parent_of_student ON ftlc.students;
-DROP POLICY employee_all ON ftlc.students;
+DROP POLICY parent_of_student ON ftlc.student;
+DROP POLICY employee_all ON ftlc.student;
 
 
 DROP POLICY registered ON ftlc.event_registration;

@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.activity_catagories;
+DROP TABLE ftlc.category;
 
 COMMIT;

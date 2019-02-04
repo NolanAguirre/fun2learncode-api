@@ -3,7 +3,7 @@
 
 BEGIN;
 
-CREATE TABLE ftlc.students(
+CREATE TABLE ftlc.student(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     parent UUID REFERENCES ftlc.users(id),
     first_name CITEXT CHECK(first_name != ''),

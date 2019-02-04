@@ -1,10 +1,10 @@
--- Deploy ftlc:activity_request to pg
--- requires: date_group
+-- Deploy ftlc:event_request to pg
+-- requires: event
 -- requires: users
 
 BEGIN;
 
-CREATE TABLE ftlc.activity_request(
+CREATE TABLE ftlc.event_request(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES ftlc.users(id),
     created_on TIMESTAMP DEFAULT NOW(),

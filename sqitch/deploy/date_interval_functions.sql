@@ -4,36 +4,36 @@
 
 BEGIN;
 
-CREATE FUNCTION ftlc.make_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc.dates_join AS $$
+CREATE FUNCTION ftlc.make_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc.date_join AS $$
     DECLARE
        dateInterval UUID;
-       dates_join ftlc.dates_join;
+       date_join ftlc.date_join;
    BEGIN
    SELECT id INTO dateInterval FROM ftlc.date_interval WHERE start = $1 AND "end" = $2;
    IF(dateInterval IS NULL) THEN
        INSERT INTO ftlc.date_interval (start, "end") VALUES ($1, $2) RETURNING id INTO dateInterval;
    END IF;
-   SELECT * INTO dates_join FROM ftlc.dates_join WHERE date_interval = dateInterval AND date_group = $3;
+   SELECT * INTO date_join FROM ftlc.date_join WHERE date_interval = dateInterval AND event = $3;
    IF(dates_join IS NULL) THEN
-      INSERT INTO ftlc.dates_join (date_group, date_interval) VALUES ($3, dateInterval) RETURNING * INTO dates_join;
+      INSERT INTO ftlc.date_join (event, date_interval) VALUES ($3, dateInterval) RETURNING * INTO date_join;
    END IF;
-   RETURN dates_join;
+   RETURN date_join;
    END;
 $$ LANGUAGE PLPGSQL STRICT;
 
-CREATE FUNCTION ftlc.remove_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc.dates_join AS $$
+CREATE FUNCTION ftlc.remove_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc.date_join AS $$
    DECLARE -- THIS MIGHT HAVE ISSUES, NEEDS MORE TESTING
       dateInterval UUID;
-      dates_join ftlc.dates_join;
+      date_join ftlc.date_join;
    BEGIN
    SELECT id INTO dateInterval FROM ftlc.date_interval WHERE start = $1 AND "end" = $2;
    IF( dateInterval IS NOT NULL) THEN
-       DELETE FROM ftlc.dates_join WHERE date_interval = dateInterval AND date_group = $3 RETURNING * INTO dates_join;
-       IF(SELECT NOT EXISTS(SELECT * from ftlc.dates_join WHERE date_interval =  dateInterval)) THEN
+       DELETE FROM ftlc.date_join WHERE date_interval = dateInterval AND event = $3 RETURNING * INTO date_join;
+       IF(SELECT NOT EXISTS(SELECT * from ftlc.date_join WHERE date_interval =  dateInterval)) THEN
            DELETE FROM ftlc.date_interval WHERE id = dateInterval;
        END IF;
    END IF;
-   RETURN dates_join;
+   RETURN date_join;
    END;
 $$ LANGUAGE PLPGSQL STRICT;
 

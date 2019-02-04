@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.event_logs;
+DROP TABLE ftlc.event_log;
 
 COMMIT;

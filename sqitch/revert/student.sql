@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE ftlc.students;
+DROP TABLE ftlc.student;
 
 COMMIT;

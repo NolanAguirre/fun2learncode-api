@@ -1,5 +1,5 @@
 {
-    "query": "insert into ftlc.activity_catagories(name, description) values ($1,$2) RETURNING id",
+    "query": "insert into ftlc.category(name, description) values ($1,$2) RETURNING id",
     "data": [{
         "name": "Labs",
         "description": "Our labs provide flexibility for each student to explore programming at a personalized pace suitable to him/her. Our coding labs are ongoing and meet year-round, so students can enroll at any time. Students are encouraged to explore technologies that interest them and work at a pace best-suited to their learning style. Our labs meet weekly for an hour each week. Students work on individual projects with assistance from an instructor. The student-to-instructor ratio is 3:1. New students can sign up for a one-hour free trial by calling us at 512-900-8380."

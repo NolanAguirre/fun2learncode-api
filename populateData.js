@@ -13,11 +13,11 @@ async function populateDatabse() {
     let users = JSON.parse(fs.readFileSync('sqitch/data/users.json', 'utf8'));
     let admins = JSON.parse(fs.readFileSync('sqitch/data/admins.json', 'utf8'));
     let addresses = JSON.parse(fs.readFileSync('sqitch/data/address.json', 'utf8'));
-    let activity_catagories = JSON.parse(fs.readFileSync('sqitch/data/activity_catagories.json', 'utf8'));
+    let category = JSON.parse(fs.readFileSync('sqitch/data/category.json', 'utf8'));
     await addData(admins);
     await addData(users);
     await addData(addresses);
-    await addData(activity_catagories);
+    await addData(category);
     console.log("database has been populated")
 }
 populateDatabse();

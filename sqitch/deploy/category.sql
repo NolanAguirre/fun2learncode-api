@@ -4,11 +4,10 @@
 
 BEGIN;
 
-CREATE TABLE ftlc.activity_catagories(
+CREATE TABLE ftlc.category(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name CITEXT UNIQUE,
-    description CITEXT,
-    public_display BOOLEAN DEFAULT true
+    description CITEXT
 );
 
 COMMIT;

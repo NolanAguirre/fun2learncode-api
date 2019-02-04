@@ -4,11 +4,11 @@
 
 BEGIN;
 
-CREATE TABLE ftlc.event_logs(
+CREATE TABLE ftlc.event_log(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    date_group UUID REFERENCES ftlc.date_group(id),
+    event UUID REFERENCES ftlc.event(id),
     date_interval UUID REFERENCES ftlc.date_interval(id),
-    student UUID REFERENCES ftlc.students(id),
+    student UUID REFERENCES ftlc.student(id),
     instructor UUID REFERENCES ftlc.users(id),
     comment CITEXT
 );

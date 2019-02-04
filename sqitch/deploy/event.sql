@@ -2,9 +2,9 @@
 
 BEGIN;
 
-CREATE TABLE ftlc.date_group(
+CREATE TABLE ftlc.event(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    event UUID REFERENCES ftlc.events(id),
+    activity UUID REFERENCES ftlc.activity(id),
     address UUID REFERENCES ftlc.address(id),
     open_registration TIMESTAMP,
     close_registration TIMESTAMP,
