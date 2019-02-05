@@ -1,6 +1,7 @@
 const jwt = require('jwt-simple');
 const db = require('./db')
 const mailer = require('./')
+const stripe = require("stripe")(process.env.STRIPE_TOKEN);
 function validateAuthToken(session, user) {
     if (session && session.authToken) {
         try {
@@ -42,12 +43,12 @@ module.exports = {
         const {
             promoCode,
             addons,
-            dateGroup,
+            event,
             students,
             user,
             address
         } = req.body
-        if(user && dateGroup && students && students.length > 0){
+        if(user && event && students && students.length > 0){
            if (validateAuthToken(req.session, user)) {
                 try{
                     const processing = await db.transactionIsProcessing(user)
@@ -59,7 +60,6 @@ module.exports = {
                     res.json({error:'Something went wrong.'})
                     return;
                 }
-
                 let info;
                 try{
                     info = await db.getRegistrationData({...req.body}, new Date().toISOString())
@@ -68,49 +68,49 @@ module.exports = {
                     return;
                 }
                 let {
-                    Students,
-                    PromoCode,
-                    DateGroup,
-                    Addons,
-                    Overrides,
-                    ...validStudents
+                    _students,
+                    _promoCode,
+                    _event,
+                    _addons,
+                    _overrides,
+                    ..._studentCheck
                 } = info
-                if(DateGroup === null){
+                if(_event === null){
                     res.json({error:'Error with event selection.'})
                     return
                 }
-                if(!PromoCode && promoCode != ""){
+                if(!_promoCode && promoCode != ""){
                     res.json({error:'Promo code is not valid.'})
                     return
                 }
-                if(students.length !== Students.length){
+                if(students.length !== _students.length){
                     res.json({error:'Error with student selection.'})
                     return
                 }
-                if(Addons.length !== addons.length){
+                if(_addons.length !== addons.length){
                     res.json({error:'Error with addon selection.'})
                     return
                 }
-                Students.forEach((student) => {
-                    Overrides.forEach((override)=>{
+                _students.forEach((student) => {
+                    _overrides.forEach((override)=>{
                         if(student.id === override.student){
                             if(override.modified_price >= 0){
                                 student.price = override.modified_price
                             }
-                            validStudent[student.id].check_prerequisites = true;
+                            _studentCheck[student.id].check_prerequisite = true;
                         }
                     })
                 })
-                for(let k in validStudents){
-                    let v = validStudents[k];
-                    if(v.check_time || v.check_registration || !v.check_prerequisites){
+                for(let k in _studentCheck){
+                    let v = _studentCheck[k];
+                    if(!v.check_time || !v.check_registration || !v.check_prerequisite){
                         res.json({error:'Error with student selection'})
                         return;
                     }
                 }
-                const price = calculatePrice(Students, addons, PromoCode, DateGroup.price);
+                const price = calculatePrice(_students, _addons, _promoCode, _event.price);
                 try{
-                    await db.storeTransaction(user, {Students, PromoCode, DateGroup, Addons, Overrides, Total:price});
+                    await db.storeTransaction(user, {_students, _promoCode, _event, _addons, _overrides, total:price});
                 } catch(error){
                     res.json({error:'Error occured while storing transaction data.'})
                     return
@@ -135,17 +135,16 @@ module.exports = {
                 try{
                     transaction = await db.startTransaction(user)
                 }catch(error){
-                    await db.endTransaction(user);
-                    res.json({error:'transaction failed before payment could be processed.'})
+                    console.log(error)
+                    res.json({error:'Transaction currently being processed, please wait.'})
                     return;
                 }
                 const charge = await stripe.charges.create({
                         amount: transaction.total * 100,
                         currency: 'usd',
                         description: 'fun2learncode event charge',
-                        source: req.body.stripeToken,
+                        source: token,
                         statement_descriptor: 'Fun2LearnCode Event'
-                        //metadata: less than 500 chars
                     }).then(data => data)
                     .catch((err) => {
                         console.log(err)
@@ -154,16 +153,19 @@ module.exports = {
                         }
                     });
                 if (charge.paid) {
-                    db.storePayment(user, transaction).then((data) => {
-                        db.createEventRegistration(user, transaction.Students, transaction.DateGroup.id, data).then(() => {
+                    db.storePayment(user, transaction, charge).then((data) => {
+                        db.createEventRegistration(user, transaction._students, transaction._event.id, data).then(() => {
                             res.json({
                                 message: 'Payment and registration successful'
                             })
                         }).catch((error) => {
                             console.log(error)
                             res.json({
-                                error: 'Fatal error, request refund'
+                                error: 'Fatal error, request refund.'
                             })
+                        }).catch((error)=>{
+                            console.log(error)
+                            res.json({error:'Fatal error, request refund'})
                         })
                     })
                 } else {
@@ -171,6 +173,7 @@ module.exports = {
                         error: 'Card declined'
                     })
                 }
+                db.endTransaction(user)
             }
         }
     },
@@ -181,34 +184,40 @@ module.exports = {
             amount,
             unregister
         } = req.body
-        if(session && session.authToken){
-            try {
+        if (session && session.authToken) {
+            try{
                 const decrypt = jwt.decode(session.authToken, process.env.JWT_SECRET)
                 if (decrypt.role === 'owner') {
-                    try{
-                        const charge = await db.getPayment(payment)
+                    if(!user || !payment || !amount){
+                        res.json({error:'not enough information provided.'})
+                    }
+                    try {
                         const refund = await stripe.refunds.create({
-                          charge: charge.id,
-                          amount: amount*100,
+                            charge: payment.charge.id,
+                            amount: amount * 100,
                         });
-                        try{
-                            await db.processRefund(refund, payment)
-                            mailer
-                            if(unregister){
-                            //handle unregister logic
+                        if (refund.status === 'succeeded') {
+                            try {
+                                await db.processRefund(refund, payment, unregister)
+                                //send mailer
+                                res.json({complete:'refund successful'})
+                            } catch (error) {
+                                res.json({error:'refund processed, but failed to update database records.'})
                             }
-                        }catch(error){
-
+                        } else {
+                            res.json({error: 'the refund attempted and failed', stripeError:refund.failure_reason})
                         }
                     }catch(error){
-
+                        res.json({error:'something happened with stripe', stripeError:error})
                     }
                 }else{
-                    res.json({error:'Not authorized.'})
+                    res.json({error: 'Not authorized.'})
                 }
-            } catch (error) {
-                res.json({error:'Not authorized.'})
+            }catch(error){
+                res.json({error: 'Not authorized.'})
             }
+        }else {
+            res.json({error: 'Not authorized.'})
         }
     }
 }
