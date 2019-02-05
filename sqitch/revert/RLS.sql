@@ -17,6 +17,7 @@ DROP POLICY employee_all ON ftlc.student;
 DROP POLICY registered ON ftlc.event_registration;
 DROP POLICY employee_all ON ftlc.event_registration;
 
+DROP POLICY user_view ON ftlc.users;
 DROP POLICY is_user ON ftlc.users;
 DROP POLICY employee_all ON ftlc.users;
 

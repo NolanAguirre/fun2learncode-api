@@ -24,7 +24,8 @@ CREATE POLICY employee_all ON ftlc.event_registration TO ftlc_employee, ftlc_att
 
 ALTER TABLE ftlc.users ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY is_user ON ftlc.users TO ftlc_user USING (id = ftlc.get_id());
+CREATE POLICY user_view ON ftlc.users FOR SELECT TO ftlc_user USING (id = ftlc.get_id() OR role = 'ftlc_admin' OR role ='ftlc_owner' OR role = 'ftlc_lead_instructor' OR role = 'ftlc_instructor');
+CREATE POLICY is_user ON ftlc.users TO ftlc_user USING (id = ftlc.get_id()) WITH CHECK (id = ftlc.get_id());
 CREATE POLICY employee_all ON ftlc.users TO ftlc_employee USING (true) WITH CHECK (true);
 
 ALTER TABLE ftlc.payment ENABLE ROW LEVEL SECURITY;
