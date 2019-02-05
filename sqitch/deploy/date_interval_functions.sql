@@ -14,7 +14,7 @@ CREATE FUNCTION ftlc.make_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc
        INSERT INTO ftlc.date_interval (start, "end") VALUES ($1, $2) RETURNING id INTO dateInterval;
    END IF;
    SELECT * INTO date_join FROM ftlc.date_join WHERE date_interval = dateInterval AND event = $3;
-   IF(dates_join IS NULL) THEN
+   IF(date_join IS NULL) THEN
       INSERT INTO ftlc.date_join (event, date_interval) VALUES ($3, dateInterval) RETURNING * INTO date_join;
    END IF;
    RETURN date_join;
