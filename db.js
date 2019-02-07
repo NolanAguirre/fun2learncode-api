@@ -53,7 +53,7 @@ db.getRegistrationData = ({students, addons, event, promoCode, user}, date) => {
     )
 
     promises.push(
-        database.any('SELECT * FROM ftlc.add_on WHERE id = ANY(ARRAY[(SELECT add_on FROM ftlc.add_on_join WHERE event = $2 AND id = ANY(ARRAY[$1:list]::UUID[]))]::UUID[])', [addons, event])
+        database.any('SELECT * FROM ftlc.add_on WHERE id IN (SELECT add_on FROM ftlc.add_on_join WHERE event = $2 AND add_on = ANY(ARRAY[$1:list]::UUID[]))', [addons, event])
             .then((data)=>{
                 return {_addons: data}
             })
