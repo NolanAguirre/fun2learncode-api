@@ -5,9 +5,9 @@ BEGIN;
 
 CREATE TABLE ftlc.announcement(
     id SERIAL PRIMARY KEY,
-    title CITEXT,
-    message CITEXT,
-    start_display TIMESTAMP DEFAULT NOW()
+    title CITEXT NOT NULL,
+    message CITEXT NOT NULL,
+    created_on TIMESTAMP DEFAULT NOW()
 );
 
 COMMIT;

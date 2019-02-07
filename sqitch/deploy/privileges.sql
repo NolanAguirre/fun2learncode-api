@@ -17,7 +17,7 @@ GRANT SELECT ON ftlc.add_on_join TO ftlc_roles;
 GRANT INSERT, DELETE ON ftlc.add_on_join TO ftlc_admin_group;
 
 -- add_on
-GRANT SELECT ON ftlc.add_on TO ftlc_roles
+GRANT SELECT ON ftlc.add_on TO ftlc_roles;
 GRANT INSERT, UPDATE ON ftlc.add_on TO ftlc_admin_group;
 
 -- address
@@ -27,6 +27,7 @@ GRANT INSERT, UPDATE ON ftlc.address TO ftlc_admin_group;
 -- announcement
 GRANT SELECT ON ftlc.announcement TO ftlc_roles;
 GRANT INSERT, UPDATE ON ftlc.announcement TO ftlc_admin_group;
+GRANT USAGE, SELECT ON SEQUENCE ftlc.announcement_id_seq TO ftlc_roles;
 
 -- attendance RLS
 GRANT SELECT ON ftlc.attendance TO ftlc_employee, ftlc_user;
@@ -78,7 +79,7 @@ GRANT SELECT ON ftlc.promo_code to ftlc_roles; --this needs to be changed to ftl
 -- refund_request RLS
 GRANT SELECT ON ftlc.refund_request TO ftlc_admin_group, ftlc_user;
 GRANT INSERT(user_id, payment, reason) ON ftlc.refund_request TO ftlc_user;
-GRANT UPDATE(status, amount_refunded) ON ftlc.refund_request TO ftlc_owner;
+GRANT UPDATE(status, amount_refunded, granted_reason) ON ftlc.refund_request TO ftlc_owner;
 
 -- registration override
 GRANT SELECT, UPDATE, INSERT ON ftlc.registration_override TO ftlc_admin_group;

@@ -6,8 +6,8 @@ BEGIN;
 
 CREATE TABLE ftlc.category(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name CITEXT UNIQUE,
-    description CITEXT
+    name CITEXT UNIQUE NOT NULL,
+    description CITEXT NOT NULL
 );
 
 COMMIT;

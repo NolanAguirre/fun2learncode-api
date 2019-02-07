@@ -36,7 +36,7 @@ CREATE FUNCTION ftlc.register_other(
 $$ LANGUAGE PLPGSQL STRICT SECURITY DEFINER;
 
 CREATE FUNCTION ftlc.check_email(email CITEXT) RETURNS BOOLEAN AS $$
-    SELECT EXISTS(SELECT email FROM ftlc_private.users WHERE email = $1);
+    SELECT EXISTS(SELECT email FROM ftlc.users WHERE email = $1);
 $$ LANGUAGE SQL SECURITY DEFINER STABLE;
 
 CREATE FUNCTION ftlc.generate_password_token(CITEXT) RETURNS TEXT AS $$

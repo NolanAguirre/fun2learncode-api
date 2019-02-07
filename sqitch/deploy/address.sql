@@ -6,14 +6,13 @@ BEGIN;
 
 CREATE TABLE ftlc.address(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    street CITEXT,
-    city CITEXT,
-    county CITEXT,
-    zipcode VARCHAR(5),
-    state CITEXT,
-    country CITEXT,
-    alias CITEXT,
-    url CITEXT,
+    street CITEXT NOT NULL,
+    city CITEXT NOT NULL,
+    county CITEXT NOT NULL,
+    zipcode VARCHAR(5) NOT NULL,
+    state CITEXT NOT NULL,
+    country CITEXT NOT NULL,
+    alias CITEXT NOT NULL,
     archive BOOLEAN DEFAULT false
 );
 
