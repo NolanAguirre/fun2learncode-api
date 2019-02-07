@@ -10,6 +10,6 @@ module.exports = (name, url) => `<div style="width:100%;height:100%;">
                 <div style="padding:20px;font-size: 20px; font-weight:800;border-radius:5px;border:2px solid #41a62a;color:#41a62a; margin:10px 0;">Reset Password</div>
             </a>
         </div>
-        <p>This link expires 1 hour from the time it's sent, if you need a new link <a href='http://localhost:3000'>click here</a>.</p>
+        <p>This link expires 1 hour from the time it's sent, if you need a new link <a href='http://localhost:3000/recover'>click here</a>.</p>
     </div>
 </div>`
