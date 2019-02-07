@@ -39,7 +39,7 @@ function calculatePrice(students, addons, promoCode, price){
 }
 
 module.exports = {
-    begin: async (req, res) => { //TODO make this better
+    begin: async (req, res) => { //TODO update promo code to be use by student
         const {
             promoCode,
             addons,
@@ -156,13 +156,12 @@ module.exports = {
                     db.storePayment(user, transaction, charge).then((data) => {
                         db.createEventRegistration(user, transaction._students, transaction._event.id, data).then(() => {
                             res.json({
-                                message: 'Payment and registration successful'
+                                message: 'Payment and registration successful',
+                                students: transaction._students.map(student=>student.id)
                             })
                         }).catch((error) => {
                             console.log(error)
-                            res.json({
-                                error: 'Fatal error, request refund.'
-                            })
+                            res.json({error:'Fatal error, request refund.'})
                         }).catch((error)=>{
                             console.log(error)
                             res.json({error:'Fatal error, request refund'})
@@ -180,16 +179,25 @@ module.exports = {
     refund: async (req, res) => {
         const {
             user,
-            payment,
+            reason,
+            paymentId,
             amount,
             unregister
         } = req.body
-        if (session && session.authToken) {
+        if (req.session && req.session.authToken) {
             try{
-                const decrypt = jwt.decode(session.authToken, process.env.JWT_SECRET)
-                if (decrypt.role === 'owner') {
-                    if(!user || !payment || !amount){
+                const decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
+                if (decrypt.role === 'ftlc_owner') {
+                    if(!user || !paymentId || !reason){
                         res.json({error:'not enough information provided.'})
+                        return;
+                    }
+                    let payment;
+                    try{
+                        payment = await db.getPayment(paymentId)
+                    }catch(error){
+                        res.json({error:'Could not find payment with given id'})
+                        return;
                     }
                     try {
                         const refund = await stripe.refunds.create({
@@ -198,7 +206,7 @@ module.exports = {
                         });
                         if (refund.status === 'succeeded') {
                             try {
-                                await db.processRefund(refund, payment, unregister)
+                                await db.processRefund(payment, refund, unregister, reason)
                                 //send mailer
                                 res.json({complete:'refund successful'})
                             } catch (error) {
@@ -211,10 +219,10 @@ module.exports = {
                         res.json({error:'something happened with stripe', stripeError:error})
                     }
                 }else{
-                    res.json({error: 'Not authorized.'})
+                    res.json({error: 'Not authorized...'})
                 }
             }catch(error){
-                res.json({error: 'Not authorized.'})
+                res.json({error: 'Not authorized..'})
             }
         }else {
             res.json({error: 'Not authorized.'})
