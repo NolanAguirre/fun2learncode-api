@@ -84,6 +84,9 @@ GRANT UPDATE(status, amount_refunded, granted_reason) ON ftlc.refund_request TO 
 -- registration override
 GRANT SELECT, UPDATE, INSERT ON ftlc.registration_override TO ftlc_admin_group;
 
+--student waiver RLS for making sure can see only my student
+GRANT SELECT, INSERT ON ftlc.student_waiver TO ftlc_user;
+
 -- student RLS
 GRANT SELECT ON ftlc.student TO ftlc_employee, ftlc_user;
 GRANT INSERT ON ftlc.student TO ftlc_user;

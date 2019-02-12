@@ -33,7 +33,7 @@ db.getRegistrationData = ({students, addons, event, promoCode, user}, date) => {
 
     students.forEach(student=>events.push({student, event}))
     promises.push(
-        database.any('SELECT * FROM ftlc.student WHERE id = ANY(ARRAY[$1:list]::UUID[]) AND parent = $2', [students, user])
+        database.any('SELECT first_name, last_name FROM ftlc.student WHERE id = ANY(ARRAY[$1:list]::UUID[]) AND parent = $2', [students, user])
             .then((data)=>{
                 return {_students:data}
             })
@@ -53,7 +53,7 @@ db.getRegistrationData = ({students, addons, event, promoCode, user}, date) => {
     )
 
     promises.push(
-        database.any('SELECT * FROM ftlc.add_on WHERE id IN (SELECT add_on FROM ftlc.add_on_join WHERE event = $2 AND add_on = ANY(ARRAY[$1:list]::UUID[]))', [addons, event])
+        database.any('SELECT description, price, name FROM ftlc.add_on WHERE id IN (SELECT add_on FROM ftlc.add_on_join WHERE event = $2 AND add_on = ANY(ARRAY[$1:list]::UUID[]))', [addons, event])
             .then((data)=>{
                 return {_addons: data}
             })
@@ -67,7 +67,7 @@ db.getRegistrationData = ({students, addons, event, promoCode, user}, date) => {
     )
 
     promises.push(
-        database.any('SELECT * FROM ftlc.activity WHERE id = (SELECT activity FROM ftlc.event WHERE id = $1)',[event])
+        database.any('SELECT name FROM ftlc.activity WHERE id = (SELECT activity FROM ftlc.event WHERE id = $1)',[event])
             .then((data)=>{
                 return {_overrides: data}
             })

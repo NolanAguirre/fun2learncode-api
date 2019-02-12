@@ -8,7 +8,6 @@ const PostGraphileConnectionFilterPlugin = require("postgraphile-plugin-connecti
 const db = require('./db')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple');
-const stripe = require("stripe")(process.env.STRIPE_TOKEN);
 const mailer = require('./mailer')
 const transaction = require('./transaction')
 
@@ -112,17 +111,15 @@ app.post('/recover', (req, res) => {
         }).catch((error)=>{
             console.log(error)
         })
-        res.json({message:`An email has been sent to ${email} with furthur instructions. If no email is received there may not be an account associated with the provided email.`})
+        res.json({message:`An email has been sent to ${email} with furthur instructions.`})
     }else{
         res.json({error:'No valid email was provided.'})
     }
 })
 
-app.post('/newsletter' (req, res) => {
+app.post('/newsletter', (req, res) => {
 
 })
-
-app.post('/export')
 
 app.listen(3005);
 console.log('Listening on http://localhost:3005');

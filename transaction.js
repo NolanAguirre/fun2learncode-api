@@ -64,6 +64,7 @@ module.exports = {
                 try{
                     info = await db.getRegistrationData({...req.body}, new Date().toISOString())
                 }catch(error){
+                    console.log(error)
                     res.json({error:'Something went wrong while processing the data.'})
                     return;
                 }
@@ -88,6 +89,7 @@ module.exports = {
                     return
                 }
                 if(_addons.length !== addons.length){
+                    console.log(addons)
                     res.json({error:'Error with addon selection.'})
                     return
                 }

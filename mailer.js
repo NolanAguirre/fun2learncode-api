@@ -17,7 +17,7 @@ mailer.resetPassword = (email, name, token) => {
         to: email, // list of receivers
         subject: 'Password reset', // Subject line
         html: ResetPasswordTemplate(name, `http://localhost:3000/reset/${encodeURIComponent(token)}`)// plain text body
-    }, (info, error)=>{})
+    }, (info, error)=>{console.log(error)})
 }
 
 // mailer.refundReply = (email, granted, reason) => {

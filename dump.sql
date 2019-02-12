@@ -322,7 +322,9 @@ COPY ftlc.registration_override (id, student, event, modified_price) FROM stdin;
 -- Data for Name: student_waiver; Type: TABLE DATA; Schema: ftlc; Owner: nolan
 --
 
-COPY ftlc.student_waiver (id, student, allergies, primary_care, primary_care_phone, emergency_phone, pickup_one, pickup_two, pickup_three, other) FROM stdin;
+COPY ftlc.student_waiver (id, student, primary_care, primary_care_phone, emergency_phone, pickup_one, pickup_two, other, created_on) FROM stdin;
+9ebc0030-029a-4680-97fe-441bedc93933	0e6c1003-b1c9-496f-b53f-53b3a1b233e6	Dr brown	(123)-456-7890	(123)-456-7890	Nolan	Vicky	No Allergies	2019-02-11 19:07:23.799573
+0999f638-9291-480f-a01d-b0db67295828	0e6c1003-b1c9-496f-b53f-53b3a1b233e6	Dr Brown	(123)-456-7890	(234)-567-8901	Nolan Aguirre	Vicky Aguirre	No Allergies	2019-02-11 19:08:51.507523
 \.
 
 
@@ -358,7 +360,7 @@ d4e43381-09b1-4c36-80db-e7d2c20416e9	d6155ceb-3318-42c2-a1fc-3f893fb68469	$2a$06
 0f8d8730-9169-4a72-a37f-7a8d7e4bd8f9	3efc5720-9ede-4c07-b425-d25ce9aaf2c0	$2a$06$XLeaITAk3kbWsdaqCu8Umu/YlqcF.YudEqF7p2rUrMvY0lkIDdcJ2	\N	\N
 3fcea4a8-4d08-44f6-bc22-6a57b94f1046	20d44701-fc6f-4a6a-8567-ad49cb8a274c	$2a$06$xeV6MjVD1T8tPawNZWnF.OpKZH2XfQpfweryLaar/HR1jaJgId2Zi	\N	\N
 09020377-05f2-48a3-9b87-bc25d798f100	428f84f6-5471-42bd-86d7-a5723a4a89b0	$2a$06$Ei9MUiW/iyXP6Y669Ibn1OhuWO1rAz96Vp.Gq/d2obFlqYeOVsdzS	\N	\N
-4b66a60e-74bc-4ba0-9f8a-d75e3246f6a3	8950f1c4-9255-4606-85e3-eefe3908e590	$2a$06$Yk5JLgxMgqqZcGjQaNkqOuio8jFEBd9WNqyJCauOu18oqa.t8yW.G	\N	\N
+4b66a60e-74bc-4ba0-9f8a-d75e3246f6a3	8950f1c4-9255-4606-85e3-eefe3908e590	$2a$06$WaEp2rvO1TGKjFGDpj/gbeFhHwlR1t84hrEwf8ai7L7feluMRh0ju	\N	2019-02-11 13:58:39.416104
 \.
 
 
