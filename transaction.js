@@ -72,6 +72,7 @@ module.exports = {
           _event,
           _addons,
           _overrides,
+          _activity,
           ..._studentCheck
         } = info
         if (_event === null) {
@@ -87,7 +88,6 @@ module.exports = {
           return
         }
         if (_addons.length !== addons.length) {
-          console.log(addons)
           res.json({ error: 'Error with addon selection.' })
           return
         }
@@ -110,7 +110,7 @@ module.exports = {
         }
         const price = calculatePrice(_students, _addons, _promoCode, _event.price)
         try {
-          await db.storeTransaction(user, { _students, _promoCode, _event, _addons, _overrides, total: price })
+          await db.storeTransaction(user, { _students, _promoCode, _event, _addons, _overrides, _activity, total: price })
         } catch (error) {
           res.json({ error: 'Error occured while storing transaction data.' })
           return
@@ -161,10 +161,10 @@ module.exports = {
             }).catch((error) => {
               console.log(error)
               res.json({ error: 'Fatal error, request refund.' })
-            }).catch((error) => {
-              console.log(error)
-              res.json({ error: 'Fatal error, request refund' })
             })
+          }).catch((error) => {
+            console.log(error)
+            res.json({ error: 'Fatal error, request refund' })
           })
         } else {
           res.json({
