@@ -30,6 +30,7 @@ event_registration [event student payment] 2018-08-29T01:47:38Z Nolan Aguirre <n
 event_log [event student] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
 refund_request [payment] 2019-01-24T21:39:17Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add refun request migration
 
+student_waiver_functions [student_waiver] 2019-02-12T02:58:01Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add student waiver functions migration
 date_join [event date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between event and date_inverval
 date_interval_functions [date_interval date_join] 2019-01-13T22:16:20Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date interval functions migration
 users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration

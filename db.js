@@ -74,7 +74,7 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
 
   events.forEach((element) => {
     promises.push(
-      database.many('SELECT ftlc.check_prerequisite($1, $2), ftlc.check_registration($1, $2), ftlc.check_time($1,$2)', [element.event, element.student]).then(data => {
+      database.many('SELECT ftlc.check_prerequisite($1, $2), ftlc.check_registration($1, $2), ftlc.check_time($1,$2), ftlc.check_waiver($2)', [element.event, element.student]).then(data => {
         return { [element.student]: data[0] }
       })
     )
