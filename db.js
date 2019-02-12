@@ -32,7 +32,7 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
 
   students.forEach(student => events.push({ student, event }))
   promises.push(
-    database.any('SELECT first_name, last_name FROM ftlc.student WHERE id = ANY(ARRAY[$1:list]::UUID[]) AND parent = $2', [students, user])
+    database.any('SELECT first_name, last_name, id FROM ftlc.student WHERE id = ANY(ARRAY[$1:list]::UUID[]) AND parent = $2', [students, user])
       .then((data) => {
         return { _students: data }
       })
@@ -66,16 +66,16 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
   )
 
   promises.push(
-    database.any('SELECT name FROM ftlc.activity WHERE id = (SELECT activity FROM ftlc.event WHERE id = $1)', [event])
+    database.one('SELECT name FROM ftlc.activity WHERE id = (SELECT activity FROM ftlc.event WHERE id = $1)', [event])
       .then((data) => {
-        return { _overrides: data }
+        return { _activity: data }
       })
   )
 
   events.forEach((element) => {
     promises.push(
-      database.many('SELECT ftlc.check_prerequisite($1, $2), ftlc.check_registration($1, $2), ftlc.check_time($1,$2), ftlc.check_waiver($2)', [element.event, element.student]).then(data => {
-        return { [element.student]: data[0] }
+      database.one('SELECT ftlc.check_prerequisite($1, $2), ftlc.check_registration($1, $2), ftlc.check_time($1,$2), ftlc.check_waiver($2)', [element.event, element.student]).then(data => {
+        return { [element.student]: data}
       })
     )
   })
@@ -92,7 +92,6 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
 
 db.createEventRegistration = (user, students, event, payment) => {
   let promises = []
-
   students.forEach((student) => {
     promises.push(
       database.none('INSERT INTO ftlc.event_registration(registered_by, student, event, payment) VAlUES ($1, $2, $3, $4)', [user, student.id, event, payment])
@@ -121,7 +120,7 @@ db.processRefund = (payment, refund, unregister, reason) => {
   promises.push(database.none('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3', [refund, 'refund', id]))
   promises.push(database.none('UPDATE ftlc.refund_request SET status = $1, amount_refunded = $2, granted_reason = $3 WHERE payment = $4', ['accepted', refund.amount / 100, reason, id]))
   if (unregister) {
-    promises.push(database.none('DELETE FROM ftlc.event_registration WHERE payment = $1'))
+    promises.push(database.none('DELETE FROM ftlc.event_registration WHERE payment = $1', [id]))
     promises.push(database.none('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = ANY(SELECT event FROM ftlc.event_registration WHERE payment = $2)', [payment.snapshot._students.length, id]))
   }
   return Promise.all(promises)
