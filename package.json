@@ -10,7 +10,8 @@
     "undump": "psql -d fun2learncode -f dump.sql",
     "sqitch-revert": "cd sqitch && sqitch revert ftlc",
     "sqitch-deploy": "cd sqitch && sqitch deploy ftlc",
-    "restart": "cd sqitch && sqitch revert ftlc && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql && echo these errors are because of sqitchs config tables^^ && npm start"
+    "restart": "cd sqitch && sqitch revert ftlc && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql && echo these errors are because of sqitchs config tables^^ && npm start",
+    "test": "standard"
   },
   "author": "Nolan Aguirre",
   "license": "ISC",
@@ -26,5 +27,21 @@
     "postgraphile": "^4.0.0-beta.9",
     "postgraphile-plugin-connection-filter": "^1.0.0-beta.9",
     "stripe": "^6.20.0"
+  },
+  "devDependencies": {
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.3",
+    "standard": "^12.0.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "standard --fix",
+      "git diff --exit-code"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

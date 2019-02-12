@@ -4,7 +4,6 @@ const promoCode = `SELECT effect, percent, code, id FROM ftlc.promo_code WHERE d
 // $3 = dateGroup
 // $4 = userId
 
-
 module.exports = {
-    promoCode
+  promoCode
 }
