@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add verifications here.
+DROP FUNCTION ftlc.check_waiver(UUID);
 
 ROLLBACK;
