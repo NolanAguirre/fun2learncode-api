@@ -13,8 +13,8 @@ CREATE FUNCTION ftlc.check_prerequisite(UUID, UUID) RETURNS BOOLEAN AS $$
             SELECT prerequisite FROM ftlc.activity_prerequisite WHERE activity =
                 (SELECT activity FROM ftlc.event WHERE id = $1)) INTO prerequisites;
         SELECT array(
-            SELECT DISTINCT activity FROM ftlc.event WHERE id = $1
-                AND close_registration < (SELECT close_registration from ftlc.event WHERE id = $1)) INTO student_events;
+            SELECT DISTINCT activity FROM ftlc.event WHERE close_registration < (SELECT close_registration FROM ftlc.event WHERE id = $1) and id IN
+            (SELECT event from ftlc.event_registration WHERE student = $2)) INTO student_events;
 
         RETURN student_events @> prerequisites;
     END;
