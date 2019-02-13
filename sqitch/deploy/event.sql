@@ -12,6 +12,7 @@ CREATE TABLE ftlc.event(
     seats_left INTEGER NOT NULL,
     name TEXT NOT NULL,
     price FLOAT NOT NULL,
+    show_calendar BOOLEAN DEFAULT true,
     archive BOOLEAN DEFAULT false
 );
 
