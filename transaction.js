@@ -34,7 +34,7 @@ function calculatePrice (students, addons, promoCode, price) {
     })
     total += t
   })
-  return total.toFixed(2)
+  return (total < 1)?0:total.toFixed(2)
 }
 
 module.exports = {
@@ -51,7 +51,7 @@ module.exports = {
         try {
           const processing = await db.transactionIsProcessing(user)
           if (processing) {
-            res.json({ error: 'A transaction is being process, try again.' })
+            res.json({ error: 'A transaction is being process, try again later.' })
             return
           }
         } catch (error) {
@@ -97,13 +97,12 @@ module.exports = {
               if (override.modified_price >= 0) {
                 student.price = override.modified_price
               }
-              _studentCheck[student.id].check_prerequisite = true
             }
           })
         })
         for (let k in _studentCheck) {
           let v = _studentCheck[k]
-          if (!v.check_time || !v.check_registration || !v.check_prerequisite) {
+          if (!v.check_time || !v.check_registration || !v.check_prerequisite || !v.check_waiver) {
             res.json({ error: 'Error with student selection' })
             return
           }
@@ -128,7 +127,7 @@ module.exports = {
       user,
       token
     } = req.body
-    if (user && token) {
+    if (user) {
       let transaction
       if (validateAuthToken(req.session, user)) {
         try {
@@ -138,19 +137,29 @@ module.exports = {
           res.json({ error: 'Transaction currently being processed, please wait.' })
           return
         }
-        const charge = await stripe.charges.create({
-          amount: transaction.total * 100,
-          currency: 'usd',
-          description: 'fun2learncode event charge',
-          source: token,
-          statement_descriptor: 'Fun2LearnCode Event'
-        }).then(data => data)
-          .catch((err) => {
-            console.log(err)
-            return {
-              paid: false
-            }
-          })
+        let charge;
+        if(transaction.total < 1){
+            charge = {paid:true, message:'Total was less than 1 USD, no stripe charge generated.'}
+        }else if(token){
+            charge = await stripe.charges.create({
+              amount: transaction.total * 100,
+              currency: 'usd',
+              description: 'fun2learncode Event charge',
+              source: token,
+              statement_descriptor: 'Fun2LearnCode Event'
+            }).then(data => data)
+              .catch((err) => {
+                console.log(err)
+                return {
+                  paid: false
+                }
+              })
+        }else{
+            res.json({ error: 'Credit card information not entered.' })
+            db.endTransaction(user)
+            return
+        }
+
         if (charge.paid) {
           db.storePayment(user, transaction, charge).then((data) => {
             db.createEventRegistration(user, transaction._students, transaction._event.id, data).then(() => {
@@ -160,16 +169,14 @@ module.exports = {
               })
             }).catch((error) => {
               console.log(error)
-              res.json({ error: 'Fatal error, request refund.' })
+              res.json({ error: 'Fatal error occured when registering for events, request refund.' })
             })
           }).catch((error) => {
             console.log(error)
-            res.json({ error: 'Fatal error, request refund' })
+            res.json({ error: 'Fatal error occured when storing payment information, request refund.' })
           })
         } else {
-          res.json({
-            error: 'Card declined'
-          })
+          res.json({error: 'Card declined'})
         }
         db.endTransaction(user)
       }
@@ -199,10 +206,11 @@ module.exports = {
             return
           }
           try {
-            const refund = await stripe.refunds.create({
-              charge: payment.charge.id,
-              amount: amount * 100
-            })
+            // const refund = await stripe.refunds.create({
+            //   charge: payment.charge.id,
+            //   amount: amount * 100
+            // }) TODO remove for production
+            const refund = {status:'succeeded'}
             if (refund.status === 'succeeded') {
               try {
                 await db.processRefund(payment, refund, unregister, reason)
