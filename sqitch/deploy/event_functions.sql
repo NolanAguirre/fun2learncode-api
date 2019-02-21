@@ -9,16 +9,18 @@ CREATE FUNCTION ftlc.check_prerequisite(UUID, UUID) RETURNS BOOLEAN AS $$
         prerequisites UUID[];
         student_events UUID[];
     BEGIN
+        IF (SELECT EXISTS(SELECT * FROM ftlc.registration_override WHERE event = $1 AND student = $2 AND valid_end > NOW())) THEN
+            RETURN TRUE;
+        END IF;
         SELECT array(
             SELECT prerequisite FROM ftlc.activity_prerequisite WHERE activity =
                 (SELECT activity FROM ftlc.event WHERE id = $1)) INTO prerequisites;
         SELECT array(
             SELECT DISTINCT activity FROM ftlc.event WHERE close_registration < (SELECT close_registration FROM ftlc.event WHERE id = $1) and id IN
-            (SELECT event from ftlc.event_registration WHERE student = $2)) INTO student_events;
-
+                (SELECT event from ftlc.event_registration WHERE student = $2)) INTO student_events;
         RETURN student_events @> prerequisites;
     END;
-$$ LANGUAGE PLPGSQL STABLE;
+$$ LANGUAGE PLPGSQL STABLE SECURITY DEFINER;
 
 CREATE FUNCTION ftlc.check_registration(UUID, UUID) RETURNS BOOLEAN AS $$
     SELECT NOT EXISTS(SELECT 1 FROM ftlc.event_registration WHERE event = $1 AND student = $2);
