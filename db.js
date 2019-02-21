@@ -59,7 +59,7 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
   )
 
   promises.push(
-    database.any('SELECT * FROM ftlc.registration_override WHERE student = ANY(ARRAY[$1:list]::UUID[]) AND event = $2', [students, event])
+    database.any('SELECT * FROM ftlc.registration_override WHERE student = ANY(ARRAY[$1:list]::UUID[]) AND event = $2 AND valid_end > NOW()', [students, event])
       .then((data) => {
         return { _overrides: data }
       })
