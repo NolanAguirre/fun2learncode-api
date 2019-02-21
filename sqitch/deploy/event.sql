@@ -13,7 +13,8 @@ CREATE TABLE ftlc.event(
     name TEXT NOT NULL,
     price FLOAT NOT NULL,
     show_calendar BOOLEAN DEFAULT true,
-    archive BOOLEAN DEFAULT false
+    archive BOOLEAN DEFAULT false,
+    public_display BOOLEAN DEFAULT true
 );
 
 COMMIT;
