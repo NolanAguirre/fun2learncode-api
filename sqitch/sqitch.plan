@@ -46,5 +46,3 @@ promo_code_use [promo_code] 2019-02-02T05:58:08Z Nolan Aguirre <nolanaguirre08@g
 privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add priviliges migration
 
 RLS 2019-01-17T02:06:50Z Nolan Aguirre <nolanaguirre08@gmail.com> # Row level security migration
-private_event [event] 2019-02-20T18:26:51Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add private event hash migration
-private_event_functions [private_event] 2019-02-20T18:36:42Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add private eventfunctions migration

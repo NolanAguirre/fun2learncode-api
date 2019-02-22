@@ -86,7 +86,7 @@ GRANT SELECT, UPDATE, INSERT ON ftlc.registration_override TO ftlc_admin_group;
 
 --student waiver RLS for making sure can see only my student
 GRANT SELECT, INSERT ON ftlc.student_waiver TO ftlc_user;
-GRANT SELECT ON ftlc.student_waiver TO ftlc_employee;
+
 -- student RLS
 GRANT SELECT ON ftlc.student TO ftlc_employee, ftlc_user;
 GRANT INSERT ON ftlc.student TO ftlc_user;
