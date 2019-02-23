@@ -25,21 +25,22 @@ payment [users] 2019-01-13T22:00:24Z Nolan Aguirre <nolanaguirre08@gmail.com> # 
 activity_prerequisite [activity] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
 event [activity] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 
+users_functions [users users_private] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
 student_waiver [student] 2019-02-07T02:21:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add student waiver migration
 event_registration [event student payment] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
 event_log [event student] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
 refund_request [payment] 2019-01-24T21:39:17Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add refun request migration
+event_request [event users] 2019-01-24T23:39:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activity request migration
 
+event_request_functions [event_request users_functions] 2019-02-22T23:18:10Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event request function migration
 student_waiver_functions [student_waiver] 2019-02-12T02:58:01Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add student waiver functions migration
 date_join [event date_interval] 2018-09-21T19:30:00Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add join between event and date_inverval
 date_interval_functions [date_interval date_join] 2019-01-13T22:16:20Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date interval functions migration
-users_functions [users] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
 event_functions [student event] 2018-09-14T03:44:41Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add event functions migration
 add_on_join [event add_on] 2018-12-13T19:08:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add add on join
 attendance [date_interval users] 2018-12-13T19:11:56Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add attendance migration
 promo_code [event users] 2019-01-13T21:47:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add promo code migration
 registration_override [activity student] 2019-01-24T20:32:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add registration override migration
-event_request [event users] 2019-01-24T23:39:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add activity request migration
 
 promo_code_use [promo_code] 2019-02-02T05:58:08Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add promo code use join table
 
