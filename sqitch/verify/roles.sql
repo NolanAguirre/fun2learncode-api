@@ -14,8 +14,6 @@ SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_anonymous';
 
 SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_admin';
 
-SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_lead_instructor';
-
 SELECT 1/ COUNT(*) FROM pg_roles WHERE rolname='ftlc_attendant';
 
 ROLLBACK;

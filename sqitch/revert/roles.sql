@@ -8,8 +8,6 @@ DROP ROLE ftlc_user;
 
 DROP ROLE ftlc_attendant;
 
-DROP ROLE ftlc_lead_instructor;
-
 DROP ROLE ftlc_instructor;
 
 DROP ROLE ftlc_admin;

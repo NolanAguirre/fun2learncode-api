@@ -6,8 +6,6 @@ DROP OWNED BY ftlc_owner;
 
 DROP OWNED BY ftlc_user;
 
-DROP OWNED BY ftlc_lead_instructor;
-
 DROP OWNED BY ftlc_instructor;
 
 DROP OWNED BY ftlc_admin;
