@@ -8,6 +8,6 @@ DROP FUNCTION ftlc.check_time (UUID, UUID);
 
 DROP FUNCTION ftlc.check_prerequisite(UUID, UUID);
 
-DROP FUNCTION ftlc.event_in_dates(TIMESTAMP, TIMESTAMP);
+DROP FUNCTION ftlc.event_in_dates(TIMESTAMPTZ, TIMESTAMPTZ);
 
 COMMIT;
