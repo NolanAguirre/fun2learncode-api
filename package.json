@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node api.js",
     "setup": "createdb fun2learncode && cd sqitch && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql  && npm start",
-    "dump": "pg_dump -a fun2learncode > dump.sql",
+    "dump": "pg_dump -a -n ftlc -n ftlc_private fun2learncode > dump.sql",
     "undump": "psql -d fun2learncode -f dump.sql",
     "sqitch-revert": "cd sqitch && sqitch revert ftlc",
     "sqitch-deploy": "cd sqitch && sqitch deploy ftlc",
