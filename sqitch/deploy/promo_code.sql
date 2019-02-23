@@ -6,7 +6,7 @@ BEGIN;
 
 CREATE TABLE ftlc.promo_code(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    code TEXT NOT NULL,
+    code TEXT UNIQUE NOT NULL,
     for_category BOOLEAN NOT NULL,
     for_activity BOOLEAN NOT NULL,
     for_user BOOLEAN NOT NULL,
