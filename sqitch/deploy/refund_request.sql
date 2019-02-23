@@ -12,7 +12,7 @@ CREATE TABLE ftlc.refund_request(
     granted_reason CITEXT,
     amount_refunded FLOAT,
     status ftlc.request_type DEFAULT 'pending',
-    CONSTRAINT one_request UNIQUE (payment, user_id)
+    CONSTRAINT one_refund_request UNIQUE (payment, user_id)
 );
 
 COMMIT;

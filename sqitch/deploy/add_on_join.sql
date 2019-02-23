@@ -7,7 +7,8 @@ BEGIN;
 CREATE TABLE ftlc.add_on_join(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     event UUID REFERENCES ftlc.event(id) NOT NULL,
-    add_on UUID REFERENCES ftlc.add_on(id) NOT NULL
+    add_on UUID REFERENCES ftlc.add_on(id) NOT NULL,
+    CONSTRAINT unique_add_on_join UNIQUE (event, add_on)
 );
 
 COMMIT;
