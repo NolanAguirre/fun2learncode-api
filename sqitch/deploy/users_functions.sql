@@ -12,8 +12,8 @@ CREATE FUNCTION ftlc.register_user(
     DECLARE
         person ftlc.users;
     BEGIN
-        IF(password = '') THEN
-            RAISE EXCEPTION 'No password was provided.';
+        IF(LENGTH(password) < 5 OR  LENGTH(password) >71) THEN
+            RAISE EXCEPTION 'Password must be between 6 and 72 characters.';
         END IF;
         INSERT INTO ftlc.users (first_name, last_name, email, role) VALUES ($1, $2, $3, 'ftlc_user') returning * into person;
         INSERT INTO ftlc_private.users(user_id, password_hash) VALUES ((person).id, crypt($4, gen_salt('bf')));
