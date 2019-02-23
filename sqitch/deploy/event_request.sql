@@ -9,12 +9,8 @@ CREATE TABLE ftlc.event_request(
     user_id UUID REFERENCES ftlc.users(id) NOT NULL,
     event UUID REFERENCES ftlc.event(id),
     created_on TIMESTAMPTZ DEFAULT NOW(),
-    desired_location CITEXT NOT NULL,
-    pay_in_full BOOLEAN NOT NULL,
-    desired_cost FLOAT NOT NULL,
-    desired_capacity INTEGER NOT NULL,
-    description CITEXT NOT NULL,
-    access_token TEXT UNIQUE NOT NULL,
+    information CITEXT NOT NULL, -- location, cost, capacity, general event description
+    access_token TEXT UNIQUE,
     status ftlc.request_type DEFAULT 'pending'
 );
 

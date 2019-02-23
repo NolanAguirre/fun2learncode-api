@@ -160,7 +160,7 @@ COPY ftlc.event_registration (id, registered_by, student, event, payment, regist
 -- Data for Name: event_request; Type: TABLE DATA; Schema: ftlc; Owner: nolan
 --
 
-COPY ftlc.event_request (id, user_id, event, created_on, desired_location, pay_in_full, desired_cost, desired_capacity, description, access_token, status) FROM stdin;
+COPY ftlc.event_request (id, user_id, event, created_on, information, access_token, status) FROM stdin;
 \.
 
 
@@ -232,4 +232,3 @@ COPY ftlc_private.users (id, user_id, password_hash, password_reset, password_re
 --
 -- PostgreSQL database dump complete
 --
-
