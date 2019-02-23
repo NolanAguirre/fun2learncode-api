@@ -12,7 +12,7 @@ CREATE TABLE ftlc.student_waiver(
     pickup_one CITEXT,
     pickup_two CITEXT,
     other CITEXT,
-    created_on TIMESTAMP DEFAULT NOW()
+    created_on TIMESTAMPTZ DEFAULT NOW()
 );
 
 COMMIT;

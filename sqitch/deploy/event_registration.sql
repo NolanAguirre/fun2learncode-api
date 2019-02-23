@@ -11,7 +11,7 @@ CREATE TABLE ftlc.event_registration(
     student UUID REFERENCES ftlc.student(id) NOT NULL,
     event UUID REFERENCES ftlc.event(id) NOT NULL,
     payment UUID REFERENCES ftlc.payment(id) NOT NULL,
-    registered_on TIMESTAMP DEFAULT NOW(),
+    registered_on TIMESTAMPTZ DEFAULT NOW(),
     CONSTRAINT unqiue_registration UNIQUE (student, event)
 );
 

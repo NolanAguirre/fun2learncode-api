@@ -9,7 +9,7 @@ CREATE TABLE ftlc.registration_override(
     student UUID REFERENCES ftlc.student(id) NOT NULL,
     event UUID REFERENCES ftlc.event(id) NOT NULL,
     modified_price FLOAT NOT NULL,
-    valid_end TIMESTAMP NOT NULL,
+    valid_end TIMESTAMPTZ NOT NULL,
     CONSTRAINT unique_override UNIQUE (student, event)
 );
 

@@ -9,7 +9,7 @@ CREATE TABLE ftlc_private.users(
     user_id UUID UNIQUE REFERENCES ftlc.users(id) ON DELETE CASCADE,
     password_hash TEXT NOT NULL,
     password_reset TEXT,
-    password_reset_expiration TIMESTAMP
+    password_reset_expiration TIMESTAMPTZ
 );
 
 COMMIT;

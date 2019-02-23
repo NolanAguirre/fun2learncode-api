@@ -9,7 +9,7 @@ CREATE TABLE ftlc.users (
     first_name CITEXT NOT NULL CHECK(first_name != ''),
     last_name CITEXT NOT NULL CHECK(last_name != ''),
     email CITEXT NOT NULL UNIQUE CHECK(email ~* '^.+@.+\..+$'),
-    created_on TIMESTAMP DEFAULT NOW() NOT NULL,
+    created_on TIMESTAMPTZ DEFAULT NOW() NOT NULL,
     role ftlc.role_type NOT NULL
 );
 

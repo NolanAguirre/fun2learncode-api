@@ -10,7 +10,7 @@ CREATE TABLE ftlc.attendance(
     date_interval UUID REFERENCES ftlc.date_interval(id) NOT NULL,
     event UUID REFERENCES ftlc.event(id) NOT NULL,
     present BOOLEAN NOT NULL,
-    check_in_time TIMESTAMP DEFAULT NOW(),
+    check_in_time TIMESTAMPTZ DEFAULT NOW(),
     CONSTRAINT unique_attendance PRIMARY KEY (student, date_interval)
 );
 

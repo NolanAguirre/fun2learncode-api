@@ -8,6 +8,6 @@ SELECT pg_get_functiondef('ftlc.check_time(UUID, UUID)'::regprocedure);
 
 SELECT pg_get_functiondef('ftlc.check_prerequisite(UUID, UUID)'::regprocedure);
 
-SELECT pg_get_functiondef('ftlc.event_in_dates(TIMESTAMP, TIMESTAMP)'::regprocedure);
+SELECT pg_get_functiondef('ftlc.event_in_dates(TIMESTAMPTZ, TIMESTAMPTZ)'::regprocedure);
 
 ROLLBACK;

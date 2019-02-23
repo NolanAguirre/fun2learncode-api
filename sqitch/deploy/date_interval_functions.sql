@@ -4,7 +4,7 @@
 
 BEGIN;
 
-CREATE FUNCTION ftlc.make_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc.date_join AS $$
+CREATE FUNCTION ftlc.make_date_interval(TIMESTAMPTZ, TIMESTAMPTZ, UUID) RETURNS ftlc.date_join AS $$
     DECLARE
        dateInterval UUID;
        date_join ftlc.date_join;
@@ -21,7 +21,7 @@ CREATE FUNCTION ftlc.make_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc
    END;
 $$ LANGUAGE PLPGSQL STRICT;
 
-CREATE FUNCTION ftlc.remove_date_interval(TIMESTAMP, TIMESTAMP, UUID) RETURNS ftlc.date_join AS $$
+CREATE FUNCTION ftlc.remove_date_interval(TIMESTAMPTZ, TIMESTAMPTZ, UUID) RETURNS ftlc.date_join AS $$
    DECLARE -- THIS MIGHT HAVE ISSUES, NEEDS MORE TESTING
       dateInterval UUID;
       date_join ftlc.date_join;

@@ -8,7 +8,7 @@ CREATE TABLE ftlc.student(
     parent UUID REFERENCES ftlc.users(id) NOT NULL,
     first_name CITEXT NOT NULL CHECK(first_name != ''),
     last_name CITEXT NOT NULL CHECK(last_name != ''),
-    date_of_birth TIMESTAMP NOT NULL
+    date_of_birth TIMESTAMPTZ NOT NULL
 );
 
 COMMIT;

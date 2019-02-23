@@ -17,9 +17,9 @@ CREATE TABLE ftlc.promo_code(
     user_id UUID REFERENCES ftlc.users(id),
     effect INTEGER NOT NULL,
     uses INTEGER NOT NULL,
-    created_on TIMESTAMP DEFAULT NOW(),
-    valid_start TIMESTAMP DEFAULT NOW(),
-    valid_end TIMESTAMP NOT NULL,
+    created_on TIMESTAMPTZ DEFAULT NOW(),
+    valid_start TIMESTAMPTZ DEFAULT NOW(),
+    valid_end TIMESTAMPTZ NOT NULL,
     archive BOOLEAN DEFAULT false,
     disabled BOOLEAN DEFAULT false
 );
