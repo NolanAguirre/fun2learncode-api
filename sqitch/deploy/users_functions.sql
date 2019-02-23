@@ -1,5 +1,6 @@
 -- Deploy ftlc:users_functions to pg
 -- requires: users
+-- requires users_private
 
 BEGIN;
 
