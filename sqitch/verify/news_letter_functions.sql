@@ -2,6 +2,8 @@
 
 BEGIN;
 
--- XXX Add verifications here.
+SELECT pg_get_functiondef('ftlc.make_news_letter(CITEXT)'::regprocedure);
+
+SELECT pg_get_functiondef('ftlc.remove_news_letter(UUID)'::regprocedure);
 
 ROLLBACK;

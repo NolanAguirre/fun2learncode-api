@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP FUNCTION ftlc.check_waiver(UUID);
+SELECT pg_get_functiondef('ftlc.check_waiver(UUID)'::regprocedure);
 
 ROLLBACK;

@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add verifications here.
+SELECT pg_get_functiondef('ftlc.store_transaction(UUID, JSONB)'::regprocedure);
 
 ROLLBACK;
