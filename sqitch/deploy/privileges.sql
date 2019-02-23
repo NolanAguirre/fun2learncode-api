@@ -46,7 +46,7 @@ GRANT INSERT ON ftlc.event_log TO ftlc_instructor, ftlc_attendant;
 GRANT SELECT ON ftlc.event_registration TO ftlc_instructor, ftlc_attendant, ftlc_user;
 
 -- event_request still testing RLS
-GRANT INSERT, SELECT ON ftlc.event_request TO ftlc_user;
+GRANT INSERT (information), SELECT ON ftlc.event_request TO ftlc_user;
 
 -- event
 GRANT SELECT ON ftlc.event TO ftlc_roles;
@@ -65,7 +65,7 @@ GRANT SELECT ON ftlc.payment TO ftlc_user;
 
 -- refund_request RLS
 GRANT SELECT ON ftlc.refund_request TO ftlc_user;
-GRANT INSERT(user_id, payment, reason) ON ftlc.refund_request TO ftlc_user;
+GRANT INSERT(payment, reason) ON ftlc.refund_request TO ftlc_user;
 
 -- registration override
 -- handed on rest api, created by owners and admins
@@ -76,7 +76,7 @@ GRANT INSERT ON ftlc.student_waiver TO ftlc_user;
 
 -- student RLS
 GRANT SELECT ON ftlc.student TO ftlc_instructor, ftlc_attendant, ftlc_user;
-GRANT INSERT ON ftlc.student TO ftlc_user;
+GRANT INSERT (first_name, last_name, date_of_birth) ON ftlc.student TO ftlc_user;
 
 -- transaction state
 -- handled by rest api, tracks transaction state

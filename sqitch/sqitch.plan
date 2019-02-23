@@ -17,15 +17,15 @@ announcement [extensions] 2019-01-24T23:02:42Z Nolan Aguirre <nolanaguirre08@gma
 users [types] 2018-08-29T00:57:32Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users migration
 activity [category] 2018-08-29T01:12:18Z Nolan Aguirre <nolanaguirre08@gmail.com> # add activity migration
 
+users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
+users_functions [users_private] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
+student [users_functions] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add student join migration
 transaction_state [users] 2019-01-15T06:50:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # add transaction state migration
 transaction_state_functions [transaction_state] 2019-02-01T04:47:16Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add transaction state function migration
-users_private [users] 2018-08-29T01:01:46Z Nolan Aguirre <nolanaguirre08@gmail.com> # add users private migration
-student [users] 2018-08-29T01:07:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # add student join migration
 payment [users] 2019-01-13T22:00:24Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add payment migration
 activity_prerequisite [activity] 2018-08-31T00:24:09Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add prerequisites join migration
 event [activity] 2018-09-21T19:26:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add date group migration
 
-users_functions [users users_private] 2018-09-07T02:26:44Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add users functions migration
 student_waiver [student] 2019-02-07T02:21:14Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add student waiver migration
 event_registration [event student payment] 2018-08-29T01:47:38Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event registration migration
 event_log [event student] 2018-08-29T01:42:27Z Nolan Aguirre <nolanaguirre08@gmail.com> # add event logs migration
