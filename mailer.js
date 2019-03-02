@@ -11,18 +11,19 @@ const transporter = nodemailer.createTransport({
 })
 
 var mailer = {}
+
 mailer.resetPassword = (email, name, token) => {
-  mailer.send({
+  return mailer.send({
     from: 'no_reply@fun2learncode.com', // sender address
     to: email, // list of receivers
     subject: 'Password reset', // Subject line
     html: ResetPasswordTemplate(name, `http://localhost:3000/reset/${encodeURIComponent(token)}`)// plain text body
-  }, (info, error) => { console.log(error) })
+})
 }
 
 // mailer.refundReply = (email, granted, reason) => {
 //     let template = granted?RefundGranted:RefundDenied(reason)
-//     mailer.send({
+//     return mailer.send({
 //         from:'no_reply@fun2learncode.com',
 //         to: email,
 //         subject 'Refund request',
@@ -30,8 +31,12 @@ mailer.resetPassword = (email, name, token) => {
 //     }, (info, error)=>{})
 // }
 
-mailer.send = (options, callback) => { // {from, to, subject, body}, cb(error, info)
-  transporter.sendMail(options, callback)
+mailer.refundRequest = () => {}
+
+mailer.newsLetter = (emails, body) => {}
+
+mailer.send = (options) => { // {from, to, subject, body}, cb(error, info)
+  return transporter.sendMail(options)
 }
 
 module.exports = mailer

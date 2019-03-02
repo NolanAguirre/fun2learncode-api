@@ -45,7 +45,8 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
       })
   )
   promises.push(
-    database.oneOrNone('SELECT * FROM ftlc.event WHERE open_registration < $1 AND $1 < close_registration AND id = $2 AND seats_left >= $3', [date, event, students.length])
+    //SELECT * FROM ftlc.event WHERE open_registration < $1 AND $1 < close_registration AND id = $2 AND seats_left >= $3
+    database.oneOrNone(query.hiddenEvent, [date, event, students.length])
       .then((data) => {
         return { _event: data }
       })
@@ -93,6 +94,7 @@ db.getRegistrationData = ({ students, addons, event, promoCode, user }, date) =>
 db.createEventRegistration = (user, students, event, payment) => {
   let promises = []
   students.forEach((student) => {
+      console.log(student)
     promises.push(
       database.none('INSERT INTO ftlc.event_registration(registered_by, student, event, payment) VAlUES ($1, $2, $3, $4)', [user, student.id, event, payment])
     )
@@ -132,6 +134,10 @@ db.getPayment = (id) => {
 
 db.genTemporaryToken = (email) => {
   return database.any('(SELECT first_name FROM ftlc.users WHERE email = $1) UNION (SELECT ftlc.generate_password_token($1))', [email])
+}
+
+db.getMailingList = () => {
+    return database.many('SELECT email FROM ftlc.news_letter')
 }
 
 module.exports = db

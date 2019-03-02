@@ -3,13 +3,15 @@ const app = express()
 const cookieSession = require('cookie-session')
 require('dotenv').config()
 const cors = require('cors')
-const { postgraphile } = require('postgraphile')
-const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 const db = require('./db')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple')
 const mailer = require('./mailer')
-const transaction = require('./transaction')
+const begin = require('./beginTransaction')
+const processTransaction = require('./processTransaction')
+const refund = require('./refundTransaction')
+const graphql = require('./graphql')
+const authenticate = require('./authenticate')
 
 const getJWTToken = (role, id, expiresAt) => (
   jwt.encode({
@@ -36,50 +38,60 @@ const cookieOptions = {
   // httpOnly: true
 }
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}))
+const validateAuthToken =  (req, res, next) => {
+  if (req.session && req.session.authToken && req.body && req.body.user) {
+    try {
+      const decrypt = jwt.decode(session.authToken, process.env.JWT_SECRET)
+      if (decrypt.id === user) {
+        next()
+      }
+    } catch (error) {
+      res.json({error:'Not authorized.'})
+    }
+  }
+  res.json({error:'Not authorized.'})
+}
+
+
+app.use(cors({origin: 'http://localhost:3000', credentials: true}))
 app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
 app.use('/graphiql', populateJWT)
-app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
-  dynamicJson: true,
-  graphiql: true,
-  appendPlugins: [PostGraphileConnectionFilterPlugin],
-  pgDefaultRole: 'ftlc_anonymous',
-  jwtPgTypeIdentifier: 'ftlc.jwt_token',
-  jwtSecret: process.env.JWT_SECRET
-}))
+// app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
+//   dynamicJson: true,
+//   graphiql: true,
+//   appendPlugins: [PostGraphileConnectionFilterPlugin],
+//   pgDefaultRole: 'ftlc_anonymous',
+//   jwtPgTypeIdentifier: 'ftlc.jwt_token',
+//   jwtSecret: process.env.JWT_SECRET
+// }))
+app.use('/payment', validateAuthToken)
 
-app.post('/authenticate', (req, res) => {
-  if (req.body && req.body.email && req.body.password) {
-    db.authenticate(req.body.email, req.body.password).then((data) => {
-      if (data.role && data.id && data.expires_at) {
-        req.session.authToken = getJWTToken(data.role, data.id, data.expires_at)
-        res.end()
-      } else {
-        res.json({ error: 'Email or Password was incorrect' })
-      }
+app.post('/graphql', (req,res) =>{
+    const foo = graphql(`{
+        allStudents{
+            nodes{
+                id
+            }
+        }
+    }`, null, null, null).then((data)=>{
+        console.log(data)
+        res.json({...data})
     })
-  } else {
-    res.json({
-      error: 'Email or password was not given'
-    })
-  }
 })
+app.post('/authenticate', authenticate)
 
 app.post('/logout', (req, res) => {
   req.session = null
   res.end()
 })
 
-app.post('/store', transaction.begin)
+app.post('/payment/begin', begin.begin)
 
-app.post('/charge', transaction.process)
+app.post('/payment/process', processTransaction.processTransaction )
 
-app.post('/refund', transaction.refund)
+app.post('/payment/refund', refund.refund)
 
 app.post('/recover', (req, res) => {
   const email = req.body.email
@@ -105,7 +117,7 @@ app.post('/recover', (req, res) => {
   }
 })
 
-app.post('/newsletter', (req, res) => {
+app.post('/mailing', (req, res) => {
 
 })
 
