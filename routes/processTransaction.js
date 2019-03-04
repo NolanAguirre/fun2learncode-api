@@ -43,9 +43,9 @@ const processTransaction = async ({user, token}) => {
   }
 
 module.exports = {
- production: (req, res) => {
+ production: async (req, res) => {
          if(req.body.token){
-             res.json(processTransaction(req.body))
+             res.json(await processTransaction(req.body))
          }else{
              res.json({error:'Not enough information provided.'})
          }

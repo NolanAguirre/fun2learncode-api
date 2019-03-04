@@ -18,9 +18,9 @@ const recover = async ({email}) => {
     }
   }
 module.exports = {
-    production:(req, res) => {
+    production:async (req, res) => {
         if(req.body && req.body.email && req.body.email.match('^.+@.+\\..+$')){
-            res.json(recover(req.body))
+            res.json(await recover(req.body))
         }else{
             res.json({error:'No valid email provided.'})
         }

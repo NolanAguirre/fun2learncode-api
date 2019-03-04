@@ -76,9 +76,9 @@ const begin = async ({promoCode, addons, event, students, user}) => {
 }
 
 module.exports = {
-    production: (req, res) => {
+    production: async (req, res) => {
         if(req.body.event && req.body.students && req.body.students.length){
-            res.json(begin(req.body))
+            res.json(await begin(req.body))
         }else{
             res.json({error:'Not enough information provided.'})
         }
