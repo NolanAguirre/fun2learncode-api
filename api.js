@@ -28,7 +28,7 @@ const cookieOptions = {
   name: 'session',
   keys: ['secretKeyOne', 'secreteKeyTwo', 'secreteKeyThree'],
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  sameSite: true
+  sameSite: true,
   secure: true,
   httpOnly: true
 }
