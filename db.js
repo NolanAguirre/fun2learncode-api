@@ -1,7 +1,7 @@
 const pgp = require('pg-promise')(/* options */)
 const query = require('./query')
 pgp.pg.defaults.ssl = true
-var database = pgp(`postgres://nolan:pettertheduck@localhost:5432/fun2learncode`)
+var database = pgp(process.env.DATABASE_URL)
 var db = {}
 //handle error messages here
 db.authenticate = (email, password) => {
