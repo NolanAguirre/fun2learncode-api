@@ -29,8 +29,8 @@ const cookieOptions = {
   keys: ['secretKeyOne', 'secreteKeyTwo', 'secreteKeyThree'],
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
   sameSite: true
-  // secure: true,
-  // httpOnly: true
+  secure: true,
+  httpOnly: true
 }
 
 const validateAuthToken =  (req, res, next) => {
@@ -50,7 +50,7 @@ const validateAuthToken =  (req, res, next) => {
 }
 
 
-app.use(cors({origin: 'http://localhost:3000', credentials: true}))
+app.use(cors({origin: 'https://fun2learncode.herokuapp.com/', credentials: true}))
 app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
