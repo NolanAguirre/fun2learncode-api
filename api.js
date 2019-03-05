@@ -50,7 +50,7 @@ const validateAuthToken =  (req, res, next) => {
 }
 
 
-app.use(cors({origin: 'https://fun2learncode.herokuapp.com/', credentials: true}))
+app.use(cors({origin: 'https://fun2learncode.herokuapp.com', credentials: true}))
 app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
