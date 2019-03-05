@@ -3,24 +3,19 @@ const app = express()
 const cookieSession = require('cookie-session')
 require('dotenv').config()
 const cors = require('cors')
-const db = require('./db')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple')
-const mailer = require('./mailer')
-const begin = require('./beginTransaction')
-const processTransaction = require('./processTransaction')
-const refund = require('./refundTransaction')
-const graphql = require('./graphql')
-const authenticate = require('./authenticate')
+const { postgraphile } = require('postgraphile')
+const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 
-const getJWTToken = (role, id, expiresAt) => (
-  jwt.encode({
-    aud: 'postgraphile',
-    role,
-    id,
-    expires_at: expiresAt
-  }, process.env.JWT_SECRET)
-)
+const routes = {
+    mailing: require('./routes/mailing').production,
+    begin: require('./routes/beginTransaction').production,
+    process: require('./routes/processTransaction').production,
+    refund: require('./routes/refundTransaction').production,
+    authenticate: require('./routes/authenticate').production,
+    recover: require('./routes/recover').production
+}
 
 const populateJWT = (req, res, next) => {
   if (req.session.authToken) {
@@ -43,13 +38,15 @@ const validateAuthToken =  (req, res, next) => {
     try {
       const decrypt = jwt.decode(session.authToken, process.env.JWT_SECRET)
       if (decrypt.id === user) {
+          req.body.user = decrypt
         next()
       }
     } catch (error) {
       res.json({error:'Not authorized.'})
     }
-  }
-  res.json({error:'Not authorized.'})
+    }else{
+        res.json({error:'Not authorized.'})
+    }
 }
 
 
@@ -58,68 +55,32 @@ app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
 app.use('/graphiql', populateJWT)
-// app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
-//   dynamicJson: true,
-//   graphiql: true,
-//   appendPlugins: [PostGraphileConnectionFilterPlugin],
-//   pgDefaultRole: 'ftlc_anonymous',
-//   jwtPgTypeIdentifier: 'ftlc.jwt_token',
-//   jwtSecret: process.env.JWT_SECRET
-// }))
+app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
+  dynamicJson: true,
+  graphiql: true,
+  appendPlugins: [PostGraphileConnectionFilterPlugin],
+  pgDefaultRole: 'ftlc_anonymous',
+  jwtPgTypeIdentifier: 'ftlc.jwt_token',
+  jwtSecret: process.env.JWT_SECRET
+}))
 app.use('/payment', validateAuthToken)
 
-app.post('/graphql', (req,res) =>{
-    const foo = graphql(`{
-        allStudents{
-            nodes{
-                id
-            }
-        }
-    }`, null, null, null).then((data)=>{
-        console.log(data)
-        res.json({...data})
-    })
-})
-app.post('/authenticate', authenticate)
+app.post('/authenticate', routes.authenticate)
 
 app.post('/logout', (req, res) => {
   req.session = null
   res.end()
 })
 
-app.post('/payment/begin', begin.begin)
+app.post('/payment/begin', routes.begin)
 
-app.post('/payment/process', processTransaction.processTransaction )
+app.post('/payment/process', routes.process )
 
-app.post('/payment/refund', refund.refund)
+app.post('/payment/refund', routes.refund)
 
-app.post('/recover', (req, res) => {
-  const email = req.body.email
-  if (email && email.match('^.+@.+\\..+$')) {
-    db.genTemporaryToken(email).then((data) => {
-      if (data.length === 2) {
-        const token = data[0].first_name
-        const name = data[1].first_name
-        if (token !== 'no user') {
-          mailer.resetPassword(email, name, token)
-        }
-      }
-    }).catch((error) => {
-      console.log(error)
-    })
-    res.json({
-      message: `An email has been sent to ${email} with furthur instructions.`
-    })
-  } else {
-    res.json({
-      error: 'No valid email was provided.'
-    })
-  }
-})
+app.post('/recover', routes.recover)
 
-app.post('/mailing', (req, res) => {
+app.post('/mailing', (req, res) => {})
 
-})
-
-app.listen(3005)
+app.listen(process.env.PORT || 3005)
 console.log('Listening on http://localhost:3005')
