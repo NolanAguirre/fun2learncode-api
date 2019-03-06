@@ -28,18 +28,18 @@ const cookieOptions = {
   name: 'session',
   keys: ['secretKeyOne', 'secreteKeyTwo', 'secreteKeyThree'],
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  sameSite: true,
-  secure: true,
-  httpOnly: true
+  sameSite: true//,
+  //secure: true,
+ //httpOnly: true
 }
 
 const validateAuthToken =  (req, res, next) => {
   if (req.session && req.session.authToken && req.body && req.body.user) {
     try {
-      const decrypt = jwt.decode(session.authToken, process.env.JWT_SECRET)
-      if (decrypt.id === user) {
-          req.body.user = decrypt
-        next()
+      const decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
+      if (decrypt.id === req.body.user) {
+          req.body.role = decrypt.role
+          next()
       }
     } catch (error) {
       res.json({error:'Not authorized.'})
@@ -50,7 +50,7 @@ const validateAuthToken =  (req, res, next) => {
 }
 
 
-app.use(cors({origin: 'https://fun2learncode.herokuapp.com', credentials: true}))
+app.use(cors({origin: 'http://fun2learncode.herokuapp.com', credentials: true})) //https://fun2learncode.herokuapp.com
 app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
