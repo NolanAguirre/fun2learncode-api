@@ -14,7 +14,7 @@ const refund = async ({user, refundUser, reason, paymentId, amount, unregister})
   }
 module.exports = {
     production:async (req, res) => {
-        if(req.body.user.role === 'ftlc_owner' && req.body.reason && req.body.paymentId && req.body.unregister >= 0){
+        if(req.body.role === 'ftlc_owner' && req.body.reason && req.body.paymentId && req.body.unregister >= 0){
             res.json(await refund(req.body))
         }else{
             res.json({error:'Not enough information provided.'})

@@ -1,4 +1,3 @@
-require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_TOKEN)
 const db = require('../db')
 
@@ -26,8 +25,9 @@ const processTransaction = async ({user, token}) => {
             }
         }
         if (charge.paid) {
-            const paymentId = await db.storePayment(user, data.transaction, data.charge)
+            const paymentId = await db.storePayment(user, transaction, charge)
             await db.createEventRegistration(user, transaction._students, transaction._event.id, paymentId)
+            await db.endTransaction(user)
             return{
               message: 'Payment and registration successful',
               students: transaction._students.map(student => student.id)
@@ -37,10 +37,15 @@ const processTransaction = async ({user, token}) => {
         }
     }catch(error){
         console.log(error)
+        try{
+            await db.endTransaction(user)
+        }catch(megaError){
+            console.log(megaError)
+            return{error:'mega error occured, account locked from transactions, contact website owner.'}
+        }
         return {error:error.message}
-    }
-    db.endTransaction(user)
   }
+}
 
 module.exports = {
  production: async (req, res) => {

@@ -20,13 +20,13 @@ const calculatePrice = (students, addons, promoCode, price) => {
         })
         total += t
     })
-    return (total < 1) ? 0 : total.toFixed(2)
+    return (total < 1) ? '0.00': total.toFixed(2)
 }
 
 const begin = async ({promoCode, addons, event, students, user}) => {
     try{
-        await db.transactionIsProcessing(user.id)
-        const info = await db.getRegistrationData({promoCode, addons, event, students, user}, new Date().toISOString())
+        await db.transactionIsProcessing(user)
+        const info = await db.getRegistrationData({promoCode, addons, event, students, user}, new Date().toISOString()) //MOCK DATE IF NEEDED
         let {
             _students,
             _promoCode,
@@ -39,11 +39,8 @@ const begin = async ({promoCode, addons, event, students, user}) => {
         if (_event === null) {
             return{error: 'Error with event selection.'}
         }
-        if (!_promoCode && promoCode) {
-            return{error: 'Promo code is not valid.'}
-        }
         if (students.length !== _students.length) {
-            return{error: 'Error with student selection.'}
+            return{error: 'User attempted to register student who is not their own.'}
         }
         if (_addons.length !== addons.length) {
             return{error: 'Error with addon selection.'}
@@ -60,24 +57,21 @@ const begin = async ({promoCode, addons, event, students, user}) => {
         for (let k in _studentCheck) {
             let v = _studentCheck[k]
             if (!v.check_time || !v.check_registration || !v.check_prerequisite || !v.check_waiver) {
-                return{
-                    error: 'Error with student selection'
-                }
-                return
+                return{error: 'Error with student selection.'}
             }
         }
         const price = calculatePrice(_students, _addons, _promoCode, _event.price)
         await db.storeTransaction(user, {_students,_promoCode,_event,_addons,_overrides,_activity,total: price})
         return {total:price}
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return {error:error.message}
     }
 }
 
 module.exports = {
     production: async (req, res) => {
-        if(req.body.event && req.body.students && req.body.students.length){
+        if(req.body.event && req.body.students && req.body.students.length > 0){
             res.json(await begin(req.body))
         }else{
             res.json({error:'Not enough information provided.'})

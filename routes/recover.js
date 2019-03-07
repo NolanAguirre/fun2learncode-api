@@ -1,5 +1,5 @@
 const db = require('../db')
-
+const mailer = require('../mailer')
 
 const recover = async ({email}) => {
     try{
@@ -9,9 +9,10 @@ const recover = async ({email}) => {
           const name = data[1].first_name
           if (token !== 'no user') {
             await mailer.resetPassword(email, name, token)
-            res.json({message: `An email has been sent to ${email} with furthur instructions.`})
-          }
+            return {message: `An email has been sent to ${email} with furthur instructions.`}
         }
+      }
+      return {error:'No user with provided email found.'}
     } catch(error){
         console.log(error)
         return {error: error.message}

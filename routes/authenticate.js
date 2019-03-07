@@ -6,7 +6,6 @@ const getJWTToken = (role, id, expiresAt) => jwt.encode({ aud: 'postgraphile', r
 const authenticate = async ({email, password}) => {
     return await db.authenticate(email, password).then((data) => {
         if (data.role && data.id && data.expires_at) {
-            console.log('working file')
            return {auth:getJWTToken(data.role, data.id, data.expires_at)}
         }
            return { error: 'Email or Password was incorrect.' }
