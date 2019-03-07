@@ -27,8 +27,8 @@ const populateJWT = (req, res, next) => {
 const cookieOptions = {
   name: 'session',
   keys: ['secretKeyOne', 'secreteKeyTwo', 'secreteKeyThree'],
-  maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  sameSite: true//,
+  maxAge: 24 * 60 * 60 * 1000//, // 24 hours
+  // sameSite: true//,
   //secure: true,
  //httpOnly: true
 }
@@ -50,7 +50,7 @@ const validateAuthToken =  (req, res, next) => {
 }
 
 
-app.use(cors({origin: 'http://fun2learncode.herokuapp.com', credentials: true})) //https://fun2learncode.herokuapp.com
+app.use(cors({origin: 'http://localhost:3000', credentials: true}))
 app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
@@ -63,7 +63,9 @@ app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
   jwtPgTypeIdentifier: 'ftlc.jwt_token',
   jwtSecret: process.env.JWT_SECRET
 }))
+
 app.use('/payment', validateAuthToken)
+app.use('/mailing', validateAuthToken)
 
 app.post('/authenticate', routes.authenticate)
 
@@ -74,13 +76,13 @@ app.post('/logout', (req, res) => {
 
 app.post('/payment/begin', routes.begin)
 
-app.post('/payment/process', routes.process )
+app.post('/payment/process', routes.process)
 
 app.post('/payment/refund', routes.refund)
 
 app.post('/recover', routes.recover)
 
-app.post('/mailing', (req, res) => {})
+app.post('/mailing', routes.mailing)
 
 app.listen(process.env.PORT || 3005)
 console.log('Listening on http://localhost:3005')

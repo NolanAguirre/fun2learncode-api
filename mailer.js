@@ -17,7 +17,7 @@ mailer.resetPassword = (email, name, token) => {
     from: 'no_reply@fun2learncode.com', // sender address
     to: email, // list of receivers
     subject: 'Password reset', // Subject line
-    html: ResetPasswordTemplate(name, `http://localhost:3000/reset/${encodeURIComponent(token)}`)// plain text body
+    html: ResetPasswordTemplate(name, `${process.env.CLIENT_URL}/reset/${encodeURIComponent(token)}`)// plain text body
 })
 }
 
@@ -31,9 +31,14 @@ mailer.resetPassword = (email, name, token) => {
 //     }, (info, error)=>{})
 // }
 
-mailer.refundRequest = () => {}
-
-mailer.newsLetter = (emails, body) => {}
+mailer.newsLetter = (emails, body) => {
+    return mailer.send({
+      from: 'no_reply@fun2learncode.com', // sender address
+      to: emails, // list of receivers
+      subject: 'Fun 2 Learn Code News Letter', // Subject line
+      html: body// plain text body
+  })
+}
 
 mailer.send = (options) => { // {from, to, subject, body}, cb(error, info)
   return transporter.sendMail(options)
