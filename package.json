@@ -5,13 +5,9 @@
   "main": "api.js",
   "scripts": {
     "start": "node api.js",
-    "test": "jest",
-    "setup": "createdb fun2learncode && cd sqitch && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql  && npm start",
-    "dump": "pg_dump -a -n ftlc -n ftlc_private fun2learncode > dump.sql",
-    "undump": "psql -d fun2learncode -f dump.sql",
-    "sqitch-revert": "cd sqitch && sqitch revert ftlc",
-    "sqitch-deploy": "cd sqitch && sqitch deploy ftlc",
-    "restart": "cd sqitch && sqitch revert ftlc && sqitch deploy ftlc && sqitch verify ftlc && cd .. && psql -d fun2learncode -f dump.sql && echo these errors are because of sqitchs config tables^^ && npm start"
+    "test": "node test.js",
+    "setup": "node setup.js",
+    "dump": "pg_dump -a -n ftlc -n ftlc_private fun2learncode > dump.sql"
   },
   "author": "Nolan Aguirre",
   "license": "ISC",
@@ -33,7 +29,6 @@
     "husky": "^1.3.1",
     "jest": "^24.1.0",
     "lint-staged": "^8.1.3",
-    "node-mocks-http": "^1.7.3",
     "standard": "^12.0.1"
   },
   "lint-staged": {
