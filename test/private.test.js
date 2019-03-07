@@ -1,5 +1,7 @@
 const begin = require('../routes/beginTransaction').test;
 const info = require('./info')
+
+//TEST NEEDED FOR SECOND PERSON TO REGISTER FOR PRIVATE EVENT
 module.exports = {
     describe:'Private Event test',
     process:(describe, test, expect, item)=>{

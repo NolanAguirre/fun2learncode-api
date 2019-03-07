@@ -242,56 +242,56 @@ COMMENT ON SCHEMA sqitch IS 'Sqitch database deployment metadata v1.0.';
 
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: citext; Type: EXTENSION; Schema: -; Owner: 
+-- Name: citext; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS citext WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION citext; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION citext; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION citext IS 'data type for case-insensitive character strings';
 
 
 --
--- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: 
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
 --
--- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: 
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
@@ -1948,7 +1948,7 @@ adaa3677-8dcc-4e34-8a7b-e59aee854dbe	11c275d9-0e77-4aa3-aea9-6131b5c218ea	Dr Bro
 --
 
 COPY ftlc.transaction_state (user_id, transaction, processing) FROM stdin;
-702651ae-0036-448e-bd7c-b9e6489bf822	{"total": "200.00", "_event": {"id": "55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f", "name": "June PM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "203c4e20-48c7-4137-825e-4118443917fe", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": true, "open_registration": "2019-03-02T05:59:59.000Z", "close_registration": "2019-06-03T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Advanced video game design"}, "_students": [{"id": "9cd5aa5d-74c3-462d-b80d-6bb5a1efa117", "last_name": "A", "first_name": "6"}], "_overrides": []}	f
+702651ae-0036-448e-bd7c-b9e6489bf822	{"total": "450.00", "_event": {"id": "e0023bf0-22d9-4816-affb-df1016f52f12", "name": "June private event", "price": 450, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "8986c827-d5dc-4cb3-9e46-b6000b602cef", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": false, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-06-14T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Private Event"}, "_students": [{"id": "2b4c7a88-1b82-4166-8909-2462a0038f40", "last_name": "A", "first_name": "5"}], "_overrides": []}	f
 \.
 
 
@@ -3366,4 +3366,3 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
-

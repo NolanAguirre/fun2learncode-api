@@ -36,9 +36,6 @@ const begin = async ({promoCode, addons, event, students, user}) => {
             _activity,
             ..._studentCheck
         } = info
-        if (_event === null) {
-            return{error: 'Error with event selection.'}
-        }
         if (students.length !== _students.length) {
             return{error: 'User attempted to register student who is not their own.'}
         }
@@ -61,6 +58,9 @@ const begin = async ({promoCode, addons, event, students, user}) => {
             }
         }
         const price = calculatePrice(_students, _addons, _promoCode, _event.price)
+        if (!_event.public_display && _event.seats_left === _event.capacity && price < 1) { // first person registering for the event tries to register for free
+            return{error: 'User attempted to register for free private event.'}
+        }
         await db.storeTransaction(user, {_students,_promoCode,_event,_addons,_overrides,_activity,total: price})
         return {total:price}
     }catch(error){

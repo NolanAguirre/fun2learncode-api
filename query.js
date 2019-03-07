@@ -8,11 +8,11 @@ const hiddenEvent = `SELECT * FROM ftlc.event WHERE (
     ((open_registration < $1 AND $1 < close_registration) OR (ARRAY[$5:list]::UUID[] <@ array(SELECT student FROM ftlc.registration_override WHERE event::text = $2 AND $1 < valid_end))) AND seats_left >= $3 AND (
     (public_display = true AND id::text = $2) OR
     (public_display = false AND id = (SELECT event FROM ftlc.event_request WHERE access_token = $2 AND user_id = $4)) OR
-    (false)))`
+    (public_display = false AND id = (SELECT event FROM ftlc.event_request WHERE access_token = $2) AND seats_left != capacity)))`
 
+//last condition is a super cheesy way to make sure people that didnt request the event cant register before the user who did request it did
 
 module.exports = {
   promoCode,
   hiddenEvent
 }
-//SELECT * FROM ftlc.event WHERE (open_registration < '2019-03-05T20:55:19.240Z' AND '2019-03-05T20:55:19.240Z' < close_registration AND seats_left >= 1 AND ((public_display = true AND id::text = 'TestEventasdfghjklqwertyuiop') OR (public_display = false AND id = (SELECT event FROM ftlc.event_request WHERE access_token = 'TestEventasdfghjklqwertyuiop' AND user_id = '702651ae-0036-448e-bd7c-b9e6489bf822'))))
