@@ -33,4 +33,7 @@ SELECT 1/ COUNT(*) FROM pg_policies WHERE schemaname = 'ftlc' AND tablename = 'u
 SELECT 1/ COUNT(*) FROM pg_policies WHERE schemaname = 'ftlc' AND tablename = 'users' AND policyname = 'employee_view';
 SELECT 1/ COUNT(*) FROM pg_policies WHERE schemaname = 'ftlc' AND tablename = 'users' AND policyname = 'owner_all';
 
+
+SELECT 1/ COUNT(*) FROM pg_policies WHERE schemaname = 'ftlc' AND tablename = 'registration_override' AND policyname = 'parent_of_student';
+SELECT 1/ COUNT(*) FROM pg_policies WHERE schemaname = 'ftlc' AND tablename = 'registration_override' AND policyname = 'admin_all';
 ROLLBACK;

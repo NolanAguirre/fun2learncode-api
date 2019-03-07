@@ -29,4 +29,7 @@ DROP POLICY is_user ON ftlc.users;
 DROP POLICY employee_view ON ftlc.users;
 DROP POLICY owner_all ON ftlc.users;
 
+DROP POLICY parent_of_student ON ftlc.registration_override;
+DROP POLICY admin_all ON ftlc.registration_override;
+
 COMMIT;

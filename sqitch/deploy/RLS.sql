@@ -33,8 +33,12 @@ CREATE POLICY parent_of_student ON ftlc.student TO ftlc_user USING (parent = ftl
 CREATE POLICY employee_all ON ftlc.student TO ftlc_employee, ftlc_attendant USING (true);
 
 ALTER TABLE ftlc.users ENABLE ROW LEVEL SECURITY;
-CREATE POLICY is_user ON ftlc.users TO ftlc_user USING (id = ftlc.get_id());
+CREATE POLICY is_user ON ftlc.users TO ftlc_user USING (id = ftlc.get_id() OR role != 'ftlc_user');
 CREATE POLICY employee_view ON ftlc.users FOR SELECT TO ftlc_employee USING (true);
 CREATE POLICY owner_all ON ftlc.users TO ftlc_owner USING (true);
+
+ALTER TABLE ftlc.registration_override ENABLE ROW LEVEL SECURITY;
+CREATE POLICY parent_of_student ON ftlc.registration_override FOR SELECT TO ftlc_user USING (student IN (SELECT id FROM ftlc.student WHERE parent = ftlc.get_id()));
+CREATE POLICY admin_all ON ftlc.registration_override TO ftlc_admin_group USING (true);
 
 COMMIT;

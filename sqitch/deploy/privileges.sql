@@ -39,7 +39,7 @@ GRANT SELECT ON ftlc.date_interval TO ftlc_roles;
 GRANT SELECT ON ftlc.date_join TO ftlc_roles;
 
 -- event_log RLS
-GRANT SELECT ON ftlc.event_log TO ftlc_instructor, ftlc_user;
+GRANT SELECT ON ftlc.event_log TO ftlc_instructor, ftlc_user, ftlc_attendant;
 GRANT INSERT ON ftlc.event_log TO ftlc_instructor, ftlc_attendant;
 
 -- event_registration RLS
@@ -69,7 +69,7 @@ GRANT INSERT(payment, reason) ON ftlc.refund_request TO ftlc_user;
 
 -- registration override
 -- handed on rest api, created by owners and admins
-
+GRANT SELECT ON ftlc.registration_override TO ftlc_user;
 --student waiver RLS
 GRANT SELECT ON ftlc.student_waiver TO ftlc_user, ftlc_instructor;
 GRANT INSERT ON ftlc.student_waiver TO ftlc_user;

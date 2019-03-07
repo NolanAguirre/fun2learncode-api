@@ -2,7 +2,7 @@
 
 BEGIN;
 
-CREATE ROLE ftlc_roles LOGIN PASSWORD 'potato';
+CREATE ROLE ftlc_roles;
 
 CREATE ROLE ftlc_admin_group;
 
