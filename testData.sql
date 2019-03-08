@@ -36,12 +36,6 @@ DROP POLICY admin_view ON ftlc.refund_request;
 DROP POLICY admin_all ON ftlc.registration_override;
 DROP POLICY admin_all ON ftlc.payment;
 DROP POLICY admin_all ON ftlc.event_registration;
-ALTER TABLE ONLY sqitch.tags DROP CONSTRAINT tags_project_fkey;
-ALTER TABLE ONLY sqitch.tags DROP CONSTRAINT tags_change_id_fkey;
-ALTER TABLE ONLY sqitch.events DROP CONSTRAINT events_project_fkey;
-ALTER TABLE ONLY sqitch.dependencies DROP CONSTRAINT dependencies_dependency_id_fkey;
-ALTER TABLE ONLY sqitch.dependencies DROP CONSTRAINT dependencies_change_id_fkey;
-ALTER TABLE ONLY sqitch.changes DROP CONSTRAINT changes_project_fkey;
 ALTER TABLE ONLY ftlc_private.users DROP CONSTRAINT users_user_id_fkey;
 ALTER TABLE ONLY ftlc.transaction_state DROP CONSTRAINT transaction_state_user_id_fkey;
 ALTER TABLE ONLY ftlc.student_waiver DROP CONSTRAINT student_waiver_student_fkey;
@@ -79,15 +73,6 @@ ALTER TABLE ONLY ftlc.add_on_join DROP CONSTRAINT add_on_join_add_on_fkey;
 ALTER TABLE ONLY ftlc.activity_prerequisite DROP CONSTRAINT activity_prerequisite_prerequisite_fkey;
 ALTER TABLE ONLY ftlc.activity_prerequisite DROP CONSTRAINT activity_prerequisite_activity_fkey;
 ALTER TABLE ONLY ftlc.activity DROP CONSTRAINT activity_category_fkey;
-ALTER TABLE ONLY sqitch.tags DROP CONSTRAINT tags_project_tag_key;
-ALTER TABLE ONLY sqitch.tags DROP CONSTRAINT tags_pkey;
-ALTER TABLE ONLY sqitch.releases DROP CONSTRAINT releases_pkey;
-ALTER TABLE ONLY sqitch.projects DROP CONSTRAINT projects_uri_key;
-ALTER TABLE ONLY sqitch.projects DROP CONSTRAINT projects_pkey;
-ALTER TABLE ONLY sqitch.events DROP CONSTRAINT events_pkey;
-ALTER TABLE ONLY sqitch.dependencies DROP CONSTRAINT dependencies_pkey;
-ALTER TABLE ONLY sqitch.changes DROP CONSTRAINT changes_project_script_hash_key;
-ALTER TABLE ONLY sqitch.changes DROP CONSTRAINT changes_pkey;
 ALTER TABLE ONLY ftlc_private.users DROP CONSTRAINT users_user_id_key;
 ALTER TABLE ONLY ftlc_private.users DROP CONSTRAINT users_pkey;
 ALTER TABLE ONLY ftlc.users DROP CONSTRAINT users_pkey;
@@ -128,12 +113,6 @@ ALTER TABLE ONLY ftlc.add_on_join DROP CONSTRAINT add_on_join_pkey;
 ALTER TABLE ONLY ftlc.activity_prerequisite DROP CONSTRAINT activity_prerequisite_pkey;
 ALTER TABLE ONLY ftlc.activity DROP CONSTRAINT activity_pkey;
 ALTER TABLE ftlc.announcement ALTER COLUMN id DROP DEFAULT;
-DROP TABLE sqitch.tags;
-DROP TABLE sqitch.releases;
-DROP TABLE sqitch.projects;
-DROP TABLE sqitch.events;
-DROP TABLE sqitch.dependencies;
-DROP TABLE sqitch.changes;
 DROP TABLE ftlc_private.users;
 DROP TABLE ftlc.transaction_state;
 DROP TABLE ftlc.student_waiver;
@@ -183,12 +162,6 @@ DROP TYPE ftlc.request_type;
 DROP TYPE ftlc.payment_status_type;
 DROP TYPE ftlc.jwt_token;
 DROP TYPE ftlc.role_type;
-DROP EXTENSION "uuid-ossp";
-DROP EXTENSION pgcrypto;
-DROP EXTENSION citext;
-DROP EXTENSION plpgsql;
-DROP SCHEMA sqitch;
-DROP SCHEMA public;
 DROP SCHEMA ftlc_private;
 DROP SCHEMA ftlc;
 --
@@ -208,94 +181,6 @@ CREATE SCHEMA ftlc_private;
 
 
 ALTER SCHEMA ftlc_private OWNER TO nolan;
-
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA public;
-
-
-ALTER SCHEMA public OWNER TO postgres;
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
-
-
---
--- Name: sqitch; Type: SCHEMA; Schema: -; Owner: nolan
---
-
-CREATE SCHEMA sqitch;
-
-
-ALTER SCHEMA sqitch OWNER TO nolan;
-
---
--- Name: SCHEMA sqitch; Type: COMMENT; Schema: -; Owner: nolan
---
-
-COMMENT ON SCHEMA sqitch IS 'Sqitch database deployment metadata v1.0.';
-
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
--- Name: citext; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS citext WITH SCHEMA public;
-
-
---
--- Name: EXTENSION citext; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION citext IS 'data type for case-insensitive character strings';
-
-
---
--- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
-
-
---
--- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner:
---
-
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
-
-
---
--- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner:
---
-
-COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
-
 
 --
 -- Name: role_type; Type: TYPE; Schema: ftlc; Owner: nolan
@@ -1160,502 +1045,6 @@ CREATE TABLE ftlc_private.users (
 ALTER TABLE ftlc_private.users OWNER TO nolan;
 
 --
--- Name: changes; Type: TABLE; Schema: sqitch; Owner: nolan
---
-
-CREATE TABLE sqitch.changes (
-    change_id text NOT NULL,
-    script_hash text,
-    change text NOT NULL,
-    project text NOT NULL,
-    note text DEFAULT ''::text NOT NULL,
-    committed_at timestamp with time zone DEFAULT clock_timestamp() NOT NULL,
-    committer_name text NOT NULL,
-    committer_email text NOT NULL,
-    planned_at timestamp with time zone NOT NULL,
-    planner_name text NOT NULL,
-    planner_email text NOT NULL
-);
-
-
-ALTER TABLE sqitch.changes OWNER TO nolan;
-
---
--- Name: TABLE changes; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON TABLE sqitch.changes IS 'Tracks the changes currently deployed to the database.';
-
-
---
--- Name: COLUMN changes.change_id; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.change_id IS 'Change primary key.';
-
-
---
--- Name: COLUMN changes.script_hash; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.script_hash IS 'Deploy script SHA-1 hash.';
-
-
---
--- Name: COLUMN changes.change; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.change IS 'Name of a deployed change.';
-
-
---
--- Name: COLUMN changes.project; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.project IS 'Name of the Sqitch project to which the change belongs.';
-
-
---
--- Name: COLUMN changes.note; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.note IS 'Description of the change.';
-
-
---
--- Name: COLUMN changes.committed_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.committed_at IS 'Date the change was deployed.';
-
-
---
--- Name: COLUMN changes.committer_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.committer_name IS 'Name of the user who deployed the change.';
-
-
---
--- Name: COLUMN changes.committer_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.committer_email IS 'Email address of the user who deployed the change.';
-
-
---
--- Name: COLUMN changes.planned_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.planned_at IS 'Date the change was added to the plan.';
-
-
---
--- Name: COLUMN changes.planner_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.planner_name IS 'Name of the user who planed the change.';
-
-
---
--- Name: COLUMN changes.planner_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.changes.planner_email IS 'Email address of the user who planned the change.';
-
-
---
--- Name: dependencies; Type: TABLE; Schema: sqitch; Owner: nolan
---
-
-CREATE TABLE sqitch.dependencies (
-    change_id text NOT NULL,
-    type text NOT NULL,
-    dependency text NOT NULL,
-    dependency_id text,
-    CONSTRAINT dependencies_check CHECK ((((type = 'require'::text) AND (dependency_id IS NOT NULL)) OR ((type = 'conflict'::text) AND (dependency_id IS NULL))))
-);
-
-
-ALTER TABLE sqitch.dependencies OWNER TO nolan;
-
---
--- Name: TABLE dependencies; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON TABLE sqitch.dependencies IS 'Tracks the currently satisfied dependencies.';
-
-
---
--- Name: COLUMN dependencies.change_id; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.dependencies.change_id IS 'ID of the depending change.';
-
-
---
--- Name: COLUMN dependencies.type; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.dependencies.type IS 'Type of dependency.';
-
-
---
--- Name: COLUMN dependencies.dependency; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.dependencies.dependency IS 'Dependency name.';
-
-
---
--- Name: COLUMN dependencies.dependency_id; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.dependencies.dependency_id IS 'Change ID the dependency resolves to.';
-
-
---
--- Name: events; Type: TABLE; Schema: sqitch; Owner: nolan
---
-
-CREATE TABLE sqitch.events (
-    event text NOT NULL,
-    change_id text NOT NULL,
-    change text NOT NULL,
-    project text NOT NULL,
-    note text DEFAULT ''::text NOT NULL,
-    requires text[] DEFAULT '{}'::text[] NOT NULL,
-    conflicts text[] DEFAULT '{}'::text[] NOT NULL,
-    tags text[] DEFAULT '{}'::text[] NOT NULL,
-    committed_at timestamp with time zone DEFAULT clock_timestamp() NOT NULL,
-    committer_name text NOT NULL,
-    committer_email text NOT NULL,
-    planned_at timestamp with time zone NOT NULL,
-    planner_name text NOT NULL,
-    planner_email text NOT NULL,
-    CONSTRAINT events_event_check CHECK ((event = ANY (ARRAY['deploy'::text, 'revert'::text, 'fail'::text, 'merge'::text])))
-);
-
-
-ALTER TABLE sqitch.events OWNER TO nolan;
-
---
--- Name: TABLE events; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON TABLE sqitch.events IS 'Contains full history of all deployment events.';
-
-
---
--- Name: COLUMN events.event; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.event IS 'Type of event.';
-
-
---
--- Name: COLUMN events.change_id; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.change_id IS 'Change ID.';
-
-
---
--- Name: COLUMN events.change; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.change IS 'Change name.';
-
-
---
--- Name: COLUMN events.project; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.project IS 'Name of the Sqitch project to which the change belongs.';
-
-
---
--- Name: COLUMN events.note; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.note IS 'Description of the change.';
-
-
---
--- Name: COLUMN events.requires; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.requires IS 'Array of the names of required changes.';
-
-
---
--- Name: COLUMN events.conflicts; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.conflicts IS 'Array of the names of conflicting changes.';
-
-
---
--- Name: COLUMN events.tags; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.tags IS 'Tags associated with the change.';
-
-
---
--- Name: COLUMN events.committed_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.committed_at IS 'Date the event was committed.';
-
-
---
--- Name: COLUMN events.committer_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.committer_name IS 'Name of the user who committed the event.';
-
-
---
--- Name: COLUMN events.committer_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.committer_email IS 'Email address of the user who committed the event.';
-
-
---
--- Name: COLUMN events.planned_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.planned_at IS 'Date the event was added to the plan.';
-
-
---
--- Name: COLUMN events.planner_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.planner_name IS 'Name of the user who planed the change.';
-
-
---
--- Name: COLUMN events.planner_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.events.planner_email IS 'Email address of the user who plan planned the change.';
-
-
---
--- Name: projects; Type: TABLE; Schema: sqitch; Owner: nolan
---
-
-CREATE TABLE sqitch.projects (
-    project text NOT NULL,
-    uri text,
-    created_at timestamp with time zone DEFAULT clock_timestamp() NOT NULL,
-    creator_name text NOT NULL,
-    creator_email text NOT NULL
-);
-
-
-ALTER TABLE sqitch.projects OWNER TO nolan;
-
---
--- Name: TABLE projects; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON TABLE sqitch.projects IS 'Sqitch projects deployed to this database.';
-
-
---
--- Name: COLUMN projects.project; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.projects.project IS 'Unique Name of a project.';
-
-
---
--- Name: COLUMN projects.uri; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.projects.uri IS 'Optional project URI';
-
-
---
--- Name: COLUMN projects.created_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.projects.created_at IS 'Date the project was added to the database.';
-
-
---
--- Name: COLUMN projects.creator_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.projects.creator_name IS 'Name of the user who added the project.';
-
-
---
--- Name: COLUMN projects.creator_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.projects.creator_email IS 'Email address of the user who added the project.';
-
-
---
--- Name: releases; Type: TABLE; Schema: sqitch; Owner: nolan
---
-
-CREATE TABLE sqitch.releases (
-    version real NOT NULL,
-    installed_at timestamp with time zone DEFAULT clock_timestamp() NOT NULL,
-    installer_name text NOT NULL,
-    installer_email text NOT NULL
-);
-
-
-ALTER TABLE sqitch.releases OWNER TO nolan;
-
---
--- Name: TABLE releases; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON TABLE sqitch.releases IS 'Sqitch registry releases.';
-
-
---
--- Name: COLUMN releases.version; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.releases.version IS 'Version of the Sqitch registry.';
-
-
---
--- Name: COLUMN releases.installed_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.releases.installed_at IS 'Date the registry release was installed.';
-
-
---
--- Name: COLUMN releases.installer_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.releases.installer_name IS 'Name of the user who installed the registry release.';
-
-
---
--- Name: COLUMN releases.installer_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.releases.installer_email IS 'Email address of the user who installed the registry release.';
-
-
---
--- Name: tags; Type: TABLE; Schema: sqitch; Owner: nolan
---
-
-CREATE TABLE sqitch.tags (
-    tag_id text NOT NULL,
-    tag text NOT NULL,
-    project text NOT NULL,
-    change_id text NOT NULL,
-    note text DEFAULT ''::text NOT NULL,
-    committed_at timestamp with time zone DEFAULT clock_timestamp() NOT NULL,
-    committer_name text NOT NULL,
-    committer_email text NOT NULL,
-    planned_at timestamp with time zone NOT NULL,
-    planner_name text NOT NULL,
-    planner_email text NOT NULL
-);
-
-
-ALTER TABLE sqitch.tags OWNER TO nolan;
-
---
--- Name: TABLE tags; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON TABLE sqitch.tags IS 'Tracks the tags currently applied to the database.';
-
-
---
--- Name: COLUMN tags.tag_id; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.tag_id IS 'Tag primary key.';
-
-
---
--- Name: COLUMN tags.tag; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.tag IS 'Project-unique tag name.';
-
-
---
--- Name: COLUMN tags.project; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.project IS 'Name of the Sqitch project to which the tag belongs.';
-
-
---
--- Name: COLUMN tags.change_id; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.change_id IS 'ID of last change deployed before the tag was applied.';
-
-
---
--- Name: COLUMN tags.note; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.note IS 'Description of the tag.';
-
-
---
--- Name: COLUMN tags.committed_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.committed_at IS 'Date the tag was applied to the database.';
-
-
---
--- Name: COLUMN tags.committer_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.committer_name IS 'Name of the user who applied the tag.';
-
-
---
--- Name: COLUMN tags.committer_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.committer_email IS 'Email address of the user who applied the tag.';
-
-
---
--- Name: COLUMN tags.planned_at; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.planned_at IS 'Date the tag was added to the plan.';
-
-
---
--- Name: COLUMN tags.planner_name; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.planner_name IS 'Name of the user who planed the tag.';
-
-
---
--- Name: COLUMN tags.planner_email; Type: COMMENT; Schema: sqitch; Owner: nolan
---
-
-COMMENT ON COLUMN sqitch.tags.planner_email IS 'Email address of the user who planned the tag.';
-
-
---
 -- Name: announcement id; Type: DEFAULT; Schema: ftlc; Owner: nolan
 --
 
@@ -1771,6 +1160,7 @@ bc8fdd6c-9858-44d9-872c-3c228ba04ecb	2019-06-05 13:00:00-05	2019-06-05 16:00:00-
 55dbc888-f2de-4452-9641-1b94a7fc3d5d	2019-06-06 13:00:00-05	2019-06-06 16:00:00-05	f
 cda5d4bc-2c84-41b8-a71e-ec41c42af802	2019-06-07 13:00:00-05	2019-06-07 16:00:00-05	f
 f8028f46-2b4f-488a-a5c5-3174b37f5b2d	2019-06-14 09:00:00-05	2019-06-14 17:00:00-05	f
+38874d36-cb5a-453e-9e65-7153e2a3010c	2019-06-21 21:03:00-05	2019-06-21 22:03:00-05	f
 \.
 
 
@@ -1802,6 +1192,7 @@ ddcc5a4b-397d-42b2-8771-6192b2de5a81	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	d5f74e
 de6ea98e-8bf3-4753-b73e-85bbd9b1e090	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	55dbc888-f2de-4452-9641-1b94a7fc3d5d
 d59c4c2e-1cbb-4d0b-a973-700fbc80d59e	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	cda5d4bc-2c84-41b8-a71e-ec41c42af802
 4deba2b2-e281-4c2e-bf0c-4fb07df73fc5	e0023bf0-22d9-4816-affb-df1016f52f12	f8028f46-2b4f-488a-a5c5-3174b37f5b2d
+1ed5a857-f1b2-4a0b-9cc4-8bfdbc7e7e69	2c474702-8436-442e-b66c-3fb30fef8e22	38874d36-cb5a-453e-9e65-7153e2a3010c
 \.
 
 
@@ -1817,6 +1208,7 @@ COPY ftlc.event (id, activity, address, open_registration, close_registration, c
 55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	203c4e20-48c7-4137-825e-4118443917fe	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-01 23:59:59-06	2019-06-02 23:59:59-05	8	8	June PM	200	t	f	t
 1c7441e7-56d1-4cf2-87c7-a0477a76d45f	0e207141-c0c9-402d-98dc-fb17c4602d6c	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-02-01 23:59:59-06	2019-05-27 23:59:59-05	8	7	May AM	200	t	f	t
 e0023bf0-22d9-4816-affb-df1016f52f12	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-02-01 23:59:59-06	2019-06-13 23:59:59-05	8	8	June private event	450	t	f	f
+2c474702-8436-442e-b66c-3fb30fef8e22	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-06 23:59:59-06	2019-06-21 23:59:59-05	8	7	Paid private event	0	t	f	f
 \.
 
 
@@ -1834,6 +1226,7 @@ COPY ftlc.event_log (id, event, date_interval, student, instructor, comment) FRO
 
 COPY ftlc.event_registration (id, registered_by, student, event, payment, registered_on) FROM stdin;
 58a92d96-d263-4fe4-bf54-241943f97531	702651ae-0036-448e-bd7c-b9e6489bf822	9cd5aa5d-74c3-462d-b80d-6bb5a1efa117	1c7441e7-56d1-4cf2-87c7-a0477a76d45f	2bd7f591-f0c9-41a6-bef7-181516f49a85	2019-03-05 13:53:18.039494-06
+ddcc5fc3-001b-4da4-bba8-51a1aa540b3d	c417e4c3-e766-46fe-8158-74784dc3d76a	6e2add24-bc61-4c2d-9c31-eead851c0ded	2c474702-8436-442e-b66c-3fb30fef8e22	20e76901-dfc5-48c6-abd7-1bac3918fc71	2019-03-07 21:05:49.110741-06
 \.
 
 
@@ -1843,6 +1236,7 @@ COPY ftlc.event_registration (id, registered_by, student, event, payment, regist
 
 COPY ftlc.event_request (id, user_id, event, created_on, information, access_token, status) FROM stdin;
 f1b4c896-a711-476e-ab1b-46097b832fbd	702651ae-0036-448e-bd7c-b9e6489bf822	e0023bf0-22d9-4816-affb-df1016f52f12	2019-03-05 14:27:32.850664-06		TestEventasdfghjklqwertyuiop	accepted
+8ed7f7e4-7e9b-43b3-8b68-9c3baa7e181a	c417e4c3-e766-46fe-8158-74784dc3d76a	2c474702-8436-442e-b66c-3fb30fef8e22	2019-03-07 21:03:29.134863-06	Paid event request	Paidedrftgyhujikkmjnhbgvctertrytuyiuo	accepted
 \.
 
 
@@ -1863,6 +1257,7 @@ fae6e9e1-0a3c-4302-a4d4-798e1a959992	bobby7083@gmail.com
 
 COPY ftlc.payment (id, user_id, status, create_on, snapshot, charge, refund) FROM stdin;
 2bd7f591-f0c9-41a6-bef7-181516f49a85	702651ae-0036-448e-bd7c-b9e6489bf822	paid	2019-03-05 13:53:18.025081-06	{"total": "200.00", "_event": {"id": "1c7441e7-56d1-4cf2-87c7-a0477a76d45f", "name": "May AM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "0e207141-c0c9-402d-98dc-fb17c4602d6c", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": true, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-05-28T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Video Game Design"}, "_students": [{"id": "9cd5aa5d-74c3-462d-b80d-6bb5a1efa117", "last_name": "A", "first_name": "6"}], "_overrides": []}	{"id": "ch_1EAjKDJvNjqUYflTVyvfl2nq", "paid": true, "order": null, "amount": 20000, "object": "charge", "review": null, "source": {"id": "card_1EAjKCJvNjqUYflTnym1eCh0", "name": "john doe", "brand": "Visa", "last4": "4242", "object": "card", "country": "US", "funding": "credit", "customer": null, "exp_year": 2022, "metadata": {}, "cvc_check": "pass", "exp_month": 2, "address_zip": "22222", "fingerprint": "kBXmY64PfhJVSbCa", "address_city": "Round Rock", "address_line1": "405 West Bowman Road", "address_line2": null, "address_state": "TX", "dynamic_last4": null, "address_country": "US", "address_zip_check": "pass", "address_line1_check": "pass", "tokenization_method": null}, "status": "succeeded", "created": 1551815597, "dispute": null, "invoice": null, "outcome": {"type": "authorized", "reason": null, "risk_level": "normal", "risk_score": 36, "network_status": "approved_by_network", "seller_message": "Payment complete."}, "refunds": {"url": "/v1/charges/ch_1EAjKDJvNjqUYflTVyvfl2nq/refunds", "data": [], "object": "list", "has_more": false, "total_count": 0}, "captured": true, "currency": "usd", "customer": null, "livemode": false, "metadata": {}, "refunded": false, "shipping": null, "application": null, "description": "fun2learncode Event charge", "destination": null, "receipt_url": "https://pay.stripe.com/receipts/acct_1DqX6WJvNjqUYflT/ch_1EAjKDJvNjqUYflTVyvfl2nq/rcpt_Ee1MPUVLR7jrEYOBOjgWGBjQoez8KYc", "failure_code": null, "on_behalf_of": null, "fraud_details": {}, "receipt_email": null, "transfer_data": null, "payment_intent": null, "receipt_number": null, "transfer_group": null, "amount_refunded": 0, "application_fee": null, "failure_message": null, "source_transfer": null, "balance_transaction": "txn_1EAjKDJvNjqUYflTNYfsqN1o", "statement_descriptor": "Fun2LearnCode Event", "application_fee_amount": null}	\N
+20e76901-dfc5-48c6-abd7-1bac3918fc71	c417e4c3-e766-46fe-8158-74784dc3d76a	paid	2019-03-07 21:05:49.084135-06	{"total": "450.00", "_event": {"id": "2c474702-8436-442e-b66c-3fb30fef8e22", "name": "Paid private event", "price": 0, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "8986c827-d5dc-4cb3-9e46-b6000b602cef", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": false, "open_registration": "2019-03-07T05:59:59.000Z", "close_registration": "2019-06-22T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Private Event"}, "_students": [{"id": "6e2add24-bc61-4c2d-9c31-eead851c0ded", "price": 450, "last_name": "B", "first_name": "1"}], "_overrides": [{"id": "19bd7ced-3c94-4f68-967b-f49070e4a211", "event": "2c474702-8436-442e-b66c-3fb30fef8e22", "student": "6e2add24-bc61-4c2d-9c31-eead851c0ded", "valid_end": "2019-06-22T02:04:09.911Z", "modified_price": 450}]}	{"id": "ch_1EBZ1sJvNjqUYflTyiV0reWt", "paid": true, "order": null, "amount": 45000, "object": "charge", "review": null, "source": {"id": "card_1EBZ1rJvNjqUYflTsGC50ANB", "name": "Nolan Aguirre", "brand": "Visa", "last4": "4242", "object": "card", "country": "US", "funding": "credit", "customer": null, "exp_year": 2022, "metadata": {}, "cvc_check": "pass", "exp_month": 2, "address_zip": "22222", "fingerprint": "kBXmY64PfhJVSbCa", "address_city": "Round Rock", "address_line1": "405 West Bowman Road", "address_line2": null, "address_state": "TX", "dynamic_last4": null, "address_country": "US", "address_zip_check": "pass", "address_line1_check": "pass", "tokenization_method": null}, "status": "succeeded", "created": 1552014348, "dispute": null, "invoice": null, "outcome": {"type": "authorized", "reason": null, "risk_level": "normal", "risk_score": 7, "network_status": "approved_by_network", "seller_message": "Payment complete."}, "refunds": {"url": "/v1/charges/ch_1EBZ1sJvNjqUYflTyiV0reWt/refunds", "data": [], "object": "list", "has_more": false, "total_count": 0}, "captured": true, "currency": "usd", "customer": null, "livemode": false, "metadata": {}, "refunded": false, "shipping": null, "application": null, "description": "fun2learncode Event charge", "destination": null, "receipt_url": "https://pay.stripe.com/receipts/acct_1DqX6WJvNjqUYflT/ch_1EBZ1sJvNjqUYflTyiV0reWt/rcpt_Eesnq04S9yrD9rTHbjtfgxxnIgbemlj", "failure_code": null, "on_behalf_of": null, "fraud_details": {}, "receipt_email": null, "transfer_data": null, "payment_intent": null, "receipt_number": null, "transfer_group": null, "amount_refunded": 0, "application_fee": null, "failure_message": null, "source_transfer": null, "balance_transaction": "txn_1EBZ1sJvNjqUYflTw4gH6nXQ", "statement_descriptor": "Fun2LearnCode Event", "application_fee_amount": null}	\N
 \.
 
 
@@ -1910,6 +1305,7 @@ COPY ftlc.registration_override (id, student, event, modified_price, valid_end) 
 459ffc20-276a-43f4-827d-b0a091ca51d3	94637b1b-3299-4f33-9714-c427a0bb5aa6	1c7441e7-56d1-4cf2-87c7-a0477a76d45f	10	2019-05-01 13:43:22.423-05
 486f0c7a-df13-4751-9c14-12e73abfcb2b	11c275d9-0e77-4aa3-aea9-6131b5c218ea	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	200	2019-04-30 13:51:50.694-05
 3d87b5d2-de38-476a-915f-be0af995dd35	94637b1b-3299-4f33-9714-c427a0bb5aa6	418d2479-88b6-4495-ad22-bf7e51f90115	10	2019-02-01 17:13:44.714-06
+19bd7ced-3c94-4f68-967b-f49070e4a211	6e2add24-bc61-4c2d-9c31-eead851c0ded	2c474702-8436-442e-b66c-3fb30fef8e22	450	2019-06-21 21:04:09.911-05
 \.
 
 
@@ -1940,6 +1336,7 @@ e27367c8-259d-476e-ad73-946d727d824c	9cd5aa5d-74c3-462d-b80d-6bb5a1efa117	Dr Bro
 bbd00b42-a7ac-4338-a830-6bab7decbf11	988ba3c8-6ee0-46ec-bf58-a57d930b7373	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre	none	2019-03-05 13:34:33.026667-06
 924415ba-5ccd-4725-a62c-0e8e3c67a948	94637b1b-3299-4f33-9714-c427a0bb5aa6	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre	none	2019-03-05 13:34:43.636924-06
 adaa3677-8dcc-4e34-8a7b-e59aee854dbe	11c275d9-0e77-4aa3-aea9-6131b5c218ea	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre	none	2019-03-05 13:34:55.114611-06
+660ec340-1fcc-4e57-a8bb-a5d048a33033	6e2add24-bc61-4c2d-9c31-eead851c0ded	Dr Brown	(234)-235-4657	(342)-536-7865	Nolan Aguirre	Avery Aguirre		2019-03-07 21:03:13.518298-06
 \.
 
 
@@ -1948,7 +1345,7 @@ adaa3677-8dcc-4e34-8a7b-e59aee854dbe	11c275d9-0e77-4aa3-aea9-6131b5c218ea	Dr Bro
 --
 
 COPY ftlc.transaction_state (user_id, transaction, processing) FROM stdin;
-702651ae-0036-448e-bd7c-b9e6489bf822	{"total": "450.00", "_event": {"id": "e0023bf0-22d9-4816-affb-df1016f52f12", "name": "June private event", "price": 450, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "8986c827-d5dc-4cb3-9e46-b6000b602cef", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": false, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-06-14T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Private Event"}, "_students": [{"id": "2b4c7a88-1b82-4166-8909-2462a0038f40", "last_name": "A", "first_name": "5"}], "_overrides": []}	f
+702651ae-0036-448e-bd7c-b9e6489bf822	{"total": "200.00", "_event": {"id": "55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f", "name": "June PM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "203c4e20-48c7-4137-825e-4118443917fe", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": true, "open_registration": "2019-03-02T05:59:59.000Z", "close_registration": "2019-06-03T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Advanced video game design"}, "_students": [{"id": "9cd5aa5d-74c3-462d-b80d-6bb5a1efa117", "last_name": "A", "first_name": "6"}], "_overrides": []}	f
 \.
 
 
@@ -1971,182 +1368,6 @@ COPY ftlc_private.users (id, user_id, password_hash, password_reset, password_re
 157eb4c7-83d1-4a09-9963-96642b9e7405	007458de-2329-4f0f-9572-eae8f8459208	$2a$06$Azo2g4m6xRD9/ZXCh90Yj.1gh7ExMm6cAZudz4VolyC1q3b6LZqvi	\N	\N
 45dd054d-919c-462c-a7a7-2403289f9f8f	702651ae-0036-448e-bd7c-b9e6489bf822	$2a$06$BG8RfcuF5HkqwtTA6whmkukCBt.7Ef7C.JbMA5N3/7VO3xSQvTR6W	\N	\N
 d065409a-ac1d-4cc1-8549-773ebe62ab8f	c417e4c3-e766-46fe-8158-74784dc3d76a	$2a$06$3eYEnpbi6KYYKZgj.AXAue5qf1uFKz8jITYJf.V4HvRdrdZb2oSte	\N	\N
-\.
-
-
---
--- Data for Name: changes; Type: TABLE DATA; Schema: sqitch; Owner: nolan
---
-
-COPY sqitch.changes (change_id, script_hash, change, project, note, committed_at, committer_name, committer_email, planned_at, planner_name, planner_email) FROM stdin;
-7decbba512c319112815608f66d381cf987d32e9	1afd8802d010fddc77dc7d42b2fc76f5ec6533b5	appschema	ftlc	Add appschema migration	2019-03-06 19:49:30.53882-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:39:35-05	Nolan Aguirre	nolanaguirre08@gmail.com
-d29edad4f6b478766505320a6cf1697082283939	83b4636ce6022ffda83e66a38a29e6e6be17f8ea	roles	ftlc	Add roles migration	2019-03-06 19:49:30.583568-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:42:17-05	Nolan Aguirre	nolanaguirre08@gmail.com
-de00f1ff87b0f8395b345bc31e55ebe5ab96aa94	ce6c847b195fd015f117cd9156ddae574f7d8d14	extensions	ftlc	Add extensions migration	2019-03-06 19:49:30.639672-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:43:33-05	Nolan Aguirre	nolanaguirre08@gmail.com
-673830cd7cbaf27cd0570d313771c7439c81a909	7e5991785d26503f8ce3646614ee2e71cef3bd2e	types	ftlc	Add types migration	2019-03-06 19:49:30.697406-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:55:30-05	Nolan Aguirre	nolanaguirre08@gmail.com
-c8088d19b46572f24040ab2a661939c9da2db293	223df9f855fc29d94e7a991489d5a6823ca87957	address	ftlc	Add address migration	2019-03-06 19:49:30.799951-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:45:58-05	Nolan Aguirre	nolanaguirre08@gmail.com
-0033c1184d1690315527b58ddfaae1cb8f3f3597	cc84bbcfa59078f9b61a524d07d9d397f738b88b	date_interval	ftlc	add event dates migration	2019-03-06 19:49:30.891209-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:20:22-05	Nolan Aguirre	nolanaguirre08@gmail.com
-a08943ea78548567ee631bb5d2ae09625dd3fc59	149ca4f97969614108399bc477cfd0dbd36b6ea2	category	ftlc	Add activity catagories migration	2019-03-06 19:49:30.960671-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-04 22:50:25-05	Nolan Aguirre	nolanaguirre08@gmail.com
-314894997c05d2d0225e97feb41651cd0e5f3cd5	ff52ac56f59ac4adda6714d6e70fa2ae730d7d20	add_on	ftlc	Add add ons migration	2019-03-06 19:49:31.050621-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-12-13 13:04:06-06	Nolan Aguirre	nolanaguirre08@gmail.com
-49e76e2ddd47e51219f49622a767487dd5b4f125	0d4f1579abd7a1e663f8630dbd9ed8e5c1937519	news_letter	ftlc	Add newsletter migration	2019-03-06 19:49:31.121582-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 16:57:54-06	Nolan Aguirre	nolanaguirre08@gmail.com
-90b2b712f18fca63471ea7e4ad1da24c74594686	8b083344606473ffaf1605ce1f3c6933203c390c	news_letter_functions	ftlc	Add news letter function migration	2019-03-06 19:49:31.203623-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-31 22:45:49-06	Nolan Aguirre	nolanaguirre08@gmail.com
-fb8f0276e9f95f0e157c0839dd428589cec10e10	b66107d25f4f55115904f10e24596afe4c1eaad9	announcement	ftlc	Add announcement migration	2019-03-06 19:49:31.25826-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 17:02:42-06	Nolan Aguirre	nolanaguirre08@gmail.com
-26d301d8dbab322e1d5be80fd79032c409b8bf7d	16a1c84dd03e491ba565a0992e90b5d407a9afd3	users	ftlc	add users migration	2019-03-06 19:49:31.328335-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:57:32-05	Nolan Aguirre	nolanaguirre08@gmail.com
-fd0530b417a1865aefc7ff3437933b68c9a77ea2	b186a9f387f4d73071d7a9ec8b347eda92dbc932	activity	ftlc	add activity migration	2019-03-06 19:49:31.422875-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:12:18-05	Nolan Aguirre	nolanaguirre08@gmail.com
-048538dae2bfee1087cb38f2ec94d88b4e19df0f	2b486d6a403db1ac154d5b9a35f3f5cfb1ff1650	users_private	ftlc	add users private migration	2019-03-06 19:49:31.501835-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:01:46-05	Nolan Aguirre	nolanaguirre08@gmail.com
-f69bc1bcf84ec82868e67803cba3f2bd1e6da4eb	cc484981367c0bafffb8c4b97abaf957e1d4d8a7	users_functions	ftlc	Add users functions migration	2019-03-06 19:49:31.549377-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-06 21:26:44-05	Nolan Aguirre	nolanaguirre08@gmail.com
-501ea6c40cfa81b6f22070ff7239443c3ca23b0d	f54ce23b1fe801e2ebcfeb01c8e8564e8179492d	student	ftlc	add student join migration	2019-03-06 19:49:31.602506-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:07:14-05	Nolan Aguirre	nolanaguirre08@gmail.com
-c6b7f6504b0c6b497398dfe548056d8bc033ff4d	9f28fe8b0bd3a14f5a17b5f356ee2e78d6f41ead	transaction_state	ftlc	add transaction state migration	2019-03-06 19:49:31.68951-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-15 00:50:30-06	Nolan Aguirre	nolanaguirre08@gmail.com
-feef24674d70cfea2db327105f5725b8f73e84b0	bf44baa30afeda9c00fb523103926ad11e03277a	transaction_state_functions	ftlc	Add transaction state function migration	2019-03-06 19:49:31.737009-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-31 22:47:16-06	Nolan Aguirre	nolanaguirre08@gmail.com
-9e38727e685cafee3e5a3903475dec0f70458d92	6088e3cfcdb93998f5b496fde86a5998e0385eec	payment	ftlc	Add payment migration	2019-03-06 19:49:31.811402-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-13 16:00:24-06	Nolan Aguirre	nolanaguirre08@gmail.com
-978b86804e8267b8cd4f0e8ab9a7ca6f2837af5a	80d6c2865309b0c5d7ed543f859d0d7e38f62203	activity_prerequisite	ftlc	Add prerequisites join migration	2019-03-06 19:49:31.910347-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-30 19:24:09-05	Nolan Aguirre	nolanaguirre08@gmail.com
-90c1a2fac0371e6a12e72e3ced35f7342c236170	3c074317e21aef9497c695fee1508b6ddb772326	event	ftlc	Add date group migration	2019-03-06 19:49:31.978291-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-21 14:26:14-05	Nolan Aguirre	nolanaguirre08@gmail.com
-4f158740daad5a839cf57f91905f0d88a8b7baac	ada52814b5594765ef7ea2e93f33f302a0c83b06	student_waiver	ftlc	Add student waiver migration	2019-03-06 19:49:32.061189-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-06 20:21:14-06	Nolan Aguirre	nolanaguirre08@gmail.com
-fa6b2581d422748ac9f1fc98a333215d4d29ea52	2e97751166f13c3af4b32f9a4e88a815cf1834bf	event_registration	ftlc	add event registration migration	2019-03-06 19:49:32.115982-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:47:38-05	Nolan Aguirre	nolanaguirre08@gmail.com
-d27730d6b8a2bb69bb12813c7b8a9209b4faaae8	08882cd21320f08b92c348761e86407561746409	event_log	ftlc	add event logs migration	2019-03-06 19:49:32.187106-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:42:27-05	Nolan Aguirre	nolanaguirre08@gmail.com
-4971a9f8187d2738c43631161e8330e3497da673	5f7820ae3982dbfa5dd132af6768b674c266a295	refund_request	ftlc	Add refun request migration	2019-03-06 19:49:32.269054-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 15:39:17-06	Nolan Aguirre	nolanaguirre08@gmail.com
-1b4349fc2a4a8d2ceb83095e262fca87c94232cb	1e93651a749fc2f049feacf4705c2e18e763d6eb	event_request	ftlc	Add activity request migration	2019-03-06 19:49:32.342009-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 17:39:44-06	Nolan Aguirre	nolanaguirre08@gmail.com
-43eaa7511926d35050e58e54a1acf7a009870731	acd5cd9becb8d0af9c1559808ede18316a662070	event_request_functions	ftlc	Add event request function migration	2019-03-06 19:49:32.417827-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-22 17:18:10-06	Nolan Aguirre	nolanaguirre08@gmail.com
-60252675e95c0e7d856b2c86df3189be5d3e48ea	af25de3db712e35296df3118b5138186b1ab01ff	student_waiver_functions	ftlc	Add student waiver functions migration	2019-03-06 19:49:32.461276-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-11 20:58:01-06	Nolan Aguirre	nolanaguirre08@gmail.com
-8bfccdc982bafe8b310f68b5083a47287bee3003	a3969e859f884813dceb7b56ca325ae38e917f58	date_join	ftlc	Add join between event and date_inverval	2019-03-06 19:49:32.525979-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-21 14:30:00-05	Nolan Aguirre	nolanaguirre08@gmail.com
-fdd1e43e7dcc8b1918b6bae5f3a6d6ffb50dd6e1	2e731dd6ba29eb2506c97b4e145166ddfdad95ca	date_interval_functions	ftlc	Add date interval functions migration	2019-03-06 19:49:32.614513-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-13 16:16:20-06	Nolan Aguirre	nolanaguirre08@gmail.com
-2d23c3565844a782aec1456cc7a6c5e8dca46226	d14c026c3ae2d8bc77114eb62bd8eb2d6b592fa7	event_functions	ftlc	Add event functions migration	2019-03-06 19:49:32.684054-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-13 22:44:41-05	Nolan Aguirre	nolanaguirre08@gmail.com
-a58ea9959ccc51104baf7851a9183deaf10fbad4	131c11cc1bef7e91d0e1c8c011861586d507c305	add_on_join	ftlc	Add add on join	2019-03-06 19:49:32.755504-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-12-13 13:08:09-06	Nolan Aguirre	nolanaguirre08@gmail.com
-e9dd80989ce9600c3fb93119fc8557f9b5d8336d	a7c01344b9826305723ddd8728c628a4ef386450	attendance	ftlc	Add attendance migration	2019-03-06 19:49:32.82029-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-12-13 13:11:56-06	Nolan Aguirre	nolanaguirre08@gmail.com
-0b0df5d03322f99f61f5294e8ea07a97865ed74a	f8cc62f7e615166cc131cd923403e45c6b4f4916	promo_code	ftlc	add promo code migration	2019-03-06 19:49:32.918132-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-13 15:47:14-06	Nolan Aguirre	nolanaguirre08@gmail.com
-24e9099a51fc0a28a9aef93a35397a9ec5fa92bc	fc270096f46758bf0bc9e0993949a8d7bbd356c1	registration_override	ftlc	Add registration override migration	2019-03-06 19:49:33.014432-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 14:32:09-06	Nolan Aguirre	nolanaguirre08@gmail.com
-55de351e09207828c1232cacc07d0b74d74b10fe	1d643e47b49e02948de0a7f87997565685556094	promo_code_use	ftlc	Add promo code use join table	2019-03-06 19:49:33.087146-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-01 23:58:08-06	Nolan Aguirre	nolanaguirre08@gmail.com
-0dc10b1cf8d0ac2f990b325799ae6b68905c50c3	5c1edcc90e70def9e4df1204a45e8438cae3b326	privileges	ftlc	Add priviliges migration	2019-03-06 19:49:33.144004-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-06 22:13:43-05	Nolan Aguirre	nolanaguirre08@gmail.com
-3917fd07b982885e51bba8d928268e9cbafeea6b	f84c5073d556302a3746be07d60b2670b68a8c9d	RLS	ftlc	Row level security migration	2019-03-06 19:49:33.227172-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-16 20:06:50-06	Nolan Aguirre	nolanaguirre08@gmail.com
-\.
-
-
---
--- Data for Name: dependencies; Type: TABLE DATA; Schema: sqitch; Owner: nolan
---
-
-COPY sqitch.dependencies (change_id, type, dependency, dependency_id) FROM stdin;
-673830cd7cbaf27cd0570d313771c7439c81a909	require	appschema	7decbba512c319112815608f66d381cf987d32e9
-673830cd7cbaf27cd0570d313771c7439c81a909	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-c8088d19b46572f24040ab2a661939c9da2db293	require	appschema	7decbba512c319112815608f66d381cf987d32e9
-c8088d19b46572f24040ab2a661939c9da2db293	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-0033c1184d1690315527b58ddfaae1cb8f3f3597	require	appschema	7decbba512c319112815608f66d381cf987d32e9
-0033c1184d1690315527b58ddfaae1cb8f3f3597	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-a08943ea78548567ee631bb5d2ae09625dd3fc59	require	appschema	7decbba512c319112815608f66d381cf987d32e9
-a08943ea78548567ee631bb5d2ae09625dd3fc59	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-314894997c05d2d0225e97feb41651cd0e5f3cd5	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-49e76e2ddd47e51219f49622a767487dd5b4f125	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-90b2b712f18fca63471ea7e4ad1da24c74594686	require	news_letter	49e76e2ddd47e51219f49622a767487dd5b4f125
-fb8f0276e9f95f0e157c0839dd428589cec10e10	require	extensions	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94
-26d301d8dbab322e1d5be80fd79032c409b8bf7d	require	types	673830cd7cbaf27cd0570d313771c7439c81a909
-fd0530b417a1865aefc7ff3437933b68c9a77ea2	require	category	a08943ea78548567ee631bb5d2ae09625dd3fc59
-048538dae2bfee1087cb38f2ec94d88b4e19df0f	require	users	26d301d8dbab322e1d5be80fd79032c409b8bf7d
-f69bc1bcf84ec82868e67803cba3f2bd1e6da4eb	require	users_private	048538dae2bfee1087cb38f2ec94d88b4e19df0f
-501ea6c40cfa81b6f22070ff7239443c3ca23b0d	require	users_functions	f69bc1bcf84ec82868e67803cba3f2bd1e6da4eb
-c6b7f6504b0c6b497398dfe548056d8bc033ff4d	require	users	26d301d8dbab322e1d5be80fd79032c409b8bf7d
-feef24674d70cfea2db327105f5725b8f73e84b0	require	transaction_state	c6b7f6504b0c6b497398dfe548056d8bc033ff4d
-9e38727e685cafee3e5a3903475dec0f70458d92	require	users	26d301d8dbab322e1d5be80fd79032c409b8bf7d
-978b86804e8267b8cd4f0e8ab9a7ca6f2837af5a	require	activity	fd0530b417a1865aefc7ff3437933b68c9a77ea2
-90c1a2fac0371e6a12e72e3ced35f7342c236170	require	activity	fd0530b417a1865aefc7ff3437933b68c9a77ea2
-4f158740daad5a839cf57f91905f0d88a8b7baac	require	student	501ea6c40cfa81b6f22070ff7239443c3ca23b0d
-fa6b2581d422748ac9f1fc98a333215d4d29ea52	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-fa6b2581d422748ac9f1fc98a333215d4d29ea52	require	student	501ea6c40cfa81b6f22070ff7239443c3ca23b0d
-fa6b2581d422748ac9f1fc98a333215d4d29ea52	require	payment	9e38727e685cafee3e5a3903475dec0f70458d92
-d27730d6b8a2bb69bb12813c7b8a9209b4faaae8	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-d27730d6b8a2bb69bb12813c7b8a9209b4faaae8	require	student	501ea6c40cfa81b6f22070ff7239443c3ca23b0d
-4971a9f8187d2738c43631161e8330e3497da673	require	payment	9e38727e685cafee3e5a3903475dec0f70458d92
-1b4349fc2a4a8d2ceb83095e262fca87c94232cb	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-1b4349fc2a4a8d2ceb83095e262fca87c94232cb	require	users	26d301d8dbab322e1d5be80fd79032c409b8bf7d
-43eaa7511926d35050e58e54a1acf7a009870731	require	event_request	1b4349fc2a4a8d2ceb83095e262fca87c94232cb
-43eaa7511926d35050e58e54a1acf7a009870731	require	users_functions	f69bc1bcf84ec82868e67803cba3f2bd1e6da4eb
-60252675e95c0e7d856b2c86df3189be5d3e48ea	require	student_waiver	4f158740daad5a839cf57f91905f0d88a8b7baac
-8bfccdc982bafe8b310f68b5083a47287bee3003	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-8bfccdc982bafe8b310f68b5083a47287bee3003	require	date_interval	0033c1184d1690315527b58ddfaae1cb8f3f3597
-fdd1e43e7dcc8b1918b6bae5f3a6d6ffb50dd6e1	require	date_interval	0033c1184d1690315527b58ddfaae1cb8f3f3597
-fdd1e43e7dcc8b1918b6bae5f3a6d6ffb50dd6e1	require	date_join	8bfccdc982bafe8b310f68b5083a47287bee3003
-2d23c3565844a782aec1456cc7a6c5e8dca46226	require	student	501ea6c40cfa81b6f22070ff7239443c3ca23b0d
-2d23c3565844a782aec1456cc7a6c5e8dca46226	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-a58ea9959ccc51104baf7851a9183deaf10fbad4	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-a58ea9959ccc51104baf7851a9183deaf10fbad4	require	add_on	314894997c05d2d0225e97feb41651cd0e5f3cd5
-e9dd80989ce9600c3fb93119fc8557f9b5d8336d	require	date_interval	0033c1184d1690315527b58ddfaae1cb8f3f3597
-e9dd80989ce9600c3fb93119fc8557f9b5d8336d	require	users	26d301d8dbab322e1d5be80fd79032c409b8bf7d
-0b0df5d03322f99f61f5294e8ea07a97865ed74a	require	event	90c1a2fac0371e6a12e72e3ced35f7342c236170
-0b0df5d03322f99f61f5294e8ea07a97865ed74a	require	users	26d301d8dbab322e1d5be80fd79032c409b8bf7d
-24e9099a51fc0a28a9aef93a35397a9ec5fa92bc	require	activity	fd0530b417a1865aefc7ff3437933b68c9a77ea2
-24e9099a51fc0a28a9aef93a35397a9ec5fa92bc	require	student	501ea6c40cfa81b6f22070ff7239443c3ca23b0d
-55de351e09207828c1232cacc07d0b74d74b10fe	require	promo_code	0b0df5d03322f99f61f5294e8ea07a97865ed74a
-\.
-
-
---
--- Data for Name: events; Type: TABLE DATA; Schema: sqitch; Owner: nolan
---
-
-COPY sqitch.events (event, change_id, change, project, note, requires, conflicts, tags, committed_at, committer_name, committer_email, planned_at, planner_name, planner_email) FROM stdin;
-deploy	7decbba512c319112815608f66d381cf987d32e9	appschema	ftlc	Add appschema migration	{}	{}	{}	2019-03-06 19:49:30.539797-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:39:35-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	d29edad4f6b478766505320a6cf1697082283939	roles	ftlc	Add roles migration	{}	{}	{}	2019-03-06 19:49:30.584171-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:42:17-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	de00f1ff87b0f8395b345bc31e55ebe5ab96aa94	extensions	ftlc	Add extensions migration	{}	{}	{}	2019-03-06 19:49:30.640358-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:43:33-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	673830cd7cbaf27cd0570d313771c7439c81a909	types	ftlc	Add types migration	{appschema,extensions}	{}	{}	2019-03-06 19:49:30.704742-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:55:30-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	c8088d19b46572f24040ab2a661939c9da2db293	address	ftlc	Add address migration	{appschema,extensions}	{}	{}	2019-03-06 19:49:30.805965-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:45:58-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	0033c1184d1690315527b58ddfaae1cb8f3f3597	date_interval	ftlc	add event dates migration	{appschema,extensions}	{}	{}	2019-03-06 19:49:30.89241-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:20:22-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	a08943ea78548567ee631bb5d2ae09625dd3fc59	category	ftlc	Add activity catagories migration	{appschema,extensions}	{}	{}	2019-03-06 19:49:30.966499-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-04 22:50:25-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	314894997c05d2d0225e97feb41651cd0e5f3cd5	add_on	ftlc	Add add ons migration	{extensions}	{}	{}	2019-03-06 19:49:31.051724-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-12-13 13:04:06-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	49e76e2ddd47e51219f49622a767487dd5b4f125	news_letter	ftlc	Add newsletter migration	{extensions}	{}	{}	2019-03-06 19:49:31.126142-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 16:57:54-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	90b2b712f18fca63471ea7e4ad1da24c74594686	news_letter_functions	ftlc	Add news letter function migration	{news_letter}	{}	{}	2019-03-06 19:49:31.204621-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-31 22:45:49-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	fb8f0276e9f95f0e157c0839dd428589cec10e10	announcement	ftlc	Add announcement migration	{extensions}	{}	{}	2019-03-06 19:49:31.259276-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 17:02:42-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	26d301d8dbab322e1d5be80fd79032c409b8bf7d	users	ftlc	add users migration	{types}	{}	{}	2019-03-06 19:49:31.331025-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 19:57:32-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	fd0530b417a1865aefc7ff3437933b68c9a77ea2	activity	ftlc	add activity migration	{category}	{}	{}	2019-03-06 19:49:31.427676-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:12:18-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	048538dae2bfee1087cb38f2ec94d88b4e19df0f	users_private	ftlc	add users private migration	{users}	{}	{}	2019-03-06 19:49:31.502646-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:01:46-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	f69bc1bcf84ec82868e67803cba3f2bd1e6da4eb	users_functions	ftlc	Add users functions migration	{users_private}	{}	{}	2019-03-06 19:49:31.55019-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-06 21:26:44-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	501ea6c40cfa81b6f22070ff7239443c3ca23b0d	student	ftlc	add student join migration	{users_functions}	{}	{}	2019-03-06 19:49:31.603315-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:07:14-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	c6b7f6504b0c6b497398dfe548056d8bc033ff4d	transaction_state	ftlc	add transaction state migration	{users}	{}	{}	2019-03-06 19:49:31.690343-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-15 00:50:30-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	feef24674d70cfea2db327105f5725b8f73e84b0	transaction_state_functions	ftlc	Add transaction state function migration	{transaction_state}	{}	{}	2019-03-06 19:49:31.737978-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-31 22:47:16-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	9e38727e685cafee3e5a3903475dec0f70458d92	payment	ftlc	Add payment migration	{users}	{}	{}	2019-03-06 19:49:31.815938-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-13 16:00:24-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	978b86804e8267b8cd4f0e8ab9a7ca6f2837af5a	activity_prerequisite	ftlc	Add prerequisites join migration	{activity}	{}	{}	2019-03-06 19:49:31.911349-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-30 19:24:09-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	90c1a2fac0371e6a12e72e3ced35f7342c236170	event	ftlc	Add date group migration	{activity}	{}	{}	2019-03-06 19:49:31.982769-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-21 14:26:14-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	4f158740daad5a839cf57f91905f0d88a8b7baac	student_waiver	ftlc	Add student waiver migration	{student}	{}	{}	2019-03-06 19:49:32.062195-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-06 20:21:14-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	fa6b2581d422748ac9f1fc98a333215d4d29ea52	event_registration	ftlc	add event registration migration	{event,student,payment}	{}	{}	2019-03-06 19:49:32.117061-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:47:38-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	d27730d6b8a2bb69bb12813c7b8a9209b4faaae8	event_log	ftlc	add event logs migration	{event,student}	{}	{}	2019-03-06 19:49:32.191687-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-08-28 20:42:27-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	4971a9f8187d2738c43631161e8330e3497da673	refund_request	ftlc	Add refun request migration	{payment}	{}	{}	2019-03-06 19:49:32.269937-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 15:39:17-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	1b4349fc2a4a8d2ceb83095e262fca87c94232cb	event_request	ftlc	Add activity request migration	{event,users}	{}	{}	2019-03-06 19:49:32.346825-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 17:39:44-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	43eaa7511926d35050e58e54a1acf7a009870731	event_request_functions	ftlc	Add event request function migration	{event_request,users_functions}	{}	{}	2019-03-06 19:49:32.418672-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-22 17:18:10-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	60252675e95c0e7d856b2c86df3189be5d3e48ea	student_waiver_functions	ftlc	Add student waiver functions migration	{student_waiver}	{}	{}	2019-03-06 19:49:32.462226-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-11 20:58:01-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	8bfccdc982bafe8b310f68b5083a47287bee3003	date_join	ftlc	Add join between event and date_inverval	{event,date_interval}	{}	{}	2019-03-06 19:49:32.530441-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-21 14:30:00-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	fdd1e43e7dcc8b1918b6bae5f3a6d6ffb50dd6e1	date_interval_functions	ftlc	Add date interval functions migration	{date_interval,date_join}	{}	{}	2019-03-06 19:49:32.619651-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-13 16:16:20-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	2d23c3565844a782aec1456cc7a6c5e8dca46226	event_functions	ftlc	Add event functions migration	{student,event}	{}	{}	2019-03-06 19:49:32.685097-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-13 22:44:41-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	a58ea9959ccc51104baf7851a9183deaf10fbad4	add_on_join	ftlc	Add add on join	{event,add_on}	{}	{}	2019-03-06 19:49:32.756513-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-12-13 13:08:09-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	e9dd80989ce9600c3fb93119fc8557f9b5d8336d	attendance	ftlc	Add attendance migration	{date_interval,users}	{}	{}	2019-03-06 19:49:32.824772-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-12-13 13:11:56-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	0b0df5d03322f99f61f5294e8ea07a97865ed74a	promo_code	ftlc	add promo code migration	{event,users}	{}	{}	2019-03-06 19:49:32.921715-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-13 15:47:14-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	24e9099a51fc0a28a9aef93a35397a9ec5fa92bc	registration_override	ftlc	Add registration override migration	{activity,student}	{}	{}	2019-03-06 19:49:33.017682-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-24 14:32:09-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	55de351e09207828c1232cacc07d0b74d74b10fe	promo_code_use	ftlc	Add promo code use join table	{promo_code}	{}	{}	2019-03-06 19:49:33.088124-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-01 23:58:08-06	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	0dc10b1cf8d0ac2f990b325799ae6b68905c50c3	privileges	ftlc	Add priviliges migration	{}	{}	{}	2019-03-06 19:49:33.147584-06	Nolan Aguirre	nolanaguirre08@gmail.com	2018-09-06 22:13:43-05	Nolan Aguirre	nolanaguirre08@gmail.com
-deploy	3917fd07b982885e51bba8d928268e9cbafeea6b	RLS	ftlc	Row level security migration	{}	{}	{@v1.0.0}	2019-03-06 19:49:33.228684-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-01-16 20:06:50-06	Nolan Aguirre	nolanaguirre08@gmail.com
-\.
-
-
---
--- Data for Name: projects; Type: TABLE DATA; Schema: sqitch; Owner: nolan
---
-
-COPY sqitch.projects (project, uri, created_at, creator_name, creator_email) FROM stdin;
-ftlc	\N	2019-03-06 19:49:30.474819-06	Nolan Aguirre	nolanaguirre08@gmail.com
-\.
-
-
---
--- Data for Name: releases; Type: TABLE DATA; Schema: sqitch; Owner: nolan
---
-
-COPY sqitch.releases (version, installed_at, installer_name, installer_email) FROM stdin;
-1.10000002	2019-03-06 19:49:30.47087-06	Nolan Aguirre	nolanaguirre08@gmail.com
-\.
-
-
---
--- Data for Name: tags; Type: TABLE DATA; Schema: sqitch; Owner: nolan
---
-
-COPY sqitch.tags (tag_id, tag, project, change_id, note, committed_at, committer_name, committer_email, planned_at, planner_name, planner_email) FROM stdin;
-c6dc5dd1a3927ee873cbf229c836670b131c5061	@v1.0.0	ftlc	3917fd07b982885e51bba8d928268e9cbafeea6b	Tag v1.0.0/	2019-03-06 19:49:33.227905-06	Nolan Aguirre	nolanaguirre08@gmail.com	2019-02-22 20:35:35-06	Nolan Aguirre	nolanaguirre08@gmail.com
 \.
 
 
@@ -2470,78 +1691,6 @@ ALTER TABLE ONLY ftlc_private.users
 
 
 --
--- Name: changes changes_pkey; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.changes
-    ADD CONSTRAINT changes_pkey PRIMARY KEY (change_id);
-
-
---
--- Name: changes changes_project_script_hash_key; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.changes
-    ADD CONSTRAINT changes_project_script_hash_key UNIQUE (project, script_hash);
-
-
---
--- Name: dependencies dependencies_pkey; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.dependencies
-    ADD CONSTRAINT dependencies_pkey PRIMARY KEY (change_id, dependency);
-
-
---
--- Name: events events_pkey; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.events
-    ADD CONSTRAINT events_pkey PRIMARY KEY (change_id, committed_at);
-
-
---
--- Name: projects projects_pkey; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.projects
-    ADD CONSTRAINT projects_pkey PRIMARY KEY (project);
-
-
---
--- Name: projects projects_uri_key; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.projects
-    ADD CONSTRAINT projects_uri_key UNIQUE (uri);
-
-
---
--- Name: releases releases_pkey; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.releases
-    ADD CONSTRAINT releases_pkey PRIMARY KEY (version);
-
-
---
--- Name: tags tags_pkey; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.tags
-    ADD CONSTRAINT tags_pkey PRIMARY KEY (tag_id);
-
-
---
--- Name: tags tags_project_tag_key; Type: CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.tags
-    ADD CONSTRAINT tags_project_tag_key UNIQUE (project, tag);
-
-
---
 -- Name: activity activity_category_fkey; Type: FK CONSTRAINT; Schema: ftlc; Owner: nolan
 --
 
@@ -2838,54 +1987,6 @@ ALTER TABLE ONLY ftlc_private.users
 
 
 --
--- Name: changes changes_project_fkey; Type: FK CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.changes
-    ADD CONSTRAINT changes_project_fkey FOREIGN KEY (project) REFERENCES sqitch.projects(project) ON UPDATE CASCADE;
-
-
---
--- Name: dependencies dependencies_change_id_fkey; Type: FK CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.dependencies
-    ADD CONSTRAINT dependencies_change_id_fkey FOREIGN KEY (change_id) REFERENCES sqitch.changes(change_id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: dependencies dependencies_dependency_id_fkey; Type: FK CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.dependencies
-    ADD CONSTRAINT dependencies_dependency_id_fkey FOREIGN KEY (dependency_id) REFERENCES sqitch.changes(change_id) ON UPDATE CASCADE;
-
-
---
--- Name: events events_project_fkey; Type: FK CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.events
-    ADD CONSTRAINT events_project_fkey FOREIGN KEY (project) REFERENCES sqitch.projects(project) ON UPDATE CASCADE;
-
-
---
--- Name: tags tags_change_id_fkey; Type: FK CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.tags
-    ADD CONSTRAINT tags_change_id_fkey FOREIGN KEY (change_id) REFERENCES sqitch.changes(change_id) ON UPDATE CASCADE;
-
-
---
--- Name: tags tags_project_fkey; Type: FK CONSTRAINT; Schema: sqitch; Owner: nolan
---
-
-ALTER TABLE ONLY sqitch.tags
-    ADD CONSTRAINT tags_project_fkey FOREIGN KEY (project) REFERENCES sqitch.projects(project) ON UPDATE CASCADE;
-
-
---
 -- Name: event_registration admin_all; Type: POLICY; Schema: ftlc; Owner: nolan
 --
 
@@ -3099,13 +2200,6 @@ ALTER TABLE ftlc.users ENABLE ROW LEVEL SECURITY;
 --
 
 GRANT USAGE ON SCHEMA ftlc TO ftlc_roles;
-
-
---
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
---
-
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
@@ -3366,3 +2460,4 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
+
