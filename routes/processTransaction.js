@@ -21,7 +21,7 @@ const processTransaction = async ({user, token}) => {
                   description: 'fun2learncode Event charge',
                   source: token,
                   statement_descriptor: 'Fun2LearnCode Event'
-              }).catch((error)=>{console.log(error); throw new Error('Stripe error while processing card.' + error.message)})
+              }).catch((error)=>{throw new Error('Stripe error while processing card.' + error.message)})
             }
         }
         if (charge.paid) {
@@ -39,11 +39,11 @@ const processTransaction = async ({user, token}) => {
         console.log(error)
         try{
             await db.endTransaction(user)
+            return {error:error.message}
         }catch(megaError){
             console.log(megaError)
             return{error:'mega error occured, account locked from transactions, contact website owner.'}
         }
-        return {error:error.message}
   }
 }
 

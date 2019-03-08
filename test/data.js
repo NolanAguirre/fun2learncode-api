@@ -9,7 +9,9 @@ const addon = require('./addon.test')
 const code = require('./code.test')
 const student = require('./student.test')
 const mailing = require('./mailing.test')
+const process = require('./process.test')
 module.exports = [
+    process,
     {
         describe:'Login test',
         process: (describe, test, expect, item)=>{

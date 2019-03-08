@@ -1161,6 +1161,7 @@ bc8fdd6c-9858-44d9-872c-3c228ba04ecb	2019-06-05 13:00:00-05	2019-06-05 16:00:00-
 cda5d4bc-2c84-41b8-a71e-ec41c42af802	2019-06-07 13:00:00-05	2019-06-07 16:00:00-05	f
 f8028f46-2b4f-488a-a5c5-3174b37f5b2d	2019-06-14 09:00:00-05	2019-06-14 17:00:00-05	f
 38874d36-cb5a-453e-9e65-7153e2a3010c	2019-06-21 21:03:00-05	2019-06-21 22:03:00-05	f
+02042799-dd61-407b-9d95-caf0d058d710	2019-05-17 21:12:00-05	2019-05-17 22:12:00-05	f
 \.
 
 
@@ -1193,6 +1194,7 @@ de6ea98e-8bf3-4753-b73e-85bbd9b1e090	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	55dbc8
 d59c4c2e-1cbb-4d0b-a973-700fbc80d59e	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	cda5d4bc-2c84-41b8-a71e-ec41c42af802
 4deba2b2-e281-4c2e-bf0c-4fb07df73fc5	e0023bf0-22d9-4816-affb-df1016f52f12	f8028f46-2b4f-488a-a5c5-3174b37f5b2d
 1ed5a857-f1b2-4a0b-9cc4-8bfdbc7e7e69	2c474702-8436-442e-b66c-3fb30fef8e22	38874d36-cb5a-453e-9e65-7153e2a3010c
+4519edcd-a5d3-4e3e-9aea-12358af4ca20	2f29f084-ef81-44de-b6bc-25ac2e03ef37	02042799-dd61-407b-9d95-caf0d058d710
 \.
 
 
@@ -1209,6 +1211,7 @@ COPY ftlc.event (id, activity, address, open_registration, close_registration, c
 1c7441e7-56d1-4cf2-87c7-a0477a76d45f	0e207141-c0c9-402d-98dc-fb17c4602d6c	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-02-01 23:59:59-06	2019-05-27 23:59:59-05	8	7	May AM	200	t	f	t
 e0023bf0-22d9-4816-affb-df1016f52f12	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-02-01 23:59:59-06	2019-06-13 23:59:59-05	8	8	June private event	450	t	f	f
 2c474702-8436-442e-b66c-3fb30fef8e22	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-06 23:59:59-06	2019-06-21 23:59:59-05	8	7	Paid private event	0	t	f	f
+2f29f084-ef81-44de-b6bc-25ac2e03ef37	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-01 23:59:59-06	2019-05-16 23:59:59-05	8	8	cheat private event	0	t	f	f
 \.
 
 
@@ -1237,6 +1240,8 @@ ddcc5fc3-001b-4da4-bba8-51a1aa540b3d	c417e4c3-e766-46fe-8158-74784dc3d76a	6e2add
 COPY ftlc.event_request (id, user_id, event, created_on, information, access_token, status) FROM stdin;
 f1b4c896-a711-476e-ab1b-46097b832fbd	702651ae-0036-448e-bd7c-b9e6489bf822	e0023bf0-22d9-4816-affb-df1016f52f12	2019-03-05 14:27:32.850664-06		TestEventasdfghjklqwertyuiop	accepted
 8ed7f7e4-7e9b-43b3-8b68-9c3baa7e181a	c417e4c3-e766-46fe-8158-74784dc3d76a	2c474702-8436-442e-b66c-3fb30fef8e22	2019-03-07 21:03:29.134863-06	Paid event request	Paidedrftgyhujikkmjnhbgvctertrytuyiuo	accepted
+cd8a1a5d-65b1-495a-ada6-7ff750b0964b	c417e4c3-e766-46fe-8158-74784dc3d76a	2f29f084-ef81-44de-b6bc-25ac2e03ef37	2019-03-07 21:10:04.379283-06	Request a private event that i will try to cheat\n	cheatwasedrftgyhujikomnbvtcrexsw	accepted
+1d81b91a-51d9-490a-8f86-4dcb8eb65f6f	c417e4c3-e766-46fe-8158-74784dc3d76a	\N	2019-03-07 21:20:27.013838-06	test for no hash provided	\N	declined
 \.
 
 
@@ -1322,6 +1327,7 @@ COPY ftlc.student (id, parent, first_name, last_name, date_of_birth) FROM stdin;
 9cd5aa5d-74c3-462d-b80d-6bb5a1efa117	702651ae-0036-448e-bd7c-b9e6489bf822	6	A	2019-03-05 13:27:46.282-06
 2c52956c-d165-49d6-b7dd-4c7fa2ec39ac	702651ae-0036-448e-bd7c-b9e6489bf822	7	A	2019-03-05 13:28:33.563-06
 6e2add24-bc61-4c2d-9c31-eead851c0ded	c417e4c3-e766-46fe-8158-74784dc3d76a	1	B	2019-03-05 13:54:21.941-06
+755314e8-f060-4416-a5f4-b1383d8b34eb	c417e4c3-e766-46fe-8158-74784dc3d76a	2	B	2019-03-07 21:09:21.789-06
 \.
 
 
@@ -1337,6 +1343,7 @@ bbd00b42-a7ac-4338-a830-6bab7decbf11	988ba3c8-6ee0-46ec-bf58-a57d930b7373	Dr Bro
 924415ba-5ccd-4725-a62c-0e8e3c67a948	94637b1b-3299-4f33-9714-c427a0bb5aa6	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre	none	2019-03-05 13:34:43.636924-06
 adaa3677-8dcc-4e34-8a7b-e59aee854dbe	11c275d9-0e77-4aa3-aea9-6131b5c218ea	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre	none	2019-03-05 13:34:55.114611-06
 660ec340-1fcc-4e57-a8bb-a5d048a33033	6e2add24-bc61-4c2d-9c31-eead851c0ded	Dr Brown	(234)-235-4657	(342)-536-7865	Nolan Aguirre	Avery Aguirre		2019-03-07 21:03:13.518298-06
+42227bde-060e-436d-8555-4050dffadcbc	755314e8-f060-4416-a5f4-b1383d8b34eb	Dr Brown	(213)-456-7877	(123)-243-5465	Nolan Aguirre	Vicky Aguirre		2019-03-07 21:09:38.055452-06
 \.
 
 
@@ -1345,7 +1352,7 @@ adaa3677-8dcc-4e34-8a7b-e59aee854dbe	11c275d9-0e77-4aa3-aea9-6131b5c218ea	Dr Bro
 --
 
 COPY ftlc.transaction_state (user_id, transaction, processing) FROM stdin;
-702651ae-0036-448e-bd7c-b9e6489bf822	{"total": "200.00", "_event": {"id": "55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f", "name": "June PM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "203c4e20-48c7-4137-825e-4118443917fe", "capacity": 8, "seats_left": 8, "show_calendar": true, "public_display": true, "open_registration": "2019-03-02T05:59:59.000Z", "close_registration": "2019-06-03T04:59:59.000Z"}, "_addons": [], "_activity": {"name": "Advanced video game design"}, "_students": [{"id": "9cd5aa5d-74c3-462d-b80d-6bb5a1efa117", "last_name": "A", "first_name": "6"}], "_overrides": []}	f
+c417e4c3-e766-46fe-8158-74784dc3d76a	{"total": "230.00", "_event": {"id": "1c7441e7-56d1-4cf2-87c7-a0477a76d45f", "name": "May AM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "0e207141-c0c9-402d-98dc-fb17c4602d6c", "capacity": 8, "seats_left": 7, "show_calendar": true, "public_display": true, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-05-28T04:59:59.000Z"}, "_addons": [{"name": "Test addon", "price": 30, "description": "Only for testing"}], "_activity": {"name": "Video Game Design"}, "_students": [{"id": "755314e8-f060-4416-a5f4-b1383d8b34eb", "last_name": "B", "first_name": "2"}], "_overrides": []}	f
 \.
 
 

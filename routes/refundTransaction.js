@@ -5,7 +5,9 @@ const db = require('../db')
 const refund = async ({user, refundUser, reason, paymentId, amount, unregister}) => {
     try{
         const payment = await db.getPayment(paymentId)
-        const charge = await stripe.refunds.create({ charge: payment.charge.id, amount: amount * 100 }) // testing use {status:'succeeded'}
+        const charge = await stripe.refunds.create({ charge: payment.charge.id, amount: amount * 100 }).catch(()=>{
+            throw new Error('Stripe error during refund.' + error.message)
+        }) // testing use {status:'succeeded'}
         const refund = db.processRefund(payment, refund, unregister, reason)
     }catch(error){
         console.log(error)

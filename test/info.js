@@ -8,7 +8,8 @@ module.exports = {
         registered:"9cd5aa5d-74c3-462d-b80d-6bb5a1efa117",
         same_time:"",
         not_parent:"6e2add24-bc61-4c2d-9c31-eead851c0ded",
-        prereq_before_event:""
+        prereq_before_event:"",
+        two_b:"755314e8-f060-4416-a5f4-b1383d8b34eb" // private event override is not for this person, so they shouldnt be able to register
     },
     events:{
         valid:"1c7441e7-56d1-4cf2-87c7-a0477a76d45f",
@@ -16,7 +17,11 @@ module.exports = {
         has_prereq:"55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f",
         private:"e0023bf0-22d9-4816-affb-df1016f52f12",
         private_hash:"TestEventasdfghjklqwertyuiop",
-        closed:"2bbe0924-0ef3-444f-bbcc-16a247d74abf"
+        closed:"2bbe0924-0ef3-444f-bbcc-16a247d74abf",
+        private_paid:"2c474702-8436-442e-b66c-3fb30fef8e22", //other uses requested this event
+        private_hash_paid:"Paidedrftgyhujikkmjnhbgvctertrytuyiuo", //other uses requested this event
+        private_cheat:"2f29f084-ef81-44de-b6bc-25ac2e03ef37",
+        private_hash_cheat:"cheatwasedrftgyhujikomnbvtcrexsw"
     },
     users:{
         parent:"702651ae-0036-448e-bd7c-b9e6489bf822",
@@ -40,5 +45,14 @@ module.exports = {
         valid:'4933050d-0dc3-43fc-b81d-439a54d49cd1',
         notValid:'20fa8f5c-d218-4b30-8e83-7bd2fbab148a',
         other:'7a3b7f4b-51cc-4216-a2c4-18f92923eb98'
+    },
+    transaction:{
+        free: "",
+        paid: ""
+    },
+    stripeToken:{
+        valid:"tok_visa", //"tok_bypassPending", "tok_domesticPricing", "tok_avsUnchecked",
+        fail_refund: "tok_refundFail",
+        fail:["tok_chargeDeclined"]//"tok_avsFail", "tok_avsLine1Fail", "tok_avsZipFail", "tok_cvcCheckFail", "tok_riskLevelElevated", "tok_riskLevelHighest", , "tok_chargeDeclinedInsufficientFunds", "tok_chargeDeclinedFraudulent", "tok_chargeDeclinedIncorrectCvc", "tok_chargeDeclinedExpiredCard", "tok_chargeDeclinedProcessingError"]
     }
 }
