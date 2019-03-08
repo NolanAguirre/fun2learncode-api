@@ -26,7 +26,7 @@ const calculatePrice = (students, addons, promoCode, price) => {
 const begin = async ({promoCode, addons, event, students, user}) => {
     try{
         await db.transactionIsProcessing(user)
-        const info = await db.getRegistrationData({promoCode, addons, event, students, user}, new Date().toISOString()) //MOCK DATE IF NEEDED
+        const info = await db.getRegistrationData({promoCode, addons, event, students, user}, new Date().toISOString()) //MOCK DATE 2019-03-08T21:57:13.253Z
         let {
             _students,
             _promoCode,

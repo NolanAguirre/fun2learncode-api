@@ -1,7 +1,7 @@
-const mailing = require('../routes/mailing').test;
-const defaultNewsLetter = require('../emailTemplates/defaultNewsLetter')
+const mailing = require('../../routes/mailing').test;
+const defaultNewsLetter = require('../../emailTemplates/defaultNewsLetter')
 module.exports = {
-    describe:'News letter mailing test',
+    describe:'News letter mailing',
     process:(describe, test, expect, item)=>{
         describe(item.describe, ()=>{
             item.data.forEach((obj)=>{
@@ -14,7 +14,7 @@ module.exports = {
     },
     data:[
         // {
-        //     describe:'valid, Mailing successful',
+        //     describe:'pass, mailing successful',
         //     data:{html:defaultNewsLetter('News Letter','This is a test newsletter')},
         //     test: (expect, data)=>{return expect(data.message).toBe("news letter sent")}
         // }

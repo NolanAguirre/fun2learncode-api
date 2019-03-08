@@ -27,10 +27,7 @@ const populateJWT = (req, res, next) => {
 const cookieOptions = {
   name: 'session',
   keys: ['secretKeyOne', 'secreteKeyTwo', 'secreteKeyThree'],
-  maxAge: 24 * 60 * 60 * 1000//, // 24 hours
-  // sameSite: true//,
-  //secure: true,
- //httpOnly: true
+  maxAge: 24 * 60 * 60 * 1000
 }
 
 const validateAuthToken =  (req, res, next) => {
@@ -50,7 +47,7 @@ const validateAuthToken =  (req, res, next) => {
 }
 
 
-app.use(cors({origin: 'http://localhost:3000', credentials: true}))
+app.use(cors({origin: process.env.CLIENT_URL, credentials: true}))
 app.use(cookieSession(cookieOptions))
 app.use(bodyParser.json())
 app.use('/graphql', populateJWT)

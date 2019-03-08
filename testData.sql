@@ -1306,7 +1306,7 @@ COPY ftlc.refund_request (id, payment, user_id, created_on, reason, granted_reas
 --
 
 COPY ftlc.registration_override (id, student, event, modified_price, valid_end) FROM stdin;
-5657e71f-9dbc-4ea8-903e-ef43db29d1ea	988ba3c8-6ee0-46ec-bf58-a57d930b7373	2bbe0924-0ef3-444f-bbcc-16a247d74abf	100	2019-04-30 13:41:43.943-05
+5657e71f-9dbc-4ea8-903e-ef43db29d1ea	988ba3c8-6ee0-46ec-bf58-a57d930b7373	2bbe0924-0ef3-444f-bbcc-16a247d74abf	200	2019-04-30 13:41:43.943-05
 459ffc20-276a-43f4-827d-b0a091ca51d3	94637b1b-3299-4f33-9714-c427a0bb5aa6	1c7441e7-56d1-4cf2-87c7-a0477a76d45f	10	2019-05-01 13:43:22.423-05
 486f0c7a-df13-4751-9c14-12e73abfcb2b	11c275d9-0e77-4aa3-aea9-6131b5c218ea	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	200	2019-04-30 13:51:50.694-05
 3d87b5d2-de38-476a-915f-be0af995dd35	94637b1b-3299-4f33-9714-c427a0bb5aa6	418d2479-88b6-4495-ad22-bf7e51f90115	10	2019-02-01 17:13:44.714-06
@@ -2467,4 +2467,3 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
-

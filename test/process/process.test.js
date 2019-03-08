@@ -1,9 +1,9 @@
-const process = require('../routes/processTransaction').test;
-const info = require('./info')
+const process = require('../../routes/processTransaction').test;
+const {users, stripeTokens} = require('../data')
 
 //TEST NEEDED FOR SECOND PERSON TO REGISTER FOR PRIVATE EVENT
 module.exports = {
-    describe:'Private Event test',
+    describe:'Process transaction',
     process:(describe, test, expect, item)=>{
         describe(item.describe, ()=>{
             item.data.forEach((obj)=>{
@@ -14,10 +14,10 @@ module.exports = {
             })
         })
     },
-    data: info.stripeToken.fail.map((token)=>{
+    data: stripeTokens.fail.map((token)=>{
         return{
             describe:`invalid, transaction fail ${token}` ,
-            data:{"user":info.users.other, token},
+            data:{"user":users.other, token},
             test: (expect, data)=>{return expect(data.error).toContain("Stripe error while processing card.")}
         }
     })

@@ -7,7 +7,8 @@
     "start": "node api.js",
     "test": "node test.js",
     "setup": "node setup.js",
-    "dump": "pg_dump -a -n ftlc -n ftlc_private fun2learncode > dump.sql"
+    "dump": "pg_dump -n ftlc -n ftlc_private fun2learncode > dump.sql",
+    "dump-test":"pg_dump -n ftlc -n ftlc_private --clean -d fun2learncode -f testData.sql"
   },
   "author": "Nolan Aguirre",
   "license": "ISC",
