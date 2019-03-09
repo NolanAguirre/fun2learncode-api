@@ -183,4 +183,14 @@ db.getMailingList = () => {
     })
 }
 
+if(process.env.TEST){
+    db.createRefundRequest = (user, reason, payment) => {
+        return database.none('INSERT INTO ftlc.refund_request(user_id, reason, payment) VALUES ($1, $2, $3)', [user, reason, payment]).catch((error)=>{
+          //console.log(error)
+          throw new Error('Issue occered while createing mock refund requests, this is not in production, check test code.')
+        })
+    }
+}
+
+
 module.exports = db

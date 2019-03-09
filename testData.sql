@@ -1328,6 +1328,10 @@ COPY ftlc.student (id, parent, first_name, last_name, date_of_birth) FROM stdin;
 2c52956c-d165-49d6-b7dd-4c7fa2ec39ac	702651ae-0036-448e-bd7c-b9e6489bf822	7	A	2019-03-05 13:28:33.563-06
 6e2add24-bc61-4c2d-9c31-eead851c0ded	c417e4c3-e766-46fe-8158-74784dc3d76a	1	B	2019-03-05 13:54:21.941-06
 755314e8-f060-4416-a5f4-b1383d8b34eb	c417e4c3-e766-46fe-8158-74784dc3d76a	2	B	2019-03-07 21:09:21.789-06
+a67ef66a-04f6-449e-83a0-a7256ba6339e	f0069369-94c0-4976-802d-fa8b5a414135	1	C	2019-03-08 16:30:48.812-06
+42e1eaad-eecb-407f-a2d8-98c38a5d5bb1	f0069369-94c0-4976-802d-fa8b5a414135	2	C	2019-03-08 16:30:55.826-06
+7841d18a-89ac-4f0e-a1bf-d70cffd9aa90	f0069369-94c0-4976-802d-fa8b5a414135	3	C	2019-03-08 16:31:03.639-06
+25d95f7b-e637-4809-b7a3-b57122f2a8c1	f0069369-94c0-4976-802d-fa8b5a414135	4	C	2019-03-08 16:31:06.53-06
 \.
 
 
@@ -1344,6 +1348,10 @@ bbd00b42-a7ac-4338-a830-6bab7decbf11	988ba3c8-6ee0-46ec-bf58-a57d930b7373	Dr Bro
 adaa3677-8dcc-4e34-8a7b-e59aee854dbe	11c275d9-0e77-4aa3-aea9-6131b5c218ea	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre	none	2019-03-05 13:34:55.114611-06
 660ec340-1fcc-4e57-a8bb-a5d048a33033	6e2add24-bc61-4c2d-9c31-eead851c0ded	Dr Brown	(234)-235-4657	(342)-536-7865	Nolan Aguirre	Avery Aguirre		2019-03-07 21:03:13.518298-06
 42227bde-060e-436d-8555-4050dffadcbc	755314e8-f060-4416-a5f4-b1383d8b34eb	Dr Brown	(213)-456-7877	(123)-243-5465	Nolan Aguirre	Vicky Aguirre		2019-03-07 21:09:38.055452-06
+f13df54c-bb76-427d-a217-14f62ed2ffcf	42e1eaad-eecb-407f-a2d8-98c38a5d5bb1	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan	nolan		2019-03-08 16:38:20.470542-06
+c511b931-9042-457c-a97a-665bf5456c71	25d95f7b-e637-4809-b7a3-b57122f2a8c1	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	nolan		2019-03-08 16:38:38.024797-06
+e6002060-a628-41d6-9b54-326628e56ed9	7841d18a-89ac-4f0e-a1bf-d70cffd9aa90	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	Vicky Aguirre		2019-03-08 16:38:48.167883-06
+a0a8c910-cabc-4d05-a842-dd7359f3808e	a67ef66a-04f6-449e-83a0-a7256ba6339e	Dr Brown	(123)-123-1231	(512)-698-1584	Nolan Aguirre	nolan		2019-03-08 16:38:55.086858-06
 \.
 
 
@@ -1364,6 +1372,7 @@ COPY ftlc.users (id, first_name, last_name, email, created_on, role) FROM stdin;
 007458de-2329-4f0f-9572-eae8f8459208	Nolan	Aguirre	nolanaguirre08@gmail.com	2019-02-22 20:27:27.681601-06	ftlc_owner
 702651ae-0036-448e-bd7c-b9e6489bf822	Test	A	bobby7083@gmail.com	2019-03-05 13:25:53.626184-06	ftlc_user
 c417e4c3-e766-46fe-8158-74784dc3d76a	Nolan	Aguirre	aguirrefammusic@gmail.com	2019-03-05 13:54:12.411805-06	ftlc_user
+f0069369-94c0-4976-802d-fa8b5a414135	Nolan	Aguirre	nolanaguirretesting@gmail.com	2019-03-08 16:30:31.49924-06	ftlc_user
 \.
 
 
@@ -1375,6 +1384,7 @@ COPY ftlc_private.users (id, user_id, password_hash, password_reset, password_re
 157eb4c7-83d1-4a09-9963-96642b9e7405	007458de-2329-4f0f-9572-eae8f8459208	$2a$06$Azo2g4m6xRD9/ZXCh90Yj.1gh7ExMm6cAZudz4VolyC1q3b6LZqvi	\N	\N
 45dd054d-919c-462c-a7a7-2403289f9f8f	702651ae-0036-448e-bd7c-b9e6489bf822	$2a$06$BG8RfcuF5HkqwtTA6whmkukCBt.7Ef7C.JbMA5N3/7VO3xSQvTR6W	\N	\N
 d065409a-ac1d-4cc1-8549-773ebe62ab8f	c417e4c3-e766-46fe-8158-74784dc3d76a	$2a$06$3eYEnpbi6KYYKZgj.AXAue5qf1uFKz8jITYJf.V4HvRdrdZb2oSte	\N	\N
+6d1cd64d-0286-4b6a-a314-285625714301	f0069369-94c0-4976-802d-fa8b5a414135	$2a$06$dW1DyIi1amOv1CQJpOXQk.zBoKcuMGw0XzH4d.WrWR9XomBvnbDyu	\N	\N
 \.
 
 
@@ -2467,3 +2477,4 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
+

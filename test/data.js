@@ -9,7 +9,11 @@ module.exports = {
         same_time:"",
         not_parent:"6e2add24-bc61-4c2d-9c31-eead851c0ded",
         prereq_before_event:"",
-        two_b:"755314e8-f060-4416-a5f4-b1383d8b34eb" // private event override is not for this person, so they shouldnt be able to register
+        two_b:"755314e8-f060-4416-a5f4-b1383d8b34eb", // private event override is not for this person, so they shouldnt be able to register
+        refund_one:"a67ef66a-04f6-449e-83a0-a7256ba6339e",
+        refund_two:"42e1eaad-eecb-407f-a2d8-98c38a5d5bb1",
+        refund_three:"7841d18a-89ac-4f0e-a1bf-d70cffd9aa90",
+        refund_four:"25d95f7b-e637-4809-b7a3-b57122f2a8c1"
     },
     events:{
         valid:"1c7441e7-56d1-4cf2-87c7-a0477a76d45f",
@@ -25,7 +29,8 @@ module.exports = {
     },
     users:{
         parent:"702651ae-0036-448e-bd7c-b9e6489bf822",
-        other:"c417e4c3-e766-46fe-8158-74784dc3d76a"
+        other:"c417e4c3-e766-46fe-8158-74784dc3d76a",
+        refund:"f0069369-94c0-4976-802d-fa8b5a414135"
     },
     codes:{
         valid:'ben13810f',
@@ -58,5 +63,7 @@ module.exports = {
     passwords:{
         valid:"password",
         invalid:"potato"
+    },
+    payments:{
     }
 }
