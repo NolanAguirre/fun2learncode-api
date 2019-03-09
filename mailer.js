@@ -40,6 +40,15 @@ mailer.newsLetter = (emails, body) => {
   })
 }
 
+mailer.failedRefund = (email, refundData) => {
+    return mailer.send({
+        from: 'no_reply@fun2learncode.com',
+        to: email,
+        subject:'Refund failed',
+        html:`<div>${JSON.stringify(refundData)}</div>`
+    })
+}
+
 mailer.send = (options) => { // {from, to, subject, body}, cb(error, info)
   return transporter.sendMail(options)
 }

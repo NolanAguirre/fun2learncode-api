@@ -35,3 +35,5 @@ This should only fail when the database cannot be accessed.
 This tests only for refunds that are granted. Refunds that are not granted are covered by the graphql end point, and will be handled outside of the application via email.
 
 Full testing of refund is done in the integration test.
+
+Refunds fail async, so they always return that they passed at first, webhook is setup to handle the failed ones

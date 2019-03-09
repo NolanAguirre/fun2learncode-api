@@ -12,8 +12,10 @@ const test = () => {
     } catch(error){
         //console.log(error)
     }
-    execSync(`psql -d ${db} -f temp.sql`)
-    execSync(`rm temp.sql`)
+    setTimeout(()=>{
+        execSync(`psql -d ${db} -f temp.sql`)
+        execSync(`rm temp.sql`)
+    } ,3000)
 }
 test()
 // console.log('This test will send emails to me(nolan), so please change the emails found on lines 1854-1855 and 1960-1962 of testingData.sql to email addresses you can recive emails at.')

@@ -7,14 +7,14 @@ const bodyParser = require('body-parser')
 const jwt = require('jwt-simple')
 const { postgraphile } = require('postgraphile')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
-
 const routes = {
     mailing: require('./routes/mailing').production,
     begin: require('./routes/beginTransaction').production,
     process: require('./routes/processTransaction').production,
     refund: require('./routes/refundTransaction').production,
     authenticate: require('./routes/authenticate').production,
-    recover: require('./routes/recover').production
+    recover: require('./routes/recover').production,
+    webhook: require('./routes/webhook').production
 }
 
 const populateJWT = (req, res, next) => {
@@ -46,12 +46,35 @@ const validateAuthToken =  (req, res, next) => {
     }
 }
 
+const whitelist = ['https://api.stripe.com', 'https://checkout.stripe.com', 'https://js.stripe.com', 'https://m.stripe.com', 'https://q.stripe.com']
+const corsOptions = {
+  origin: function (origin, callback) {
+      console.log(origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
-app.use(cors({origin: process.env.CLIENT_URL, credentials: true}))
+const excludeMiddleware = (path, middleware) => {
+    return (req, res, next) => {
+        if(req.path === path){
+            next()
+        }else{
+            middleware(req, res, next)
+        }
+    }
+}
+
+app.use(excludeMiddleware('/webhook', cors({origin: process.env.CLIENT_URL, credentials: true})))
+app.use(excludeMiddleware('/webhook', bodyParser.json()))
 app.use(cookieSession(cookieOptions))
-app.use(bodyParser.json())
 app.use('/graphql', populateJWT)
 app.use('/graphiql', populateJWT)
+app.use('/webhook', cors(corsOptions))
+app.use('/webhook', bodyParser.raw({type: '*/*'}))
 app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
   dynamicJson: true,
   graphiql: true,
@@ -80,6 +103,8 @@ app.post('/payment/refund', routes.refund)
 app.post('/recover', routes.recover)
 
 app.post('/mailing', routes.mailing)
+
+app.post('/webhook', routes.webhook)
 
 app.listen(process.env.PORT || 3005)
 console.log('Listening on http://localhost:3005')

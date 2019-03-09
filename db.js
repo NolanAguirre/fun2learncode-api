@@ -138,26 +138,42 @@ db.storePayment = (user, snapshot, charge) => {
     })
 }
 
+db.storeRefund = (refund, payment) => {
+    return database.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, 'refund', payment])
+    .catch((error)=>{
+        //console.log(error)
+        throw new Error('could not update payment to refund.' + error.message + payment)
+    })
+}
+
 db.processRefund = (payment, refund, unregister, reason) => {
   const id = payment.id
   let promises = []
-  promises.push(database.none('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3', [refund, 'refund', id])).catch((error)=>{
-    //console.log(error)
-    throw new Error('could not update payment to refund.')
-  })
-  promises.push(database.none('UPDATE ftlc.refund_request SET status = $1, amount_refunded = $2, granted_reason = $3 WHERE payment = $4', ['accepted', refund.amount / 100, reason, id])).catch((error)=>{
-    //console.log(error)
-    throw new Error('failed to update refund request')
-  })
+  promises.push(
+      db.storeRefund(refund, id)
+  )
+  promises.push(
+      database.one('UPDATE ftlc.refund_request SET status = $1, amount_refunded = $2, granted_reason = $3 WHERE payment = $4 RETURNING id', ['accepted', refund.amount / 100, reason, id])
+          .catch((error)=>{
+          //console.log(error)
+          throw new Error('failed to update refund request')
+        })
+    )
   if (unregister) {
-    promises.push(database.none('DELETE FROM ftlc.event_registration WHERE payment = $1', [id])).catch((error)=>{
-      //console.log(error)
-      throw new Error('failed to delete event registration')
-    })
-    promises.push(database.none('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = ANY(SELECT event FROM ftlc.event_registration WHERE payment = $2)', [payment.snapshot._students.length, id])).catch((error)=>{
-      //console.log(error)
-      throw new Error('failed to restore seat to event.')
-    })
+    promises.push(
+        database.one('DELETE FROM ftlc.event_registration WHERE payment = $1 RETURNING id', [id])
+        .catch((error)=>{
+          //console.log(error)
+          throw new Error('failed to delete event registration')
+        })
+    )
+    promises.push(
+        database.one('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = (SELECT DISTINCT event FROM ftlc.event_registration WHERE payment = $2) RETURNING id', [payment.snapshot._students.length, id])
+            .catch((error)=>{
+          //console.log(error)
+          throw new Error('failed to restore seat to event.' + error.message)
+        })
+    )
   }
   return Promise.all(promises)
 }
