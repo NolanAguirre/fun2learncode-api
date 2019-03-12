@@ -1,3 +1,4 @@
+require('dotenv').config()
 const pgp = require('pg-promise')(/* options */)
 const query = require('./query')
 pgp.pg.defaults.ssl = true
@@ -82,6 +83,13 @@ db.getRegistrationData = async ({students, addons, event, promoCode, user}, date
       .then(data => {return {_activity: data}})
       .catch(error => {throw new Error('Cannot find activity.')})
   )
+
+  promises.push(
+      database.one('SELECT email FROM ftlc.users WHERE id = $1', [user])
+      .then(data=>{return {_user:data}})
+      .catch(error => {throw new Error('Cannot find users email.')})
+  )
+
   events.forEach(element => {
     promises.push(
       database.one('SELECT ftlc.check_prerequisite($1, $2), ftlc.check_registration($1, $2), ftlc.check_time($1,$2), ftlc.check_waiver($2)', [element._event.id, element.student])
@@ -190,6 +198,29 @@ db.genTemporaryToken = (email) => {
     //console.log(error)
     throw new Error('cannot generate password token.')
   })
+}
+
+db.getEmailData = (event) => {
+    let promises = []
+    promises.push(
+        database.many('SELECT start, \"end\" from ftlc.date_interval WHERE id IN (SELECT date_interval FROM ftlc.date_join WHERE event = $1)', [event])
+                .then((data)=>{return{dates:data}})
+                .catch((error)=>{throw new Error('Unable to get event dates.')})
+    )
+    promises.push(
+        database.one('SELECT * FROM ftlc.address WHERE id = (SELECT address FROM ftlc.event WHERE id = $1)', [event])
+        .then((data)=>{return{address:data}})
+        .catch((error)=>{throw new Error('Unable to get event address.')})
+    )
+
+    return Promise.all(promises).then(data => {
+        let returnVal = {}
+      data.forEach(obj => {
+        let key = Object.keys(obj)[0]
+        returnVal[key] = obj[key]
+      })
+      return returnVal
+    })
 }
 
 db.getMailingList = () => {

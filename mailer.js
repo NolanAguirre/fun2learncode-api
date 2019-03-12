@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer')
 const ResetPasswordTemplate = require('./emailTemplates/recoverEmail')
+const confirmation = require('./emailTemplates/confirmation')
+require('dotenv').config()
 const transporter = nodemailer.createTransport({
   host: 'imap.dreamhost.com',
   port: 465,
@@ -30,6 +32,15 @@ mailer.resetPassword = (email, name, token) => {
 //         html: template
 //     }, (info, error)=>{})
 // }
+
+mailer.confirmation = (email, data) => {
+    return mailer.send({
+        from:'no_reply@fun2learcode.com',
+        to:email,
+        subject:'Confirmation Email',
+        html:confirmation(data)
+    })
+}
 
 mailer.newsLetter = (emails, body) => {
     return mailer.send({
