@@ -1360,7 +1360,7 @@ a0a8c910-cabc-4d05-a842-dd7359f3808e	a67ef66a-04f6-449e-83a0-a7256ba6339e	Dr Bro
 --
 
 COPY ftlc.transaction_state (user_id, transaction, processing) FROM stdin;
-c417e4c3-e766-46fe-8158-74784dc3d76a	{"total": "230.00", "_event": {"id": "1c7441e7-56d1-4cf2-87c7-a0477a76d45f", "name": "May AM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "0e207141-c0c9-402d-98dc-fb17c4602d6c", "capacity": 8, "seats_left": 7, "show_calendar": true, "public_display": true, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-05-28T04:59:59.000Z"}, "_addons": [{"name": "Test addon", "price": 30, "description": "Only for testing"}], "_activity": {"name": "Video Game Design"}, "_students": [{"id": "755314e8-f060-4416-a5f4-b1383d8b34eb", "last_name": "B", "first_name": "2"}], "_overrides": []}	f
+c417e4c3-e766-46fe-8158-74784dc3d76a	{"total": "230.00", "_event": {"id": "1c7441e7-56d1-4cf2-87c7-a0477a76d45f", "name": "May AM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "0e207141-c0c9-402d-98dc-fb17c4602d6c", "capacity": 8, "seats_left": 7, "show_calendar": true, "public_display": true, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-05-28T04:59:59.000Z"}, "_addons": [{"name": "Test addon", "price": 30, "description": "Only for testing"}], "_activity": {"name": "Video Game Design"}, "_students": [{"id": "755314e8-f060-4416-a5f4-b1383d8b34eb", "last_name": "B", "first_name": "2"}], "_overrides": [], "_user":{"email":"bobby7083@gmail.com"}}	f
 \.
 
 
@@ -2477,4 +2477,3 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
-
