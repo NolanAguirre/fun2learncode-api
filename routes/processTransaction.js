@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_TOKEN)
 const db = require('../db')
-
+const mailer = require('../mailer')
 const processTransaction = async ({user, token}) => {
     try{
         const transaction = await db.startTransaction(user)
@@ -20,6 +20,21 @@ const processTransaction = async ({user, token}) => {
             const paymentId = await db.storePayment(user, transaction, charge)
             await db.createEventRegistration(user, transaction._students, transaction._event.id, paymentId)
             await db.endTransaction(user)
+            const emailData = await db.getEmailData(transaction._event.id)
+            await mailer.confirmation(transaction._user.email, {
+                students:transaction._students,
+                reciptURL:charge.receipt_url,
+                activityName:transaction._activity.name,
+                eventPrice:transaction._event.price,
+                overrides:transaction._overrides,
+                addons:transaction._addons,
+                orderId:paymentId,
+                promoCode:transaction._promoCode,
+                total:transaction.total,
+                brand:charge.source.brand,
+                lastFour:charge.source.last4,
+                ...emailData
+            })
             if(process.env.TEST){
                 return {message: 'Payment and registration successful', paymentId}
             }
