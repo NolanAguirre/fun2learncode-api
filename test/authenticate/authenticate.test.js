@@ -17,15 +17,15 @@ module.exports = {
         {
             describe:'pass, valid email and password',
             data:{email:emails.valid,password:passwords.valid},
-            test: (expect, data)=>{return expect(data.auth).not.toBe(null)}
+            test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).not.toBe(null)}
         },{
             describe:'fail, invalid password',
             data:{email:emails.valid,password:passwords.invalid},
-            test: (expect, data)=>{return expect(data.error).toBe('Email or Password was incorrect.')}
+            test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).toBe('Email or Password was incorrect.')}
         },{
             describe:'fail, invalid email',
             data:{email:emails.invalid,password:passwords.valid},
-            test: (expect, data)=>{return expect(data.error).toBe('Email or Password was incorrect.')}
+            test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).toBe('Email or Password was incorrect.')}
         }
     ]
 }

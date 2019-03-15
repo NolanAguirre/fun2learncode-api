@@ -16,11 +16,11 @@ module.exports = {
         {
             describe:'pass, email sent',
             data:{email:emails.valid},
-            test: (expect, data)=>{return expect(data.message).toBe(`An email has been sent to ${emails.valid} with furthur instructions.`)}
+            test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).toBe(`An email has been sent to ${emails.valid} with furthur instructions.`)}
         },{
             describe:'fail, email has no user',
             data:{email:emails.invalid},
-            test: (expect, data)=>{return expect(data.error).toBe('No user with provided email found.')}
+            test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).toBe('No user with provided email found.')}
         }
     ]
 }

@@ -16,7 +16,7 @@ module.exports = {
         // {
         //     describe:'pass, mailing successful',
         //     data:{html:defaultNewsLetter('News Letter','This is a test newsletter')},
-        //     test: (expect, data)=>{return expect(data.message).toBe("news letter sent")}
+        //     test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).toBe("news letter sent")}
         // }
     ]
 }
