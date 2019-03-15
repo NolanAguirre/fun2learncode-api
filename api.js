@@ -14,7 +14,8 @@ const routes = {
     refund: require('./routes/refundTransaction').production,
     authenticate: require('./routes/authenticate').production,
     recover: require('./routes/recover').production,
-    webhook: require('./routes/webhook').production
+    webhook: require('./routes/webhook').production,
+    accountAction: require('./routes.accountAction').production
 }
 
 const populateJWT = (req, res, next) => {
@@ -31,10 +32,10 @@ const cookieOptions = {
 }
 
 const validateAuthToken =  (req, res, next) => {
-  if (req.session && req.session.authToken && req.body && req.body.user) {
+  if (req.session && req.session.authToken && req.body) {
     try {
       const decrypt = jwt.decode(req.session.authToken, process.env.JWT_SECRET)
-      if (decrypt.id === req.body.user) {
+      if ((req.body.user && decrypt.id === req.body.user) || decrypt.role === 'ftlc_owner') {
           req.body.role = decrypt.role
           next()
       }
@@ -103,6 +104,8 @@ app.post('/payment/refund', routes.refund)
 app.post('/recover', routes.recover)
 
 app.post('/mailing', routes.mailing)
+
+app.post('/mailing/account_action', routes.accountAction)
 
 app.post('/webhook', routes.webhook)
 

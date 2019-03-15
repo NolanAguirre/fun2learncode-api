@@ -2,43 +2,33 @@ require('dotenv').config()
 const pgp = require('pg-promise')(/* options */)
 const query = require('./query')
 pgp.pg.defaults.ssl = true
-var database = pgp(process.env.DATABASE_URL)
+const database = pgp(process.env.DATABASE_URL)
 var db = {}
 //handle error messages here
 db.authenticate = (email, password) => {
-  return database.one('select id, role, expires_at from ftlc.authenticate($1, $2)', [email, password]).catch((error)=>{
-    //console.log(error)
-    throw new Error('Cannot connect to the database.')
-  })
+  return database.one('select id, role, expires_at from ftlc.authenticate($1, $2)', [email, password])
+            .catch((error)=>{throw new Error('Incorrect email or password.')})
 }
 
 db.transactionIsProcessing = (user) => {
-  return database.none('SELECT * FROM ftlc.transaction_state WHERE user_id = $1 AND processing = true', [user]).catch((error)=>{
-    //console.log(error)
-    throw new Error('Transaction is already being processed')
-})
+  return database.none('SELECT * FROM ftlc.transaction_state WHERE user_id = $1 AND processing = true', [user])
+            .catch((error)=>{throw new Error('Transaction is already being processed')})
 }
 
 db.storeTransaction = (user, info) => {
-  return database.oneOrNone('SELECT ftlc.store_transaction ($1, $2:json)', [user, info]).catch((error)=>{
-    //console.log(error)
-    throw new Error('Error occured while storing transaction data')
-  })
+  return database.oneOrNone('SELECT ftlc.store_transaction ($1, $2:json)', [user, info])
+            .catch((error)=>{throw new Error('Error occured while storing transaction data')})
 }
 
 db.startTransaction = (user) => {
   return database.one('UPDATE ftlc.transaction_state SET processing = true WHERE user_id = $1 AND processing = false RETURNING transaction', [user])
-    .then(data => data.transaction).catch((error)=>{
-      //console.log(error)
-      throw new Error('Error accessing transaction data.')
-    })
+    .then(data => data.transaction)
+    .catch((error)=>{throw new Error('Error accessing transaction data.')})
 }
 
 db.endTransaction = (user) => {
-  return database.none('DELETE FROM ftlc.transaction_state WHERE user_id = $1', [user]).catch((error)=>{
-    //console.log(error)
-    throw new Error('Error ending transaction, transactions from this accound cannot be processed.')
-  })
+  return database.none('DELETE FROM ftlc.transaction_state WHERE user_id = $1', [user])
+  .catch((error)=>{throw new Error('Error ending transaction, transactions from this accound cannot be processed.' + error.message)})
 }
 
 db.getRegistrationData = async ({students, addons, event, promoCode, user}, date) => {
@@ -79,7 +69,7 @@ db.getRegistrationData = async ({students, addons, event, promoCode, user}, date
   )
 
   promises.push(
-    database.one('SELECT name FROM ftlc.activity WHERE id = (SELECT activity FROM ftlc.event WHERE id = $1)', [_event.id])
+    database.one('SELECT name, category FROM ftlc.activity WHERE id = (SELECT activity FROM ftlc.event WHERE id = $1)', [_event.id])
       .then(data => {return {_activity: data}})
       .catch(error => {throw new Error('Cannot find activity.')})
   )
@@ -108,23 +98,16 @@ db.getRegistrationData = async ({students, addons, event, promoCode, user}, date
 }
 
 db.createEventRegistration = (user, students, event, payment) => {
-  let promises = []
-  students.forEach((student) => {
-    promises.push(
-      database.none('INSERT INTO ftlc.event_registration(registered_by, student, event, payment) VAlUES ($1, $2, $3, $4)', [user, student.id, event, payment]).catch((error)=>{
-
-        throw new Error('Failed to create event registration, request help.')
+  return database.tx(t => {
+        const registrations = students.map((student) => {
+            return database.none('INSERT INTO ftlc.event_registration(registered_by, student, event, payment) VAlUES ($1, $2, $3, $4)', [user, student.id, event, payment])
+        })
+        const q1 = database.none('UPDATE ftlc.event SET seats_left = seats_left - $1 WHERE id = $2', [students.length, event])
+        return t.batch([...registrations, q1]);
+    }).then(data => {
+        return data
     })
-    )
-  })
-  promises.push(
-    database.none('UPDATE ftlc.event SET seats_left = seats_left - $1 WHERE id = $2', [students.length, event]).catch((error)=>{
-      //console.log(error)
-      throw new Error('Failed to update seats left')
-    })
-  )
-
-  return Promise.all(promises)
+    .catch(error => {throw new Error('Error occured while creating event registration.' + error.message)});
 }
 
 db.storePayment = (user, snapshot, charge) => {
@@ -146,51 +129,34 @@ db.storePayment = (user, snapshot, charge) => {
     })
 }
 
-db.storeRefund = (refund, payment) => {
-    return database.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, 'refund', payment])
-    .catch((error)=>{
-        //console.log(error)
-        throw new Error('could not update payment to refund.' + error.message + payment)
-    })
-}
-
-db.processRefund = (payment, refund, unregister, reason) => {
-  const id = payment.id
-  let promises = []
-  promises.push(
-      db.storeRefund(refund, id)
-  )
-  promises.push(
-      database.one('UPDATE ftlc.refund_request SET status = $1, amount_refunded = $2, granted_reason = $3 WHERE payment = $4 RETURNING id', ['accepted', refund.amount / 100, reason, id])
-          .catch((error)=>{
-          //console.log(error)
-          throw new Error('failed to update refund request')
-        })
-    )
-  if (unregister) {
-    promises.push(
-        database.one('DELETE FROM ftlc.event_registration WHERE payment = $1 RETURNING id', [id])
-        .catch((error)=>{
-          //console.log(error)
-          throw new Error('failed to delete event registration')
-        })
-    )
-    promises.push(
-        database.one('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = (SELECT DISTINCT event FROM ftlc.event_registration WHERE payment = $2) RETURNING id', [payment.snapshot._students.length, id])
-            .catch((error)=>{
-          //console.log(error)
-          throw new Error('failed to restore seat to event.' + error.message)
-        })
-    )
-  }
-  return Promise.all(promises)
-}
-
 db.getPayment = (id) => {
-  return database.one('SELECT * FROM ftlc.payment WHERE id = $1', [id]).catch((error)=>{
-    //console.log(error)
-    throw new Error('could not find payment')
-  })
+  return database.one('SELECT charge, snapshot, user_id FROM ftlc.payment WHERE id = $1', [id])
+  .catch((error)=>{throw new Error('could not find payment')})
+}
+db.storeFailedRefund = (refund, payment) => {
+    return database.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, 'refund', payment])
+            .catch((error)=>{throw new Error('Error updating payment to refund status')})
+}
+
+db.updateRefund = (payment, grantedReason, user, status, reason, refund) => {
+    const paymentStatus = (status === 'accepted')?'refund':'paid'
+    return database.tx(t => {
+          const q1 = database.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, paymentStatus, payment])
+          const q2 = database.one(query.updateRefund, [payment, grantedReason, user, status, refund.amount/100, reason])
+          return t.batch([q1, q2]);
+      })
+      .catch(error => {throw new Error('Error occured while storing refund data.' + error.message)});
+}
+
+db.unregister = (event, students) => {
+    return database.tx(t => {
+          const registrations = students.map((student) => {
+              return database.none('DELETE FROM ftlc.event_registration WHERE student = $1 AND event = $2', [student.id, event])
+          })
+          const q1 = database.none('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = $2', [students.length, event])
+          return t.batch([...registrations, q1]);
+      })
+      .catch(error => {throw new Error('Error occured while removing event registration.' + error.message)});
 }
 
 db.genTemporaryToken = (email) => {
@@ -224,13 +190,17 @@ db.getEmailData = (event) => {
 }
 
 db.getMailingList = () => {
-    return database.many('SELECT email FROM ftlc.news_letter').catch((error)=>{
-      //console.log(error)
-      throw new Error('Cannot query mailing list')
-    })
+    return database.many('SELECT email FROM ftlc.news_letter')
+    .catch((error)=>{throw new Error('Cannot query mailing list')})
+}
+
+db.getUser = (id) => {
+    return database.one('SELECT * from ftlc.users WHERE id = $1', [id])
+            .catch((error)=>{throw new Error('Cannot find user with given id.')})
 }
 
 if(process.env.TEST){
+    db.database = database
     db.createRefundRequest = (user, reason, payment) => {
         return database.none('INSERT INTO ftlc.refund_request(user_id, reason, payment) VALUES ($1, $2, $3)', [user, reason, payment]).catch((error)=>{
           //console.log(error)

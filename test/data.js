@@ -25,7 +25,8 @@ module.exports = {
         private_paid:"2c474702-8436-442e-b66c-3fb30fef8e22", //other uses requested this event
         private_hash_paid:"Paidedrftgyhujikkmjnhbgvctertrytuyiuo", //other uses requested this event
         private_cheat:"2f29f084-ef81-44de-b6bc-25ac2e03ef37",
-        private_hash_cheat:"cheatwasedrftgyhujikomnbvtcrexsw"
+        private_hash_cheat:"cheatwasedrftgyhujikomnbvtcrexsw",
+        valid_two:"30558455-ed53-436a-b266-3a5cbf53a984"
     },
     users:{
         parent:"702651ae-0036-448e-bd7c-b9e6489bf822",
@@ -57,7 +58,7 @@ module.exports = {
         fail:["tok_chargeDeclined"]//"tok_avsFail", "tok_avsLine1Fail", "tok_avsZipFail", "tok_cvcCheckFail", "tok_riskLevelElevated", "tok_riskLevelHighest", , "tok_chargeDeclinedInsufficientFunds", "tok_chargeDeclinedFraudulent", "tok_chargeDeclinedIncorrectCvc", "tok_chargeDeclinedExpiredCard", "tok_chargeDeclinedProcessingError"]
     },
     emails:{
-        valid:"bobby7083@gmail.com",
+        valid:"nolanaguirretesting@gmail.com",
         invalid:"bobby@gmail.com"
     },
     passwords:{

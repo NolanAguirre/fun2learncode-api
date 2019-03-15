@@ -17,15 +17,17 @@ const units = [
     recover,
     integration
 ]
+jest.setTimeout(3000);
 describe('Entire website test', () => {
     beforeAll(() => {
         const db =`${process.env.DATABASE_URL}`
         execSync(`pg_dump -n ftlc -n ftlc_private --clean -d ${db} -f temp.sql`)
         execSync(`psql -d ${db} -f testData.sql`)
         return
-    });
+    })
     afterAll(() => {
         const db =`${process.env.DATABASE_URL}`
+        // execSync(`pg_dump -n ftlc -n ftlc_private --clean -d ${db} -f afterTest.sql`)
         execSync(`psql -d ${db} -f temp.sql`)
         execSync(`rm temp.sql`)
         database.database.$pool.end()

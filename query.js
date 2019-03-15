@@ -11,8 +11,13 @@ const hiddenEvent = `SELECT * FROM ftlc.event WHERE (
     (public_display = false AND id = (SELECT event FROM ftlc.event_request WHERE access_token = $2) AND seats_left != capacity)))`
 
 //last condition is a super cheesy way to make sure people that didnt request the event cant register before the user who did request it did
+const updateRefund = `
+INSERT INTO ftlc.refund_request(payment, granted_reason, user_id, status, amount_refunded, reason) VALUES ($1, $2, $3, $4, $5, $6)
+    ON CONFLICT(payment, user_id) DO UPDATE SET granted_reason = $2, status = $4, amount_refunded = $5  WHERE ftlc.refund_request.user_id = EXCLUDED.user_id AND ftlc.refund_request.payment = EXCLUDED.payment RETURNING id`
+
 
 module.exports = {
   promoCode,
-  hiddenEvent
+  hiddenEvent,
+  updateRefund
 }

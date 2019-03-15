@@ -1092,6 +1092,8 @@ fc7f6deb-22e8-455f-8526-8c25b22a45d7	1c7441e7-56d1-4cf2-87c7-a0477a76d45f	493305
 4a44e3f4-4285-4bee-868a-121ec4ed1b39	418d2479-88b6-4495-ad22-bf7e51f90115	20fa8f5c-d218-4b30-8e83-7bd2fbab148a
 5946b47d-23df-4ff9-9670-7005d5dcf741	7aaf98f8-9b8d-4a9a-9dcf-c2e5db2fc4c5	4933050d-0dc3-43fc-b81d-439a54d49cd1
 1147a476-9317-42af-beef-2da9b7a50b27	1c7441e7-56d1-4cf2-87c7-a0477a76d45f	7a3b7f4b-51cc-4216-a2c4-18f92923eb98
+cfea8a96-2c6a-4d85-912f-29892081e33b	30558455-ed53-436a-b266-3a5cbf53a984	7a3b7f4b-51cc-4216-a2c4-18f92923eb98
+4f2355a2-8da1-4a3c-a25b-17ff1bb3f4c1	30558455-ed53-436a-b266-3a5cbf53a984	4933050d-0dc3-43fc-b81d-439a54d49cd1
 \.
 
 
@@ -1162,6 +1164,11 @@ cda5d4bc-2c84-41b8-a71e-ec41c42af802	2019-06-07 13:00:00-05	2019-06-07 16:00:00-
 f8028f46-2b4f-488a-a5c5-3174b37f5b2d	2019-06-14 09:00:00-05	2019-06-14 17:00:00-05	f
 38874d36-cb5a-453e-9e65-7153e2a3010c	2019-06-21 21:03:00-05	2019-06-21 22:03:00-05	f
 02042799-dd61-407b-9d95-caf0d058d710	2019-05-17 21:12:00-05	2019-05-17 22:12:00-05	f
+11e19a24-177b-49a0-a793-15b42e0ff921	2019-07-08 19:11:00-05	2019-07-08 20:11:00-05	f
+d7a25a5e-eb3d-48ee-8b75-fb7be2c3bef7	2019-07-09 19:11:00-05	2019-07-09 20:11:00-05	f
+1feb68c6-e151-42f6-b137-0cd96fe48465	2019-07-10 19:11:00-05	2019-07-10 20:11:00-05	f
+b9cde4d9-e33a-4fba-965f-010c896f59f5	2019-07-11 19:11:00-05	2019-07-11 20:11:00-05	f
+9e7c7090-1ad9-403c-915b-ad740af17a45	2019-07-12 19:11:00-05	2019-07-12 20:11:00-05	f
 \.
 
 
@@ -1195,6 +1202,11 @@ d59c4c2e-1cbb-4d0b-a973-700fbc80d59e	55c6c9e3-e1d4-4ce7-9fb8-2c90fa7f7f2f	cda5d4
 4deba2b2-e281-4c2e-bf0c-4fb07df73fc5	e0023bf0-22d9-4816-affb-df1016f52f12	f8028f46-2b4f-488a-a5c5-3174b37f5b2d
 1ed5a857-f1b2-4a0b-9cc4-8bfdbc7e7e69	2c474702-8436-442e-b66c-3fb30fef8e22	38874d36-cb5a-453e-9e65-7153e2a3010c
 4519edcd-a5d3-4e3e-9aea-12358af4ca20	2f29f084-ef81-44de-b6bc-25ac2e03ef37	02042799-dd61-407b-9d95-caf0d058d710
+9af6bccd-0831-4788-b9a3-9124c64e6869	30558455-ed53-436a-b266-3a5cbf53a984	11e19a24-177b-49a0-a793-15b42e0ff921
+ad67b0e7-4586-4efd-b358-0cfbe16faa27	30558455-ed53-436a-b266-3a5cbf53a984	d7a25a5e-eb3d-48ee-8b75-fb7be2c3bef7
+70519498-d99c-4a9c-b8c9-ad8f15f70175	30558455-ed53-436a-b266-3a5cbf53a984	1feb68c6-e151-42f6-b137-0cd96fe48465
+a2e4b90b-aa29-449c-b145-e8fe6ef1d272	30558455-ed53-436a-b266-3a5cbf53a984	b9cde4d9-e33a-4fba-965f-010c896f59f5
+d1571aeb-4142-48a0-af7d-4e78bafe96d0	30558455-ed53-436a-b266-3a5cbf53a984	9e7c7090-1ad9-403c-915b-ad740af17a45
 \.
 
 
@@ -1212,6 +1224,7 @@ COPY ftlc.event (id, activity, address, open_registration, close_registration, c
 e0023bf0-22d9-4816-affb-df1016f52f12	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-02-01 23:59:59-06	2019-06-13 23:59:59-05	8	8	June private event	450	t	f	f
 2c474702-8436-442e-b66c-3fb30fef8e22	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-06 23:59:59-06	2019-06-21 23:59:59-05	8	7	Paid private event	0	t	f	f
 2f29f084-ef81-44de-b6bc-25ac2e03ef37	8986c827-d5dc-4cb3-9e46-b6000b602cef	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-01 23:59:59-06	2019-05-16 23:59:59-05	8	8	cheat private event	0	t	f	f
+30558455-ed53-436a-b266-3a5cbf53a984	0e207141-c0c9-402d-98dc-fb17c4602d6c	c8959d18-c811-4572-aef0-dcc4475a7ec0	2019-03-01 23:59:59-06	2019-04-30 23:59:59-05	8	8	asd	200	t	f	t
 \.
 
 
@@ -1360,7 +1373,7 @@ a0a8c910-cabc-4d05-a842-dd7359f3808e	a67ef66a-04f6-449e-83a0-a7256ba6339e	Dr Bro
 --
 
 COPY ftlc.transaction_state (user_id, transaction, processing) FROM stdin;
-c417e4c3-e766-46fe-8158-74784dc3d76a	{"total": "230.00", "_event": {"id": "1c7441e7-56d1-4cf2-87c7-a0477a76d45f", "name": "May AM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "0e207141-c0c9-402d-98dc-fb17c4602d6c", "capacity": 8, "seats_left": 7, "show_calendar": true, "public_display": true, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-05-28T04:59:59.000Z"}, "_addons": [{"name": "Test addon", "price": 30, "description": "Only for testing"}], "_activity": {"name": "Video Game Design"}, "_students": [{"id": "755314e8-f060-4416-a5f4-b1383d8b34eb", "last_name": "B", "first_name": "2"}], "_overrides": [], "_user":{"email":"bobby7083@gmail.com"}}	f
+c417e4c3-e766-46fe-8158-74784dc3d76a	{"_user": {"email": "bobby7083@gmail.com"}, "total": "230.00", "_event": {"id": "1c7441e7-56d1-4cf2-87c7-a0477a76d45f", "name": "May AM", "price": 200, "address": "c8959d18-c811-4572-aef0-dcc4475a7ec0", "archive": false, "activity": "0e207141-c0c9-402d-98dc-fb17c4602d6c", "capacity": 8, "seats_left": 7, "show_calendar": true, "public_display": true, "open_registration": "2019-02-02T05:59:59.000Z", "close_registration": "2019-05-28T04:59:59.000Z"}, "_addons": [{"name": "Test addon", "price": 30, "description": "Only for testing"}], "_activity": {"name": "Video Game Design"}, "_students": [{"id": "755314e8-f060-4416-a5f4-b1383d8b34eb", "last_name": "B", "first_name": "2"}], "_overrides": []}	f
 \.
 
 
@@ -2477,3 +2490,4 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
+

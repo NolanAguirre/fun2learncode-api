@@ -13,12 +13,11 @@ module.exports = {
         })
     },
     data:[
-        // { this one sents emails
-        //     describe:'pass, email sent',
-        //     data:{email:'emails.valid},
-        //     test: (expect, data)=>{return expect(data.message).toBe('An email has been sent to bobby7083@gmail.com with furthur instructions.')}
-        // },
         {
+            describe:'pass, email sent',
+            data:{email:emails.valid},
+            test: (expect, data)=>{return expect(data.message).toBe(`An email has been sent to ${emails.valid} with furthur instructions.`)}
+        },{
             describe:'fail, email has no user',
             data:{email:emails.invalid},
             test: (expect, data)=>{return expect(data.error).toBe('No user with provided email found.')}

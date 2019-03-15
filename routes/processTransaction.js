@@ -16,15 +16,19 @@ const processTransaction = async ({user, token}) => {
               statement_descriptor: 'Fun2LearnCode Event'
           }).catch((error)=>{throw new Error('Stripe error while processing card.' + error.message)})
         }
+        const storedCharge = {
+            id: charge.id,
+            amount: charge.amount
+        }
         if (charge.paid) {
-            const paymentId = await db.storePayment(user, transaction, charge)
+            const paymentId = await db.storePayment(user, transaction, storedCharge)
             await db.createEventRegistration(user, transaction._students, transaction._event.id, paymentId)
             await db.endTransaction(user)
             const emailData = await db.getEmailData(transaction._event.id)
-            await mailer.confirmation(transaction._user.email, {
+            mailer.confirmation(transaction._user.email, {
                 students:transaction._students,
                 reciptURL:charge.receipt_url,
-                activityName:transaction._activity.name,
+                activity:transaction._activity,
                 eventPrice:transaction._event.price,
                 overrides:transaction._overrides,
                 addons:transaction._addons,
@@ -43,7 +47,6 @@ const processTransaction = async ({user, token}) => {
             throw new Error('Stripe processed payment but total was not paid.')
         }
     }catch(error){
-        console.log(error)
         try{
             await db.endTransaction(user)
             return {error:error.message}
