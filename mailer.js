@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer')
 const ResetPasswordTemplate = require('./emailTemplates/recoverEmail')
 const confirmation = require('./emailTemplates/confirmation')
+const accountAction = require('./emailTemplates/accountAction')
 const mailingQueue = require('./mailingQueue')
 require('dotenv').config()
 const transporter = nodemailer.createTransport({
@@ -71,7 +72,7 @@ mailer.accountAction = (email, user) => {
       from: 'no_reply@fun2learncode.com', // sender address
       to: email, // list of receivers
       subject: 'Account Action required', // Subject line
-      html: `<div>${JSON.stringify(user)}</div>`// plain text body
+      html: accountAction(user, user)// plain text body
   }, 3)
 }
 

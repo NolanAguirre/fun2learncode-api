@@ -15,7 +15,7 @@ const routes = {
     authenticate: require('./routes/authenticate').production,
     recover: require('./routes/recover').production,
     webhook: require('./routes/webhook').production,
-    accountAction: require('./routes.accountAction').production
+    accountAction: require('./routes/accountAction').production
 }
 
 const populateJWT = (req, res, next) => {

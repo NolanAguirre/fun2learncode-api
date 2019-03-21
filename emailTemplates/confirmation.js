@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 
-const summerCampId = '4c3e0f49-48c6-43dd-b13b-13a28e1afd91'
+const summerCampId = '4c3e0f49-48c6-43dd-b13b-13a28e1afd91' //used to check if camp is a summer camp
 
 const orderOverviewRow = (name, student, total) => {
     return `<tr>

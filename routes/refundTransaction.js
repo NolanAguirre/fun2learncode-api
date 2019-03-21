@@ -1,7 +1,8 @@
 require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_TOKEN)
 const db = require('../db')
-//TODO make this work without granting
+const mailer = require('../mailer')
+//TODO test this better
 const refund = async ({grantedReason, paymentId, amount, unregister, grant}) => {
     try{
         const {
@@ -9,6 +10,7 @@ const refund = async ({grantedReason, paymentId, amount, unregister, grant}) => 
             snapshot,
             user_id
         } = await db.getPayment(paymentId)
+        const user = await db.getUser(user_id)
         let storeRefund = {
             amount:0,
             status:'rejected'
@@ -38,6 +40,7 @@ const refund = async ({grantedReason, paymentId, amount, unregister, grant}) => 
         if(unregister){
             await db.unregister(snapshot._event.id, snapshot._students)
         }
+        mailer.accountAction(user.email, {message:'refund action taken, check order history on event that the refund was requested on.'})
         return {message:'refund successful'}
 
     }catch(error){
