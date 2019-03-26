@@ -48,3 +48,5 @@ privileges 2018-09-07T03:13:43Z Nolan Aguirre <nolanaguirre08@gmail.com> # Add p
 
 RLS 2019-01-17T02:06:50Z Nolan Aguirre <nolanaguirre08@gmail.com> # Row level security migration
 @v1.0.0 2019-02-23T02:35:35Z Nolan Aguirre <nolanaguirre08@gmail.com> # Tag v1.0.0/
+
+stripe_id [users_private] 2019-03-26T22:46:30Z Nolan Aguirre <nolanaguirre08@gmail.com> # add stripe id to private users migration
