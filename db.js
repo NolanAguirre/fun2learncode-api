@@ -199,6 +199,10 @@ db.getUser = (id) => {
             .catch((error)=>{throw new Error('Cannot find user with given id.')})
 }
 
+db.getStripeUser = (id) => {
+    return database.one('SELECT ftlc.users.*, ftlc_private.users.stripe_id FROM ftlc.users WHERE id = $1 INNER JOIN ftlc.users.id = ftlc_private.users.user_id')
+}
+
 if(process.env.TEST){
     db.database = database
     db.createRefundRequest = (user, reason, payment) => {

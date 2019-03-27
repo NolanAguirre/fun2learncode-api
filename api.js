@@ -15,7 +15,8 @@ const routes = {
     authenticate: require('./routes/authenticate').production,
     recover: require('./routes/recover').production,
     webhook: require('./routes/webhook').production,
-    accountAction: require('./routes/accountAction').production
+    accountAction: require('./routes/accountAction').production,
+    stripe: require('./routes/stripe').production
 }
 
 const populateJWT = (req, res, next) => {
@@ -71,11 +72,11 @@ const excludeMiddleware = (path, middleware) => {
 
 app.use(excludeMiddleware('/webhook', cors({origin: process.env.CLIENT_URL, credentials: true})))
 app.use(excludeMiddleware('/webhook', bodyParser.json()))
+app.use('/webhook', cors(corsOptions))
+app.use('/webhook', bodyParser.raw({type: '*/*'}))
 app.use(cookieSession(cookieOptions))
 app.use('/graphql', populateJWT)
 app.use('/graphiql', populateJWT)
-app.use('/webhook', cors(corsOptions))
-app.use('/webhook', bodyParser.raw({type: '*/*'}))
 app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
   dynamicJson: true,
   graphiql: true,
@@ -87,6 +88,9 @@ app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
 
 app.use('/payment', validateAuthToken)
 app.use('/mailing', validateAuthToken)
+app.use('/stripe', validateAuthToken)
+
+app.use('/stripe', routes.stripe)
 
 app.post('/authenticate', routes.authenticate)
 
