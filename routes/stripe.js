@@ -1,4 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_TOKEN)
+const db = require('../db')
+const express = require('express')
 const router = express.Router()
 
 const createCustomer = async (id) => {
@@ -7,7 +9,7 @@ const createCustomer = async (id) => {
         return await stripe.customers.create({
             description: 'Customer',
             email: user.email
-        }).then((customer)=>{
+        }).then(async (customer) => {
             await db.addStripeUser(id);
         })
     }else{
@@ -15,13 +17,13 @@ const createCustomer = async (id) => {
     }
 }
 
-const addCard = (id, cardInfo, default) => {
+const addCard = async (id, cardInfo, isDefault) => {
     const user = await db.getStripeUser(id)
     if(user.stripe_id){
         const card = await stripe.customers.createSource(user.stripe_id,{ source: cardInfo }).then(()=>{
 
         })
-        if(default && card){
+        if(isDefault && card){
             stripe.customers.update(user.stripe_id,{default_source:card.id}).then((res)=>{
                 //idk what to do here
             })
@@ -29,7 +31,7 @@ const addCard = (id, cardInfo, default) => {
     }
 }
 
-const deleteCard = (id, cardInfo) => {
+const deleteCard = async (id, cardInfo) => {
     const user = await db.getStripeUser(id)
     if(user.stripe_id){
         const card = stripe.customers.listCards(user.stripe_id)
@@ -58,7 +60,7 @@ const deleteCard = (id, cardInfo) => {
 
 }
 
-const setDefault = (id, cardInfo) => {
+const setDefault = async (id, cardInfo) => {
     const user = await db.getStripeUser(id)
     if(user.stripe_id){
         stripe.customers.update(user.stripe_id,{default_source:cardInfo}).then((res)=>{
@@ -67,7 +69,7 @@ const setDefault = (id, cardInfo) => {
     }
 }
 
-const chargeCard = (id, token, total, saveCard) => {
+const chargeCard = async (id, token, total, saveCard) => {
     return stripe.charges.create({
              amount: total * 100,
              currency: 'usd',
@@ -78,7 +80,7 @@ const chargeCard = (id, token, total, saveCard) => {
 }
 
 
-const chargeCustomer = (id) => {
+const chargeCustomer = async (id) => {
     const user = await db.getStripeUser(id)
     return stripe.charges.create({
              amount: total * 100,
@@ -89,7 +91,7 @@ const chargeCustomer = (id) => {
          })
 }
 
-const getUserCards= (id) => {
+const getUserCards = async (id) => {
     const user = await db.getStripeUser(id)
     return stripe.customers.listCards(user.stripe_id)
 }
@@ -98,28 +100,28 @@ if(!process.env.TEST){
     router.post('/create-customer', async (req, res) => {
         res.json(await createCustomer(req.body.user))
     })
-    router.post('/add-card', (req, res) => {
+    router.post('/add-card', async (req, res) => {
         if(req.body.cardInfo){
             res.json(await addCard(req.body.user, req.body.cardInfo, req.body.default))
         } else {
             res.json({error:'No card information provided'})
         }
     })
-    router.post('/delete-card', (req, res) => {
+    router.post('/delete-card', async (req, res) => {
         if(req.body.cardInfo){
             res.json(await deleteCard(req.body.user, req.body.cardInfo))
         } else {
             res.json({error:'No card information provided'})
         }
     })
-    router.post('/set-default', (req, res) => {
+    router.post('/set-default', async (req, res) => {
         if(req.body.cardInfo){
             res.json(await setDefault(req.body.user, req.body.cardInfo))
         } else {
             res.json({error:'No card information provided'})
         }
     })
-    router.post('/user-info', (req, res) => {
+    router.post('/user-info', async (req, res) => {
         res.json(await getUserCards(req.body.user))
     })
 }
