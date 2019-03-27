@@ -8,18 +8,19 @@ const orderOverviewRow = (name, student, total) => {
         ${name} - ${student}
       </td>
       <td style="border:none;text-align:right;width:10%" valign="top">${total}</td>
-    </tr>
-    `
+    </tr>`
 }
+
 const formatDates = (dates) => {
     let returnVal = ''
     dates.forEach((date)=>{
-        returnVal += `${moment(date.start).tz('America/North_Dakota/Center').format('MMM Do H:mma')}-${moment(date.end).tz('America/North_Dakota/Center').format('H:mma')}<br/>\n`
+        returnVal += `${moment(date.start).tz('America/North_Dakota/Center').format('MMM Do h:mma')}-${moment(date.end).tz('America/North_Dakota/Center').format('h:mma')}<br/>\n`
     })
     //just adds sup tag to th nd st and rd
     returnVal = returnVal.replace(/th/g, '<sup>th</sup>').replace(/nd/g, '<sup>nd</sup>').replace(/st/g, '<sup>st</sup>').replace(/rd/g, '<sup>rd</sup>')
     return returnVal.substring(0, returnVal.length - 6);
 }
+
 const formatOrderOverveiw = (students, eventPrice, addons, overrides, promoCode) => {
     let returnVal = ''
     students.forEach((student)=>{
@@ -29,7 +30,7 @@ const formatOrderOverveiw = (students, eventPrice, addons, overrides, promoCode)
         for(let k in overrides){
             let override = overrides[k]
             if(override.student === student.id){
-                modifiedPrice = override.modifiedPrice
+                modifiedPrice = override.modified_price
                 break
             }
         }
@@ -48,6 +49,7 @@ const formatOrderOverveiw = (students, eventPrice, addons, overrides, promoCode)
     })
     return returnVal
 }
+
 const summerCampInfo = `<h1 style="margin:0.2em 0em 0.5em 0px;padding-left:2px;padding-right:2px;font-size:24px">What to bring</h1>
                 <table style="border:none" width="600px" cellspacing="0" cellpadding="2" border="0">
                   <tbody>
