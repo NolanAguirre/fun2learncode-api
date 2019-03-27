@@ -5,21 +5,17 @@ const override = require('./override.test')
 const privateEvent = require('./private.test')
 const student = require('./student.test')
 
-module.exports = {
-    describe:'Begin transaction',
-    process: (describe, test, expect, item)=>{
-        describe(item.describe, ()=>{
-            item.data.forEach((obj)=>{
-                obj.process(describe, test, expect, obj)
-            })
-        })
-    },
-    data:[
-        override,
-        privateEvent,
-        addon,
-        code,
-        student,
-        event
-    ]
+const units = [
+    event,
+    addon,
+    code,
+    override,
+    privateEvent,
+    student
+]
+
+module.exports = () => {
+    describe('Begin transaction', () => {
+        units.forEach((unit)=>unit())
+    })
 }

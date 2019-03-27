@@ -9,13 +9,12 @@ const integration = require('./integration.test')
 const { execSync } = require('child_process')
 const database = require('../db')
 const units = [
-    processTransaction,
+    //processTransaction,
     begin,
     refund,
     authenticate,
-    mailing,
-    recover,
-    integration
+    //mailing,
+    recover
 ]
 jest.setTimeout(3000);
 describe('Entire website test', () => {
@@ -34,6 +33,6 @@ describe('Entire website test', () => {
         return
     })
     units.forEach((item)=>{
-        item.process(describe, test, expect, item)
+        item()
     })
 })

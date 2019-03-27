@@ -5,34 +5,48 @@ const {students, events, users, stripeTokens, addons, codes} = require('./data')
 const db = require('../db')
 let {payments} = require('./data')
 
-module.exports ={
-    describe:'Integration',
-    process:(describe, test, expect, item)=>{
-        describe(item.describe, ()=>{
-            item.data.forEach((obj)=>{
-                test(obj.describe, obj.test(expect, obj))
-            })
-        })
-    },
+// describe('Integration tests', () => {
+//     describe('Test One', () => {
+//         test('pass begin valid transaction', async () => {
+//             const data = await begin({"promoCode":codes.valid,"students":[students.valid],"addons":[addons.valid],"event":events.valid,"user":users.parent})
+//             return expect(data[Object.keys(data)[0]]).toBe("210.00")
+//         })
+//         test('pass process valid transaction', async () => {
+//             const data = await process({user:users.parent, token:stripeTokens.valid})
+//             return expect(data[Object.keys(data)[0]]).toBe('Payment and registration successful')
+//         })
+//     })
+//
+//     describe('Test Two', () => {
+//         test('pass begin valid transaction', async () => {
+//             const data = await begin({"promoCode":codes.valid,"students":[students.valid],"addons":[addons.valid],"event":events.valid,"user":users.parent})
+//             return expect(data[Object.keys(data)[0]]).toBe("210.00")
+//         })
+//         test('pass process valid transaction', async () => {
+//             const data = await process({user:users.parent, token:stripeTokens.valid})
+//             return expect(data[Object.keys(data)[0]]).toBe('Payment and registration successful')
+//         })
+//         test('pass process valid refund', async () => {
+//
+//         })
+//     })
+// })
+
+// describe('Test Three', () => {
+//     test('pass begin valid transaction', async () => {
+//         const data = await begin({})
+//     })
+//     test('pass process valid transaction', async () => {
+//         const data = await process({})
+//     })
+//     test('pass process valid refund', async () => {
+//         const data;
+//     })
+// })
+
+
+module.exports = {
     data:[{
-            describe:'pass, begin valid transaction',
-            data:{"promoCode":codes.valid,"students":[students.valid],"addons":[addons.valid],"event":events.valid,"user":users.parent},
-            test: (expect, obj) => {
-                return async () => {
-                    const data = await begin(obj.data)
-                    return expect(data[Object.keys(data)[0]]).toBe("210.00")
-                }
-            }
-        },{
-            describe:'pass, process valid transaction',
-            data:{user:users.parent, token:stripeTokens.valid},
-            test: (expect, obj) => {
-                return async () => {
-                    const data = await process(obj.data)
-                    return expect(data[Object.keys(data)[0]]).toBe('Payment and registration successful')
-                }
-            }
-        },{
             describe:'pass, begin valid refund transaction ONE',
             data:{"promoCode":"","students":[students.refund_one],"addons":[addons.valid],"event":events.valid,"user":users.refund},
             test: (expect, obj) => {

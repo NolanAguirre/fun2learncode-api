@@ -22,7 +22,7 @@ module.exports = {
         private:"e0023bf0-22d9-4816-affb-df1016f52f12",
         private_hash:"TestEventasdfghjklqwertyuiop",
         closed:"2bbe0924-0ef3-444f-bbcc-16a247d74abf",
-        private_paid:"2c474702-8436-442e-b66c-3fb30fef8e22", //other uses requested this event
+        private_paid:"2c474702-8436-442e-b66c-3fb30fef8e22", //other user requested this event
         private_hash_paid:"Paidedrftgyhujikkmjnhbgvctertrytuyiuo", //other uses requested this event
         private_cheat:"2f29f084-ef81-44de-b6bc-25ac2e03ef37",
         private_hash_cheat:"cheatwasedrftgyhujikomnbvtcrexsw",
