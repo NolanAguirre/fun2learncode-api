@@ -1038,7 +1038,8 @@ CREATE TABLE ftlc_private.users (
     user_id uuid,
     password_hash text NOT NULL,
     password_reset text,
-    password_reset_expiration timestamp with time zone
+    password_reset_expiration timestamp with time zone,
+    stripe_id text
 );
 
 
@@ -1393,11 +1394,11 @@ f0069369-94c0-4976-802d-fa8b5a414135	Nolan	Aguirre	nolanaguirretesting@gmail.com
 -- Data for Name: users; Type: TABLE DATA; Schema: ftlc_private; Owner: nolan
 --
 
-COPY ftlc_private.users (id, user_id, password_hash, password_reset, password_reset_expiration) FROM stdin;
-157eb4c7-83d1-4a09-9963-96642b9e7405	007458de-2329-4f0f-9572-eae8f8459208	$2a$06$Azo2g4m6xRD9/ZXCh90Yj.1gh7ExMm6cAZudz4VolyC1q3b6LZqvi	\N	\N
-45dd054d-919c-462c-a7a7-2403289f9f8f	702651ae-0036-448e-bd7c-b9e6489bf822	$2a$06$BG8RfcuF5HkqwtTA6whmkukCBt.7Ef7C.JbMA5N3/7VO3xSQvTR6W	\N	\N
-d065409a-ac1d-4cc1-8549-773ebe62ab8f	c417e4c3-e766-46fe-8158-74784dc3d76a	$2a$06$3eYEnpbi6KYYKZgj.AXAue5qf1uFKz8jITYJf.V4HvRdrdZb2oSte	\N	\N
-6d1cd64d-0286-4b6a-a314-285625714301	f0069369-94c0-4976-802d-fa8b5a414135	$2a$06$dW1DyIi1amOv1CQJpOXQk.zBoKcuMGw0XzH4d.WrWR9XomBvnbDyu	\N	\N
+COPY ftlc_private.users (id, user_id, password_hash, password_reset, password_reset_expiration, stripe_id) FROM stdin;
+157eb4c7-83d1-4a09-9963-96642b9e7405	007458de-2329-4f0f-9572-eae8f8459208	$2a$06$Azo2g4m6xRD9/ZXCh90Yj.1gh7ExMm6cAZudz4VolyC1q3b6LZqvi	\N	\N	\N
+45dd054d-919c-462c-a7a7-2403289f9f8f	702651ae-0036-448e-bd7c-b9e6489bf822	$2a$06$BG8RfcuF5HkqwtTA6whmkukCBt.7Ef7C.JbMA5N3/7VO3xSQvTR6W	\N	\N	\N
+d065409a-ac1d-4cc1-8549-773ebe62ab8f	c417e4c3-e766-46fe-8158-74784dc3d76a	$2a$06$3eYEnpbi6KYYKZgj.AXAue5qf1uFKz8jITYJf.V4HvRdrdZb2oSte	\N	\N	\N
+6d1cd64d-0286-4b6a-a314-285625714301	f0069369-94c0-4976-802d-fa8b5a414135	$2a$06$dW1DyIi1amOv1CQJpOXQk.zBoKcuMGw0XzH4d.WrWR9XomBvnbDyu	\N	\N	\N
 \.
 
 
@@ -2490,4 +2491,3 @@ GRANT ALL ON TABLE ftlc.transaction_state TO ftlc_admin_group;
 --
 -- PostgreSQL database dump complete
 --
-

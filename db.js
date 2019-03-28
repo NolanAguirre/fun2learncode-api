@@ -200,7 +200,13 @@ db.getUser = (id) => {
 }
 
 db.getStripeUser = (id) => {
-    return database.one('SELECT ftlc.users.*, ftlc_private.users.stripe_id FROM ftlc.users WHERE id = $1 INNER JOIN ftlc.users.id = ftlc_private.users.user_id')
+    return database.one('SELECT ftlc.users.*, ftlc_private.users.stripe_id FROM ftlc.users INNER JOIN ftlc_private.users ON ftlc.users.id = ftlc_private.users.user_id WHERE ftlc.users.id = $1', [id])
+            .catch((error)=>{throw new Error('Cannot find user with given id.')})
+}
+
+db.storeStripeUser = (id, stripe_id) => { // Just double
+    return database.one('UPDATE ftlc_private.users SET stripe_id = $2 WHERE user_id = $1 AND stripe_id IS NULL RETURNING stripe_id', [id, stripe_id])
+            .catch((error)=>{throw new Error('Stripe customer account already exists.')})
 }
 
 if(process.env.TEST){

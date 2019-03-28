@@ -5,16 +5,18 @@ const mailing = require('./mailing/mailing.test')
 const processTransaction = require('./process/process.test')
 const recover = require('./recover/recover.test')
 const refund = require('./refund/refund.test')
+const stripe = require('./stripe/stripe.test')
 const integration = require('./integration.test')
 const { execSync } = require('child_process')
 const database = require('../db')
 const units = [
-    //processTransaction,
-    begin,
-    refund,
-    authenticate,
-    //mailing,
-    recover
+    // processTransaction,
+    // begin,
+    // refund,
+    // authenticate,
+    // mailing,
+    // recover,
+    stripe
 ]
 jest.setTimeout(3000);
 describe('Entire website test', () => {
@@ -32,7 +34,7 @@ describe('Entire website test', () => {
         database.database.$pool.end()
         return
     })
-    units.forEach((item)=>{
-        item()
+    units.forEach((unit)=>{
+        unit()
     })
 })
