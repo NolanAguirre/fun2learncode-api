@@ -16,7 +16,8 @@ const units = [
     // authenticate,
     // mailing,
     // recover,
-    stripe
+    stripe,
+    integration
 ]
 jest.setTimeout(3000);
 describe('Entire website test', () => {

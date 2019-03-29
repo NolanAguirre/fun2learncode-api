@@ -17,7 +17,7 @@ module.exports = {
     data: stripeTokens.fail.map((token)=>{
         return{
             describe:`invalid, transaction fail ${token}` ,
-            data:{"user":users.other, token},
+            data:{"user":users.other, paymentItem:{id:token}},
             test: (expect, data)=>{return expect(data[Object.keys(data)[0]]).toContain("Stripe error while processing card.")}
         }
     })

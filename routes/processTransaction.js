@@ -1,20 +1,19 @@
-const stripe = require('stripe')(process.env.STRIPE_TOKEN)
 const db = require('../db')
 const mailer = require('../mailer')
-const processTransaction = async ({user, token}) => {
+const {chargeCard, chargeCustomer} = require('./stripe').test
+
+const processTransaction = async ({user, paymentItem}) => {
     try{
         const transaction = await db.startTransaction(user)
         let charge;
         if(transaction.total < 1){
             charge = {paid:true, message:'Total was less than 1 USD, no stripe charge generated.'}
         }else{
-            charge = await stripe.charges.create({
-              amount: transaction.total * 100,
-              currency: 'usd',
-              description: 'fun2learncode Event charge',
-              source: token,
-              statement_descriptor: 'Fun2LearnCode Event'
-          }).catch((error)=>{throw new Error('Stripe error while processing card.' + error.message)})
+            if(paymentItem.id){ //if payment item is a stripe token
+                charge = await chargeCard(user, paymentItem.id, transaction.total)
+            }else{
+                charge = await chargeCustomer(user, paymentItem.cardInfo, transaction.total)
+            }
         }
         const storedCharge = {
             id: charge.id,
@@ -59,7 +58,7 @@ const processTransaction = async ({user, token}) => {
 
 module.exports = {
  production: async (req, res) => {
-         if(req.body.token){
+         if(req.body.paymentItem){
              res.json(await processTransaction(req.body))
          }else{
              res.json({error:'Not enough information provided.'})

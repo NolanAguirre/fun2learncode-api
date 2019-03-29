@@ -121,7 +121,7 @@ const setDefault = async (id, cardInfo) => {
 
 const chargeCard = async (id, token, total) => {
     try{
-        return stripe.charges.create({
+        return await stripe.charges.create({
             amount: total * 100,
             currency: 'usd',
             description: 'Fun 2 Learn Code Event',
@@ -141,7 +141,7 @@ const chargeCustomer = async (id, cardInfo, total) => {
         if(user.stripe_id){
             const cards = await cardByInfo(user.stripe_id, cardInfo)
             if(cards.length === 1){
-                return stripe.charges.create({
+                return await stripe.charges.create({
                     amount: total * 100,
                     currency: 'usd',
                     description: 'Fun 2 Learn Code Event',
@@ -149,7 +149,7 @@ const chargeCustomer = async (id, cardInfo, total) => {
                     source: cards[0].id,
                     customer: user.stripe_id,
                     statement_descriptor: 'Fun 2 Learn Code Event'
-                }).catch((error)=>{throw new Error('Stripe error while processing card.' + error.message)})
+                }).catch((error)=>{throw new Error('Stripe error while processing customer card.' + error.message)})
             }else if(cards.length === 0){
                 return {error:'No card found.'}
             }else{
