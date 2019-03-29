@@ -100,9 +100,9 @@ db.getRegistrationData = async ({students, addons, event, promoCode, user}, date
 db.createEventRegistration = (user, students, event, payment) => {
   return database.tx(t => {
         const registrations = students.map((student) => {
-            return database.none('INSERT INTO ftlc.event_registration(registered_by, student, event, payment) VAlUES ($1, $2, $3, $4)', [user, student.id, event, payment])
+            return t.none('INSERT INTO ftlc.event_registration(registered_by, student, event, payment) VAlUES ($1, $2, $3, $4)', [user, student.id, event, payment])
         })
-        const q1 = database.none('UPDATE ftlc.event SET seats_left = seats_left - $1 WHERE id = $2', [students.length, event])
+        const q1 = t.none('UPDATE ftlc.event SET seats_left = seats_left - $1 WHERE id = $2', [students.length, event])
         return t.batch([...registrations, q1]);
     }).then(data => {
         return data
@@ -141,8 +141,8 @@ db.storeFailedRefund = (refund, payment) => {
 db.updateRefund = (payment, grantedReason, user, status, reason, refund) => {
     const paymentStatus = (status === 'accepted')?'refund':'paid'
     return database.tx(t => {
-          const q1 = database.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, paymentStatus, payment])
-          const q2 = database.one(query.updateRefund, [payment, grantedReason, user, status, refund.amount/100, reason])
+          const q1 = t.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, paymentStatus, payment])
+          const q2 = t.one(query.updateRefund, [payment, grantedReason, user, status, refund.amount/100, reason])
           return t.batch([q1, q2]);
       })
       .catch(error => {throw new Error('Error occured while storing refund data.' + error.message)});
@@ -151,9 +151,9 @@ db.updateRefund = (payment, grantedReason, user, status, reason, refund) => {
 db.unregister = (event, students) => {
     return database.tx(t => {
           const registrations = students.map((student) => {
-              return database.none('DELETE FROM ftlc.event_registration WHERE student = $1 AND event = $2', [student.id, event])
+              return t.none('DELETE FROM ftlc.event_registration WHERE student = $1 AND event = $2', [student.id, event])
           })
-          const q1 = database.none('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = $2', [students.length, event])
+          const q1 = t.none('UPDATE ftlc.event SET seats_left = seats_left + $1 WHERE id = $2', [students.length, event])
           return t.batch([...registrations, q1]);
       })
       .catch(error => {throw new Error('Error occured while removing event registration.' + error.message)});
