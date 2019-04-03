@@ -47,12 +47,6 @@ module.exports = () => {
                 return expect(data[Object.keys(data)[0]]).toBe('Your card was declined.')
             })
         })
-        describe('Update default', () => {
-            test('successful default update', async () => {
-                const data = await stripe.setDefault(users.parent, cards.valid_two)
-                return expect(data[Object.keys(data)[0]]).toBe('Default payment method updated.')
-            })
-        })
         describe('Deleteing cards', ( )=> {
             test('successful card delete', async () => {
                 const data = await stripe.deleteCard(users.parent, cards.valid)

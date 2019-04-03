@@ -13,6 +13,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD
   }
 })
+
 mailingQueue.config(
     {
         priorities:[
@@ -31,16 +32,18 @@ mailingQueue.config(
 
 
 var mailer = {}
+
 mailer.resetPassword = (email, name, token) => {
   mailingQueue.add({
     from: 'no_reply@fun2learncode.com', // sender address
     to: email, // list of receivers
     subject: 'Password reset', // Subject line
     html: ResetPasswordTemplate(name, `${process.env.CLIENT_URL}/reset/${encodeURIComponent(token)}`)// plain text body
-}, 4)
+    }, 4)
 }
 
 mailer.confirmation = (email, data) => {
+    console.log(data)
     mailingQueue.add({
         from:'no_reply@fun2learcode.com',
         to:email,

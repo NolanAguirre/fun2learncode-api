@@ -2,6 +2,16 @@ const stripe = require('stripe')(process.env.STRIPE_TOKEN)
 const db = require('../db')
 const express = require('express')
 const router = express.Router()
+
+const stripCard = (card) => {
+    return {
+        last4:card.last4,
+        exp_year: card.exp_year,
+        exp_month: card.exp_month,
+        brand:card.brand,
+        id:card.id
+    }
+}
 // these don't use object spreads for args because they will be used for internal
 const createCustomer = async (id) => {
     try{
@@ -44,14 +54,18 @@ const deleteCustomer = async (id) => {
 const getUserCards = async (userId, stripe_id) => {
     try{
         const user = stripe_id || (await db.getStripeUser(userId)).stripe_id
-        return await stripe.customers.listCards(user)
+        if(user){
+            return(await stripe.customers.listCards(user)).data.map(card=>stripCard(card))
+        }else{
+            return {error:'No stripe customer account on record.'}
+        }
     }catch(error){
         return {error:error.message}
     }
 }
 
 const cardByInfo = async (stripe_id, cardInfo) => {
-    return (await getUserCards(null, stripe_id)).data.filter((card)=>{
+    return (await getUserCards(null, stripe_id)).filter((card)=>{
         return card.last4 === cardInfo.last4 &&
             card.brand === cardInfo.brand &&
             card.exp_month === cardInfo.exp_month &&
@@ -65,8 +79,8 @@ const addCard = async (userId, {id, card}) => {
         if(user.stripe_id){
             const cards = await cardByInfo(user.stripe_id, card)
             if(cards.length === 0){
-                await stripe.customers.createSource(user.stripe_id,{ source: id }) //on invalid card info it says Your card was declined.
-                return {message:'Card successfully added.'}
+                const newCard = await stripe.customers.createSource(user.stripe_id,{ source: id }) //on invalid card info it says Your card was declined.
+                return {message:'Card successfully added.', newCard:stripCard(newCard)}
             }
             return {error:'Provided card has the same last 4 digits, brand, and experation date as a stored card, operation aborted.'}
         }else{
@@ -84,34 +98,13 @@ const deleteCard = async (id, cardInfo) => {
             const cards =  await cardByInfo(user.stripe_id, cardInfo)
             if(cards.length === 1){
                 await stripe.customers.deleteCard(user.stripe_id, cards[0].id)
-                return {message:'Card successfully deleted.'}
+                return {message:'Card successfully deleted.', oldCard:cards[0].id}
             }else if(cards.length === 0){
                 return {error:'No card found.'}
             }else{
                 return {error:'Duplicate card detected.'} // this should never happen as duplicates are check before they are added
             }
         }else{
-            return {error:'No stripe customer account on record.'}
-        }
-    }catch(error){
-        return {error:error.message}
-    }
-}
-
-const setDefault = async (id, cardInfo) => {
-    try{
-        const user = await db.getStripeUser(id)
-        if(user.stripe_id){
-            const cards = await cardByInfo(user.stripe_id, cardInfo)
-                if(cards.length === 1){
-                    await stripe.customers.update(user.stripe_id, {default_source:cards[0].id})
-                    return {message:'Default payment method updated.'}
-                }else if(cards.length === 0){
-                    return {error:'No card found.'}
-                }else{
-                    return {error:'Duplicate card detected.'} // this should never happen as duplicates are check before they are added
-                }
-        } else {
             return {error:'No stripe customer account on record.'}
         }
     }catch(error){
@@ -173,7 +166,7 @@ const cardRouteFormatter = (cards) => {
     })
 }
 
-if(!process.env.TEST){
+if(!process.env.TEST || true){
     router.post('/create-customer', async (req, res) => {
         res.json(await createCustomer(req.body.user))
     })
@@ -192,15 +185,8 @@ if(!process.env.TEST){
             res.json({error:'No card information provided'})
         }
     })
-    router.post('/set-default', async (req, res) => {
-        if(req.body.cardInfo){
-            res.json(await setDefault(req.body.user, req.body.cardInfo))
-        } else {
-            res.json({error:'No card information provided'})
-        }
-    })
     router.post('/user-info', async (req, res) => {
-        res.json(await getUserCards(req.body.user))
+        res.json(await getUserCards(req.body.user, null))
     })
 }
 
@@ -211,7 +197,6 @@ module.exports = {
         createCustomer,
         addCard,
         deleteCard,
-        setDefault,
         chargeCard,
         chargeCustomer,
         getUserCards,
