@@ -14,53 +14,41 @@ const stripCard = (card) => {
 }
 // these don't use object spreads for args because they will be used for internal
 const createCustomer = async (id) => {
-    try{
-        const user = await db.getStripeUser(id)
-        if(!user.stripe_id){
-            return await stripe.customers.create({
-                description: 'Customer',
-                email: user.email,
-                metadata:{
-                    user_id:user.id
-                }
-            }).then(async (customer) => {
-                if(customer.id){
-                    await db.storeStripeUser(user.id, customer.id)
-                    return {message:'Stripe customer account created and stored.'}
-                }
-            })
-        }else{
-            return {error:'Stripe customer account already exisits.'}
-        }
-    }catch(error){
-        return {error:error.message}
+    const user = await db.getStripeUser(id)
+    if(!user.stripe_id){
+        return await stripe.customers.create({
+            description: 'Customer',
+            email: user.email,
+            metadata:{
+                user_id:user.id
+            }
+        }).then(async (customer) => {
+            if(customer.id){
+                await db.storeStripeUser(user.id, customer.id)
+                return {message:'Stripe customer account created and stored.'}
+            }
+        })
+    }else{
+        throw new Error('Stripe customer account already exisits.')
     }
 }
 
 const deleteCustomer = async (id) => {
-    try{
-        const user = await db.getStripeUser(id)
-        if(user.stripe_id){
-            await stripe.customers.del(user.stripe_id)
-            return {message:'Stripe customer account successfully deleted.'}
-        }else{
-            return {error:'No stripe customer account on record.'}
-        }
-    }catch(error){
-        return {error:error.message}
+    const user = await db.getStripeUser(id)
+    if(user.stripe_id){
+        await stripe.customers.del(user.stripe_id)
+        return {message:'Stripe customer account successfully deleted.'}
+    }else{
+        throw new Error('No stripe customer account on record.')
     }
 }
 
 const getUserCards = async (userId, stripe_id) => {
-    try{
-        const user = stripe_id || (await db.getStripeUser(userId)).stripe_id
-        if(user){
-            return(await stripe.customers.listCards(user)).data.map(card=>stripCard(card))
-        }else{
-            return {error:'No stripe customer account on record.'}
-        }
-    }catch(error){
-        return {error:error.message}
+    const user = stripe_id || (await db.getStripeUser(userId)).stripe_id
+    if(user){
+        return(await stripe.customers.listCards(user)).data.map(card=>stripCard(card))
+    }else{
+        throw new Error('No stripe customer account on record.')
     }
 }
 
@@ -105,45 +93,38 @@ const deleteCard = async (id, cardInfo) => {
 }
 
 const chargeCard = async (id, token, total) => {
-    try{
-        return await stripe.charges.create({
-            amount: total * 100,
-            currency: 'usd',
-            description: 'Fun 2 Learn Code Event',
-            metadata:{user:id},
-            source: token,
-            statement_descriptor: 'Fun 2 Learn Code Event'
-        }).catch((error)=>{throw new Error('Stripe error while processing card.' + error.message)})
-    }catch(error){
-        return {error:error.message}
-    }
+    return await stripe.charges.create({
+        amount: total * 100,
+        currency: 'usd',
+        description: 'Fun 2 Learn Code Event',
+        metadata:{user:id},
+        source: token,
+        statement_descriptor: 'Fun 2 Learn Code Event'
+    }).catch((error)=>{throw new Error('Stripe error while processing card.' + error.message)})
 }
 
 
 const chargeCustomer = async (id, cardInfo, total) => {
-    try{
-        const user = await db.getStripeUser(id)
-        if(user.stripe_id){
-            const cards = await cardByInfo(user.stripe_id, cardInfo)
-            console.log(cards)
-            if(cards.length === 1){
-                return await stripe.charges.create({
-                    amount: total * 100,
-                    currency: 'usd',
-                    description: 'Fun 2 Learn Code Event',
-                    metadata:{user:id},
-                    source: cards[0].id,
-                    customer: user.stripe_id,
-                    statement_descriptor: 'Fun 2 Learn Code Event'
-                }).catch((error)=>{throw new Error('Stripe error while processing customer card.' + error.message)})
-            }else if(cards.length === 0){
-                return {error:'No card found.'}
-            }else{
-                return {error:'Duplicate card detected.'} // this should never happen as duplicates are check before they are added
-            }
+    const user = await db.getStripeUser(id)
+    if(user.stripe_id){
+        const cards = await cardByInfo(user.stripe_id, cardInfo)
+        if(cards.length === 1){
+            return await stripe.charges.create({
+                amount: total * 100,
+                currency: 'usd',
+                description: 'Fun 2 Learn Code Event',
+                metadata:{user:id},
+                source: cards[0].id,
+                customer: user.stripe_id,
+                statement_descriptor: 'Fun 2 Learn Code Event'
+            }).catch((error)=>{throw new Error('Stripe error while processing customer card.' + error.message)})
+        }else if(cards.length === 0){
+            throw new Error('No card found.')
+        }else{
+            throw new Error('Duplicate card detected.') // this should never happen as duplicates are check before they are added
         }
-    }catch(error){
-        return {error:error.message}
+    } else {
+        throw new Error('No stripe customer account on record.')
     }
 }
 
