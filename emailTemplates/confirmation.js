@@ -179,7 +179,7 @@ module.exports = ({students, reciptURL, activity, eventPrice, overrides, addons,
                                                 </tr>
                                                 <tr>
                                                   <td colspan="1" style="border:none;width:180px" width="180px" valign="top">
-                                                      Stripe recipt link:
+                                                      Stripe receipt link:
                                                   </td>
                                                   <td colspan="2" style="border:none" valign="top"><a href='${reciptURL}' target='_blank'>click here</a></td>
                                                 </tr>
