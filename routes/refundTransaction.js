@@ -4,8 +4,7 @@ const db = require('../db')
 const mailer = require('../mailer')
 //TODO test this better
 const refund = async ({grantedReason, paymentId, amount, unregister, grant}) => {
-    try{
-        const {
+    const {
             charge,
             snapshot,
             user_id
@@ -15,6 +14,7 @@ const refund = async ({grantedReason, paymentId, amount, unregister, grant}) => 
             amount:0,
             status:'rejected'
         }
+        let refundId
         if(grant){
             if(charge.id){ //if payment charge is from stripe
                 if(charge.amount < amount * 100){
@@ -29,32 +29,30 @@ const refund = async ({grantedReason, paymentId, amount, unregister, grant}) => 
                     charge:refund.charge,
                     status:refund.status
                 }
-                await db.updateRefund(paymentId, grantedReason, user_id, 'accepted', 'Made without request.', storeRefund)
+                refundId = await db.updateRefund(paymentId, grantedReason, user_id, 'accepted', 'Made without request.', storeRefund)
             }else{
                 storeRefund.message = 'Payment of less than 1 dollar cannot be refunded.'
-                await db.updateRefund(paymentId, grantedReason, user_id, 'cancled','Made without request.', storeRefund)
+                refundId = await db.updateRefund(paymentId, grantedReason, user_id, 'cancled','Made without request.', storeRefund)
             }
         }else{
-            await db.updateRefund(paymentId, grantedReason, user_id, 'declined', 'Made without request.', storeRefund)
+            refundId = await db.updateRefund(paymentId, grantedReason, user_id, 'declined', 'Made without request.', storeRefund)
         }
         if(unregister){
             await db.unregister(snapshot._event.id, snapshot._students)
         }
         mailer.accountAction(user.email, {message:'refund action taken, check order history on event that the refund was requested on.'})
-        return {message:'refund successful'}
-
-    }catch(error){
-        console.log(error)
-        return {error: "unknown error" + error.message}
-    }
+        if(process.env.TEST){
+            return {complete:true}
+        }
+        return refundId
   }
 module.exports = {
-    production:async (req, res) => {
-        if(req.body.role === 'ftlc_owner' && req.body.grantReason && req.body.paymentId){
-            res.json(await refund(req.body))
-        }else{
-            res.json({error:'Not enough information provided.'})
+    production: refund,
+    test: async (args) => {
+        try{
+            return await refund(args)
+        }catch (error){
+            return {error:error.message}
         }
     },
-    test: refund,
 }

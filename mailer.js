@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer')
 const ResetPasswordTemplate = require('./emailTemplates/recoverEmail')
 const confirmation = require('./emailTemplates/confirmation')
 const accountAction = require('./emailTemplates/accountAction')
+const eventRequestUpdate = require('./emailTemplates/eventRequestUpdate')
 const mailingQueue = require('./mailingQueue')
 require('dotenv').config()
 const transporter = nodemailer.createTransport({
@@ -61,13 +62,14 @@ mailer.failedRefund = (email, refundData) => {
     },1)
 }
 
-mailer.newsLetter = (emails, body) => {
+
+mailer.eventRequest = (email, status, token, name) => {
     mailingQueue.add({
-      from: 'no_reply@fun2learncode.com', // sender address
-      to: emails, // list of receivers
-      subject: 'Fun 2 Learn Code News Letter', // Subject line
-      html: body// plain text body
-  }, 0)
+        from:'no_reply@fun2learncode.com',
+        to:email,
+        subject:'Event request update',
+        html: eventRequestUpdate(status, token, name)
+    }, 1)
 }
 
 mailer.accountAction = (email, user) => {

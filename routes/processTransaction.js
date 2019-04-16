@@ -10,9 +10,9 @@ const processTransaction = async ({user, paymentItem}) => {
             charge = {paid:true, message:'Total was less than 1 USD, no stripe charge generated.'}
         }else{
             if(paymentItem.id){ //if payment item is a stripe token
-                charge = await chargeCard(user, paymentItem.id, transaction.total)
+                charge = await chargeCard(user, paymentItem.token, transaction.total)
             }else{
-                charge = await chargeCustomer(user, paymentItem.cardInfo, transaction.total)
+                charge = await chargeCustomer(user, paymentItem.input, transaction.total)
             }
         }
         const storedCharge = {
@@ -20,8 +20,8 @@ const processTransaction = async ({user, paymentItem}) => {
             amount: charge.amount
         }
         if (charge.paid) {
-            const paymentId = await db.storePayment(user, transaction, storedCharge)
-            await db.createEventRegistration(user, transaction._students, transaction._event.id, paymentId)
+            const payment = await db.storePayment(user, transaction, storedCharge)
+            await db.createEventRegistration(user, transaction._students, transaction._event.id, payment)
             await db.endTransaction(user)
             const emailData = await db.getEmailData(transaction._event.id)
             mailer.confirmation(transaction._user.email, {
@@ -31,7 +31,7 @@ const processTransaction = async ({user, paymentItem}) => {
                 eventPrice:transaction._event.price,
                 overrides:transaction._overrides,
                 addons:transaction._addons,
-                orderId:paymentId,
+                orderId:payment,
                 promoCode:transaction._promoCode,
                 total:transaction.total,
                 brand:charge.source.brand,
@@ -39,30 +39,30 @@ const processTransaction = async ({user, paymentItem}) => {
                 ...emailData
             })
             if(process.env.TEST){
-                return {message: 'Payment and registration successful', paymentId}
+                return {complete:true, paymentId}
             }
-            return{message: 'Payment and registration successful'}
-        }else{ // this should never tigger
+            return payment
+        }else{
             throw new Error('Stripe processed payment but total was not paid.')
         }
     }catch(error){
         try{
             await db.endTransaction(user)
-            return {error:error.message}
+            throw new Error(error.message)
         }catch(megaError){
             console.log(megaError)
-            return{error:'mega error occured, account locked from transactions, contact website owner.'}
+            throw new Error('mega error occured, account locked from transactions, contact website owner.')
         }
   }
 }
 
 module.exports = {
- production: async (req, res) => {
-         if(req.body.paymentItem){
-             res.json(await processTransaction(req.body))
-         }else{
-             res.json({error:'Not enough information provided.'})
-         }
-     },
-     test:processTransaction
-  }
+ production: processTransaction,
+ test: async (args) => {
+     try{
+         return await processTransaction(args)
+     }catch(error){
+         return {error:error.message}
+     }
+ }
+}

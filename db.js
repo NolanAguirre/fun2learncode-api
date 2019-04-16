@@ -144,7 +144,7 @@ db.updateRefund = (payment, grantedReason, user, status, reason, refund) => {
           const q1 = t.one('UPDATE ftlc.payment SET refund = $1, status = $2 WHERE id = $3 RETURNING *', [refund, paymentStatus, payment])
           const q2 = t.one(query.updateRefund, [payment, grantedReason, user, status, refund.amount/100, reason])
           return t.batch([q1, q2]);
-      })
+      }).then(data => data[1].id)
       .catch(error => {throw new Error('Error occured while storing refund data.' + error.message)});
 }
 

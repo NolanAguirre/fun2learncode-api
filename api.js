@@ -6,17 +6,13 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const jwt = require('jwt-simple')
 const { postgraphile } = require('postgraphile')
+const SchemaExtension = require('./SchemaExtension')
+const SchemaWrapper = require('./SchemaWrapper')
 const PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 const routes = {
-    mailing: require('./routes/mailing').production,
-    begin: require('./routes/beginTransaction').production,
-    process: require('./routes/processTransaction').production,
-    refund: require('./routes/refundTransaction').production,
     authenticate: require('./routes/authenticate').production,
     recover: require('./routes/recover').production,
-    webhook: require('./routes/webhook').production,
-    accountAction: require('./routes/accountAction').production,
-    stripe: require('./routes/stripe').production
+    webhook: require('./routes/webhook').production
 }
 
 const populateJWT = (req, res, next) => {
@@ -80,17 +76,11 @@ app.use('/graphiql', populateJWT)
 app.use(postgraphile(process.env.DATABASE_URL, 'ftlc', {
   dynamicJson: true,
   graphiql: true,
-  appendPlugins: [PostGraphileConnectionFilterPlugin],
+  appendPlugins: [PostGraphileConnectionFilterPlugin, SchemaExtension, SchemaWrapper],
   pgDefaultRole: 'ftlc_anonymous',
   jwtPgTypeIdentifier: 'ftlc.jwt_token',
   jwtSecret: process.env.JWT_SECRET
 }))
-
-app.use('/payment', validateAuthToken)
-app.use('/mailing', validateAuthToken)
-app.use('/stripe', validateAuthToken)
-
-app.use('/stripe', routes.stripe)
 
 app.post('/authenticate', routes.authenticate)
 
@@ -99,17 +89,7 @@ app.post('/logout', (req, res) => {
   res.end()
 })
 
-app.post('/payment/begin', routes.begin)
-
-app.post('/payment/process', routes.process)
-
-app.post('/payment/refund', routes.refund)
-
 app.post('/recover', routes.recover)
-
-app.post('/mailing', routes.mailing)
-
-app.post('/mailing/account_action', routes.accountAction)
 
 app.post('/webhook', routes.webhook)
 

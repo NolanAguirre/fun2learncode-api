@@ -73,42 +73,34 @@ const cardByInfo = async (stripe_id, cardInfo) => {
         })
 }
 
-const addCard = async (userId, {id, card}) => {
-    try{
-        const user = await db.getStripeUser(userId)
-        if(user.stripe_id){
-            const cards = await cardByInfo(user.stripe_id, card)
-            if(cards.length === 0){
-                const newCard = await stripe.customers.createSource(user.stripe_id,{ source: id }) //on invalid card info it says Your card was declined.
-                return {message:'Card successfully added.', newCard:stripCard(newCard)}
-            }
-            return {error:'Provided card has the same last 4 digits, brand, and experation date as a stored card, operation aborted.'}
-        }else{
-            return {error:'No stripe customer account on record.'}
+const addCard = async (userId, token, cardInfo) => {
+    const user = await db.getStripeUser(userId)
+    if(user.stripe_id){
+        const cards = await cardByInfo(user.stripe_id, cardInfo)
+        if(cards.length === 0){
+            const newCard = await stripe.customers.createSource(user.stripe_id,{ source: token }) //on invalid card info it says Your card was declined.
+            return stripCard(newCard)
         }
-    }catch(error){
-        return {error:error.message}
+        throw new Error('Provided card has the same last 4 digits, brand, and experation date as a stored card, operation aborted.')
+    }else{
+        throw new Error('No stripe customer account on record.')
     }
 }
 
 const deleteCard = async (id, cardInfo) => {
-    try{
-        const user = await db.getStripeUser(id)
-        if(user.stripe_id){
-            const cards =  await cardByInfo(user.stripe_id, cardInfo)
-            if(cards.length === 1){
-                await stripe.customers.deleteCard(user.stripe_id, cards[0].id)
-                return {message:'Card successfully deleted.', oldCard:cards[0].id}
-            }else if(cards.length === 0){
-                return {error:'No card found.'}
-            }else{
-                return {error:'Duplicate card detected.'} // this should never happen as duplicates are check before they are added
-            }
+    const user = await db.getStripeUser(id)
+    if(user.stripe_id){
+        const cards =  await cardByInfo(user.stripe_id, cardInfo)
+        if(cards.length === 1){
+            await stripe.customers.deleteCard(user.stripe_id, cards[0].id)
+            return stripCard(cards[0])
+        }else if(cards.length === 0){
+            throw new Error('No card found.')
         }else{
-            return {error:'No stripe customer account on record.'}
+            throw new Error('Duplicate card detected.') // this should never happen as duplicates are check before they are added
         }
-    }catch(error){
-        return {error:error.message}
+    }else{
+        throw new Error('No stripe customer account on record.')
     }
 }
 
@@ -133,6 +125,7 @@ const chargeCustomer = async (id, cardInfo, total) => {
         const user = await db.getStripeUser(id)
         if(user.stripe_id){
             const cards = await cardByInfo(user.stripe_id, cardInfo)
+            console.log(cards)
             if(cards.length === 1){
                 return await stripe.charges.create({
                     amount: total * 100,
@@ -156,7 +149,7 @@ const chargeCustomer = async (id, cardInfo, total) => {
 
 
 const cardRouteFormatter = (cards) => {
-    return cards.data.map((card)=>{
+    return cards.map((card)=>{
         return {
             last4:card.last4,
             brand:card.brand,
@@ -166,33 +159,14 @@ const cardRouteFormatter = (cards) => {
     })
 }
 
-if(!process.env.TEST || true){
-    router.post('/create-customer', async (req, res) => {
-        res.json(await createCustomer(req.body.user))
-    })
-
-    router.post('/add-card', async (req, res) => {
-        if(req.body.token && req.body.token.id && req.body.token.card){
-            res.json(await addCard(req.body.user, req.body.token))
-        } else {
-            res.json({error:'No card information provided'})
-        }
-    })
-    router.post('/delete-card', async (req, res) => {
-        if(req.body.cardInfo){
-            res.json(await deleteCard(req.body.user, req.body.cardInfo))
-        } else {
-            res.json({error:'No card information provided'})
-        }
-    })
-    router.post('/user-info', async (req, res) => {
-        res.json(await getUserCards(req.body.user, null))
-    })
-}
-
 
 module.exports = {
-    production: router,
+    production: {
+        addCard,
+        deleteCard,
+        getUserCards,
+        createCustomer
+    },
     test:{
         createCustomer,
         addCard,
