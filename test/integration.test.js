@@ -27,24 +27,24 @@ module.exports = () => {
                 return expect(data[Object.keys(data)[0]]).toBe("210.00")
             })
             test('pass process valid transaction', async () => {
-                const data = await process({user:users.parent, paymentItem:{cardInfo:cards.valid_two}})
-                return expect(data[Object.keys(data)[0]]).toBe('Payment and registration successful')
+                const data = await process({user:users.parent, paymentItem:{input:cards.valid_two}})
+                return expect(data[Object.keys(data)[0]]).toBe(true)
             })
         })
 
-        // describe('Test Two', () => {
-        //     test('pass begin valid transaction', async () => {
-        //         const data = await begin({"promoCode":codes.valid,"students":[students.valid],"addons":[addons.valid],"event":events.valid,"user":users.parent})
-        //         return expect(data[Object.keys(data)[0]]).toBe("210.00")
-        //     })
-        //     test('pass process valid transaction', async () => {
-        //         const data = await process({user:users.parent, token:stripeTokens.valid})
-        //         return expect(data[Object.keys(data)[0]]).toBe('Payment and registration successful')
-        //     })
-        //     test('pass process valid refund', async () => {
-        //
-        //     })
-        // })
+        describe('Test Two', () => {
+            test('pass begin valid transaction', async () => {
+                const data = await begin({"promoCode":'',"students":[students.override_date],"addons":[addons.valid],"event":events.valid,"user":users.parent})
+                return expect(data[Object.keys(data)[0]]).toBe("220.00")
+            })
+            test('pass process valid transaction', async () => {
+                const data = await process({user:users.parent, paymentItem:{token:stripeTokens.valid, id:'trigger'}})
+                return expect(data[Object.keys(data)[0]]).toBe(true)
+            })
+            // test('pass process valid refund', async () => {
+            //
+            // })
+        })
     })
 }
 // {

@@ -72,19 +72,19 @@ module.exports = {
     cards:{
         valid:{
           brand: 'Visa',
-          exp_month: 3,
+          exp_month: 4,
           exp_year: 2020,
           last4: '4242'
       },
       valid_two:{
             brand: 'MasterCard',
-            exp_month: 3,
+            exp_month: 4,
             exp_year: 2020,
             last4: '4444'
       },
       fail:{
           brand:'Visa',
-          exp_month:3,
+          exp_month:4,
           exp_year:2020,
           last4: '0002'
       }

@@ -1,7 +1,6 @@
 require('dotenv').config()
 const authenticate = require('./authenticate/authenticate.test')
 const begin = require('./begin/begin.test')
-const mailing = require('./mailing/mailing.test')
 const processTransaction = require('./process/process.test')
 const recover = require('./recover/recover.test')
 const refund = require('./refund/refund.test')
@@ -10,12 +9,12 @@ const integration = require('./integration.test')
 const { execSync } = require('child_process')
 const database = require('../db')
 const units = [
-    // processTransaction,
-    // begin,
-    // refund,
-    // authenticate,
+    processTransaction,
+    begin,
+    refund,
+    authenticate,
     // mailing,
-    // recover,
+    recover,
     stripe,
     integration
 ]
