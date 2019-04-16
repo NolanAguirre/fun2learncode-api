@@ -39,7 +39,7 @@ const processTransaction = async ({user, paymentItem}) => {
                 ...emailData
             })
             if(process.env.TEST){
-                return {complete:true, paymentId}
+                return {complete:true, payment}
             }
             return payment
         }else{
@@ -48,12 +48,11 @@ const processTransaction = async ({user, paymentItem}) => {
     }catch(error){
         try{
             await db.endTransaction(user)
-            throw new Error(error.message)
-        }catch(megaError){
-            console.log(megaError)
-            throw new Error('mega error occured, account locked from transactions, contact website owner.')
+        }catch(err){
+            throw new Error('Mega error occured, account locked from transactions, contact website owner.')
         }
-  }
+        throw new Error(error.message)
+    }
 }
 
 module.exports = {
