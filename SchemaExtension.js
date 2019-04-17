@@ -33,7 +33,7 @@ const SchemaExtension = makeExtendSchemaPlugin(build => ({
         id:String!
     }
     extend type Query{
-        allCreditCards:[CreditCard]!
+        allCreditCards:[CreditCard]
     }
     extend type Mutation {
       subscribToMailingList(email:String!):Boolean!
